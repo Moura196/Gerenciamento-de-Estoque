@@ -1,13 +1,15 @@
-package entities;
+package estoque.desafio.gerenciamento.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+@Entity
 public class Item {
 	
 	@Id
@@ -16,7 +18,7 @@ public class Item {
 	private String descricao;
 	private String tipo;
 	private double valoUnitario;
-	private int quantComprada;
+	private String quantComprada;
 	private double valorTotalItem;
 	
 	@ManyToOne
@@ -66,11 +68,11 @@ public class Item {
 		this.valoUnitario = valoUnitario;
 	}
 
-	public int getQuantComprada() {
+	public String getQuantComprada() {
 		return quantComprada;
 	}
 
-	public void setQuantComprada(int quantComprada) {
+	public void setQuantComprada(String quantComprada) {
 		this.quantComprada = quantComprada;
 	}
 

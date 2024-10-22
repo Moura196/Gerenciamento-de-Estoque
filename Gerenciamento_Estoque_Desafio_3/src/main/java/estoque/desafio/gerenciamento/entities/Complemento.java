@@ -1,18 +1,21 @@
-package entities;
+package estoque.desafio.gerenciamento.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
+@Entity
 public class Complemento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idSecProjeto;
+	private Long codigo;
+	private int idProjeto;
 	private String apelidoProjeto;
 	private String observacao;
 	private boolean userConferencia;
@@ -22,12 +25,20 @@ public class Complemento {
 	@JsonIgnoreProperties("complemento")
 	private Compra compra;
 
-	public Long getIdSecProjeto() {
-		return idSecProjeto;
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public void setIdSecProjeto(Long idSecProjeto) {
-		this.idSecProjeto = idSecProjeto;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+
+	public int getIdProjeto() {
+		return idProjeto;
+	}
+
+	public void setIdProjeto(int idProjeto) {
+		this.idProjeto = idProjeto;
 	}
 
 	public String getApelidoProjeto() {

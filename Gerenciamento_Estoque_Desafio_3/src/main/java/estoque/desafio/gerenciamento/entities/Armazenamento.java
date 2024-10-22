@@ -1,22 +1,23 @@
-package entities;
+package estoque.desafio.gerenciamento.entities;
 
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+@Entity
 public class Armazenamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	private int sala;
-	private int armario;
+	private String sala;
+	private String armario;
 	
 	@OneToMany(mappedBy = "armazenamento")
 	@JsonIgnoreProperties("armazenamento")
@@ -30,19 +31,19 @@ public class Armazenamento {
 		this.codigo = codigo;
 	}
 
-	public int getSala() {
+	public String getSala() {
 		return sala;
 	}
 
-	public void setSala(int sala) {
+	public void setSala(String sala) {
 		this.sala = sala;
 	}
 
-	public int getArmario() {
+	public String getArmario() {
 		return armario;
 	}
 
-	public void setArmario(int armario) {
+	public void setArmario(String armario) {
 		this.armario = armario;
 	}
 

@@ -1,34 +1,57 @@
-package entities;
+package estoque.desafio.gerenciamento.entities;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+@Entity
 public class Compra {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long codigo;
 	private LocalDateTime dataCompra;
 	private LocalDateTime dataEnvio; // Data que a mercadoria saiu do fornecedor
 	
 	@ManyToOne
-	@JoinColumn(name = "usuario", nullable = false)
+	@JoinColumn(name = "Gerente de Projeto", nullable = false)
 	@JsonIgnoreProperties("compras")
-	private Usuario usuario;
+	private Usuario usuarioGP;
+	
+	@ManyToOne
+	@JoinColumn(name = "Responsável Técnico", nullable = false)
+	@JsonIgnoreProperties("compras")
+	private Usuario usuarioRT;
 	
 	@OneToMany(mappedBy = "compra")
 	@JsonIgnoreProperties("compra")
-	private List<Item> itens;
+	private Set<Item> itens;
 	
 	@OneToOne(mappedBy = "compra")
+	@JsonIgnoreProperties("compra")
 	private Complemento complemento;
 	
 	@OneToOne(mappedBy = "compra")
+	@JsonIgnoreProperties("compra")
 	private Invoice invoice;
+
+	public Long getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 
 	public LocalDateTime getDataCompra() {
 		return dataCompra;
@@ -46,19 +69,27 @@ public class Compra {
 		this.dataEnvio = dataEnvio;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getUsuarioGP() {
+		return usuarioGP;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarioGP(Usuario usuarioGP) {
+		this.usuarioGP = usuarioGP;
 	}
 
-	public List<Item> getItens() {
+	public Usuario getUsuarioRT() {
+		return usuarioRT;
+	}
+
+	public void setUsuarioRT(Usuario usuarioRT) {
+		this.usuarioRT = usuarioRT;
+	}
+
+	public Set<Item> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<Item> itens) {
+	public void setItens(Set<Item> itens) {
 		this.itens = itens;
 	}
 
