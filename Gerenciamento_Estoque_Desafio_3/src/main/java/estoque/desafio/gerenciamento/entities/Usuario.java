@@ -1,14 +1,13 @@
 package estoque.desafio.gerenciamento.entities;
 
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Usuario {
@@ -20,14 +19,16 @@ public class Usuario {
 	private String nome;
 	private String senha;
 	
-	@OneToMany(mappedBy = "usuarioGP") // Chave estrangeira. Usuário têm várias compras e a relação se dar pelo atributo "usuario" na tabela de Compra
-	@JsonIgnoreProperties("usuario")
-	private Set<Compra> comprasGP;
+	@OneToOne
+	@JoinColumn(name = "Gerente de Projeto", nullable = false)
+	@JsonIgnoreProperties("usuarioGP")
+	private Projeto projetoGP;
 	
-	@OneToMany(mappedBy = "usuarioRT") // Chave estrangeira. Usuário têm várias compras e a relação se dar pelo atributo "usuario" na tabela de Compra
-	@JsonIgnoreProperties("usuario")
-	private Set<Compra> comprasRT;
-
+	@OneToOne
+	@JoinColumn(name = "Responsável Técnico", nullable = false)
+	@JsonIgnoreProperties("usuarioRT")
+	private Projeto projetoRT;
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -51,21 +52,21 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public Set<Compra> getComprasGP() {
-		return comprasGP;
+	
+	public Projeto getProjetoGP() {
+		return projetoGP;
 	}
 
-	public void setComprasGP(Set<Compra> comprasGP) {
-		this.comprasGP = comprasGP;
+	public void setProjetoGP(Projeto projetoGP) {
+		this.projetoGP = projetoGP;
 	}
 
-	public Set<Compra> getComprasRT() {
-		return comprasRT;
+	public Projeto getProjetoRT() {
+		return projetoRT;
 	}
 
-	public void setComprasRT(Set<Compra> comprasRT) {
-		this.comprasRT = comprasRT;
+	public void setProjetoRT(Projeto projetoRT) {
+		this.projetoRT = projetoRT;
 	}
 
 	public String getSenha() {

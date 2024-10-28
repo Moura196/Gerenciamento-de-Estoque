@@ -24,14 +24,9 @@ public class Compra {
 	private LocalDateTime dataEnvio; // Data que a mercadoria saiu do fornecedor
 	
 	@ManyToOne
-	@JoinColumn(name = "Gerente de Projeto", nullable = false)
+	@JoinColumn(name = "projeto", nullable = false)
 	@JsonIgnoreProperties("compras")
-	private Usuario usuarioGP;
-	
-	@ManyToOne
-	@JoinColumn(name = "Responsável Técnico", nullable = false)
-	@JsonIgnoreProperties("compras")
-	private Usuario usuarioRT;
+	private Projeto projeto;
 	
 	@OneToMany(mappedBy = "compra")
 	@JsonIgnoreProperties("compra")
@@ -69,20 +64,12 @@ public class Compra {
 		this.dataEnvio = dataEnvio;
 	}
 
-	public Usuario getUsuarioGP() {
-		return usuarioGP;
+	public Projeto getProjeto() {
+		return projeto;
 	}
 
-	public void setUsuarioGP(Usuario usuarioGP) {
-		this.usuarioGP = usuarioGP;
-	}
-
-	public Usuario getUsuarioRT() {
-		return usuarioRT;
-	}
-
-	public void setUsuarioRT(Usuario usuarioRT) {
-		this.usuarioRT = usuarioRT;
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
 	}
 
 	public Set<Item> getItens() {
