@@ -19,7 +19,8 @@ public class SecurityConfig {
 				.csrf(c -> c.disable())
 				.authorizeHttpRequests(
 		authorizeConfig -> {
-			authorizeConfig.anyRequest().authenticated();
+			authorizeConfig.anyRequest().permitAll();
+			//authenticated();
 		}
 						).httpBasic(Customizer.withDefaults())
 						.build();

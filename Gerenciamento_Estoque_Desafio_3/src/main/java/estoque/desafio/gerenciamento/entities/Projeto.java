@@ -24,9 +24,9 @@ public class Projeto {
 	@JsonIgnoreProperties("projetoGP")
 	private Usuario usuarioGP;
 	
-	@OneToOne(mappedBy = "projetoRT")
-	@JsonIgnoreProperties("projetoRT")
-	private Usuario usuarioRT;
+//	@OneToOne(mappedBy = "projetoRT")
+//	@JsonIgnoreProperties("projetoRT")
+//	private Usuario usuarioRT;
 	
 	@OneToMany(mappedBy = "projeto")
 	@JsonIgnoreProperties("projeto")
@@ -64,13 +64,13 @@ public class Projeto {
 		this.usuarioGP = usuarioGP;
 	}
 
-	public Usuario getUsuarioRT() {
-		return usuarioRT;
-	}
+//	public Usuario getUsuarioRT() {
+//		return usuarioRT;
+//	}
 
-	public void setUsuarioRT(Usuario usuarioRT) {
-		this.usuarioRT = usuarioRT;
-	}
+//	public void setUsuarioRT(Usuario usuarioRT) {
+//		this.usuarioRT = usuarioRT;
+//	}
 
 	public Set<Compra> getCompras() {
 		return compras;

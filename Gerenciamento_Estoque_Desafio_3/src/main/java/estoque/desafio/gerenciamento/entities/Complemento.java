@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Complemento {
@@ -15,12 +15,10 @@ public class Complemento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	private int idProjeto;
-	private String apelidoProjeto;
 	private String observacao;
 	private boolean userConferencia;
 	
-	@OneToMany
+	@OneToOne
 	@JoinColumn(name = "compra", nullable = false)
 	@JsonIgnoreProperties("complemento")
 	private Compra compra;
@@ -31,22 +29,6 @@ public class Complemento {
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
-	}
-
-	public int getIdProjeto() {
-		return idProjeto;
-	}
-
-	public void setIdProjeto(int idProjeto) {
-		this.idProjeto = idProjeto;
-	}
-
-	public String getApelidoProjeto() {
-		return apelidoProjeto;
-	}
-
-	public void setApelidoProjeto(String apelidoProjeto) {
-		this.apelidoProjeto = apelidoProjeto;
 	}
 
 	public String getObservacao() {

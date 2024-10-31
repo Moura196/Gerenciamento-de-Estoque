@@ -24,10 +24,10 @@ public class Usuario {
 	@JsonIgnoreProperties("usuarioGP")
 	private Projeto projetoGP;
 	
-	@OneToOne
-	@JoinColumn(name = "Responsável Técnico", nullable = false)
-	@JsonIgnoreProperties("usuarioRT")
-	private Projeto projetoRT;
+//	@OneToOne
+//	@JoinColumn(name = "Responsável Técnico", nullable = false)
+//	@JsonIgnoreProperties("usuarioRT")
+//	private Projeto projetoRT;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -61,13 +61,13 @@ public class Usuario {
 		this.projetoGP = projetoGP;
 	}
 
-	public Projeto getProjetoRT() {
-		return projetoRT;
-	}
+//	public Projeto getProjetoRT() {
+//		return projetoRT;
+//	}
 
-	public void setProjetoRT(Projeto projetoRT) {
-		this.projetoRT = projetoRT;
-	}
+//	public void setProjetoRT(Projeto projetoRT) {
+//		this.projetoRT = projetoRT;
+//	}
 
 	public String getSenha() {
 		return senha;
