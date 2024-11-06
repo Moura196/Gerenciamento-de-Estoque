@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
+import estoque.desafio.gerenciamento.entities.dtos.LoginDTO;
 import estoque.desafio.gerenciamento.services.UsuarioService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +26,6 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 
 	public UsuarioController(UsuarioService usuarioService) {
-		super();
 		this.usuarioService = usuarioService;
 	}
 	
@@ -49,7 +49,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@PutMapping("/alterar/senha")
+	@PatchMapping("/alterar/senha")
 	public ResponseEntity<?> atualizarSenha(@RequestBody AtualizarSenhaDTO atualizarSenhaDTO) {
 		try {
 			Usuario usuario = usuarioService.atualizarSenha(atualizarSenhaDTO);
@@ -64,6 +64,16 @@ public class UsuarioController {
 		try {
 			usuarioService.excluirUsuario(codigo);
 			return ResponseEntity.ok("Excluido com Sucesso");
+		} catch (Exception e) {
+			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> realizarLogin(@RequestBody LoginDTO loginDTO) {
+		try {
+			boolean autenticado = usuarioService.isAuthenticated(loginDTO);
+			return ResponseEntity.ok(autenticado);
 		} catch (Exception e) {
 			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
