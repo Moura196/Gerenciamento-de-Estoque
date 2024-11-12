@@ -1,7 +1,7 @@
 package estoque.desafio.gerenciamento.controllers;
 
-import.estoque.desafio.gerenciamento.entities.Armazenamento;
-import.estoque.desafio.gerenciamento.services.ArmazenamentoService;
+import estoque.desafio.gerenciamento.entities.Armazenamento;
+import estoque.desafio.gerenciamento.services.ArmazenamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/armazenamentos")
 public class ArmazenamentoController {
 
+    @Autowired
     private ArmazenamentoService armazenamentoService;
 
 
@@ -50,7 +51,7 @@ public class ArmazenamentoController {
         if (!armazenamentoService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        armazenamentoService.deleteById(id);
+        armazenamentoService.deleteByID(id);
         return ResponseEntity.noContent().build();
     }
 
