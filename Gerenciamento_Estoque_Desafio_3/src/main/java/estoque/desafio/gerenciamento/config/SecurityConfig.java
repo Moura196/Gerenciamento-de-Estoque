@@ -2,7 +2,9 @@ package estoque.desafio.gerenciamento.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -18,30 +20,29 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 	
 	@Bean
-	protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+	protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
 		return httpSecurity
 				.csrf(c -> c.disable())
 				.authorizeHttpRequests(
 		authorizeConfig -> {
-			authorizeConfig.requestMatchers("/usuario/**").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
+			authorizeConfig.requestMatchers("/usuario/**").hasAnyRole("GP", "RT");
+			authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
 			authorizeConfig.anyRequest().authenticated();
 		}
-						).httpBasic(Customizer.withDefaults())
-						.build();
-	}
-	
-	public UserDetailsService userDetailsService() {
-		UserDetails gerente = User.builder()
-				.username("123456")
-				.password(passwordEncoder().encode("123"))
-				.roles("GP")
-				.build();
-		return new InMemoryUserDetailsManager(gerente);
+						)
+				.addFilter(new JWTAuthenticationFilter(authenticationManager))
+				.addFilter(new JWTValidateFilter(authenticationManager))
+				.buid();
 	}
 	
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 }
