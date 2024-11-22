@@ -1,12 +1,20 @@
 package estoque.desafio.gerenciamento.config;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,8 +30,11 @@ public class JWTValidateFilter extends BasicAuthenticationFilter {
 	}
 	
 	@Override
-	protected void  doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) 
+	protected void doFilterInternal(HttpServletRequest request, 
+									 HttpServletResponse response, 
+									 FilterChain chain) 
 			throws IOException, ServletException {
+		
 		String atributo = request.getHeader("Authorization");
 		
 		if(!Optional.ofNullable(atributo).isPresent()) {
@@ -45,9 +56,22 @@ public class JWTValidateFilter extends BasicAuthenticationFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
-		DecodedJWT decodeJWT = JWT
+		DecodedJWT decodedJWT = JWT
 				.require(Algorithm.HMAC256(JWTAuthenticationFilter.SECRET_JWT))
 				.build().verify(token);
+		
+		String usuario = decodedJWT.getSubject();
+		
+		String permissao = decodedJWT.getClaim("permissao").asString();
+		permissao = "ROLE_"+permissao;
+		
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permissao);
+		Set<GrantedAuthority> authorities = new HashSet();
+		authorities.add(authority);
+		
+		if (Optional.ofNullable(usuario).isPresent())
+			return new UsernamePasswordAuthenticationToken(usuario, null, authorities);
+		
 		return null;
 	}
 	

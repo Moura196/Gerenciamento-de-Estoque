@@ -69,14 +69,14 @@ public class UsuarioController {
 		}
 	}
 	
-	@PostMapping("/login")
-	public ResponseEntity<?> realizarLogin(@RequestBody LoginDTO loginDTO) {
-		try {
-			boolean autenticado = usuarioService.isAuthenticated(loginDTO);
-			return ResponseEntity.ok(autenticado);
-		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
+//	@PostMapping("/login")
+//	public ResponseEntity<?> realizarLogin(@RequestBody LoginDTO loginDTO) {
+//		try {
+//			boolean autenticado = usuarioService.isAuthenticated(loginDTO);
+//			return ResponseEntity.ok(autenticado);
+//		} catch (Exception e) {
+//			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+//		}
+//	}
 	
 }

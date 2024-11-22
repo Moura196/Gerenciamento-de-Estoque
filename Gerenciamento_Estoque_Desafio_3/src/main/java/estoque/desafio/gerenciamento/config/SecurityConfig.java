@@ -32,7 +32,7 @@ public class SecurityConfig {
 						)
 				.addFilter(new JWTAuthenticationFilter(authenticationManager))
 				.addFilter(new JWTValidateFilter(authenticationManager))
-				.buid();
+				.build();
 	}
 	
 	@Bean
