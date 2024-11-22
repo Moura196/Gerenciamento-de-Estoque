@@ -2,8 +2,8 @@ package estoque.desafio.gerenciamento.controllers;
 
 import estoque.desafio.gerenciamento.entities.Armazenamento;
 import estoque.desafio.gerenciamento.services.ArmazenamentoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,61 +11,87 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/armazenamentos")
+@RequestMapping("/armazenamento")
 public class ArmazenamentoController {
 
-    @Autowired
     private ArmazenamentoService armazenamentoService;
 
-
-    @GetMapping
-    public ResponseEntity<List<Armazenamento>> getAll() {
-        List<Armazenamento> armazenamentos = armazenamentoService.findAll();
-        return ResponseEntity.ok(armazenamentos);
+    public ArmazenamentoController(ArmazenamentoService armazenamentoService) {
+        this.armazenamentoService = armazenamentoService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Armazenamento> getById(@PathVariable Long id) {
-        Optional<Armazenamento> armazenamento = armazenamentoService.findById(id);
-        return armazenamento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<Armazenamento> create(@RequestBody Armazenamento armazenamento) {
-        Armazenamento novoArmazenamento = armazenamentoService.save(armazenamento);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoArmazenamento);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Armazenamento> update(@PathVariable Long id, @RequestBody Armazenamento armazenamento) {
-        if (!armazenamentoService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/buscar")
+    public ResponseEntity<?> listarArmazenamentos() {
+        try {
+            List<Armazenamento> armazenamentos = armazenamentoService.listarArmazenamento();
+            return ResponseEntity.ok(armazenamentos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body("Erro ao buscar os armazenamentos");
         }
-        armazenamento.setCodigo(id);
-        Armazenamento armazenamentoAtualizado = armazenamentoService.save(armazenamento);
-        return ResponseEntity.ok(armazenamentoAtualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!armazenamentoService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/buscar/{codigo}")
+    public ResponseEntity<?> buscarArmazenamentoPorCodigo(@PathVariable Long codigo) {
+        try {
+            Optional<Armazenamento> armazenamento = armazenamentoService.findById(codigo);
+            if (armazenamento.isPresent()) {
+                return ResponseEntity.ok(armazenamento.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Armazenamento não encontrado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body("Erro ao buscar o armazenamento");
         }
-        armazenamentoService.deleteByID(id);
-        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{armazenamentoId}/itens/{itemId}")
-    public ResponseEntity<Void> removeItemDeArmazenamento(Long armazenamentoId, Long itemId){
-
-        boolean removed = armazenamentoService.removeItemDeArmazenamento(armazenamentoId, itemId);
-
-        if (removed){
-            return ResponseEntity.noContent().build();
-        }else {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/adicionar")
+    public ResponseEntity<?> criarArmazenamento(@RequestBody Armazenamento armazenamento) {
+        try {
+            Armazenamento novoArmazenamento = armazenamentoService.salvar(armazenamento);
+            return ResponseEntity.status(HttpStatus.CREATED).body(novoArmazenamento);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body("Erro ao criar o armazenamento");
         }
-
     }
 
+    @PutMapping("/atualizar/{codigo}")
+    public ResponseEntity<?> atualizarArmazenamento(@PathVariable Long codigo, @RequestBody Armazenamento armazenamento) {
+        try {
+            if (armazenamentoService.findById(codigo).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Armazenamento não encontrado");
+            }
+            armazenamento.setCodigo(codigo);
+            Armazenamento armazenamentoAtualizado = armazenamentoService.salvar(armazenamento);
+            return ResponseEntity.ok(armazenamentoAtualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body("Erro ao atualizar o armazenamento");
+        }
+    }
+
+    @DeleteMapping("/excluir/{codigo}")
+    public ResponseEntity<?> excluirArmazenamento(@PathVariable Long codigo) {
+        try {
+            if (armazenamentoService.findById(codigo).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Armazenamento não encontrado");
+            }
+            armazenamentoService.deleteById(codigo);
+            return ResponseEntity.ok("Armazenamento excluído com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body("Erro ao excluir o armazenamento");
+        }
+    }
+
+    @DeleteMapping("/excluir-item/{armazenamentoCodigo}/{itemCodigo}")
+    public ResponseEntity<?> removerItemDeArmazenamento(@PathVariable Long armazenamentoCodigo, @PathVariable Long itemCodigo) {
+        try {
+            boolean removido = armazenamentoService.removeItemDeArmazenamento(armazenamentoCodigo, itemCodigo);
+            if (removido) {
+                return ResponseEntity.ok("Item removido do armazenamento com sucesso");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item ou armazenamento não encontrado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body("Erro ao remover o item do armazenamento");
+        }
+    }
 }
