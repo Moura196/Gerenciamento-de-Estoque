@@ -6,4 +6,5 @@ import estoque.desafio.gerenciamento.entities.Armazenamento;
 
 public interface ArmazenamentoRepository extends JpaRepository<Armazenamento, Long> {
 
+
 }
