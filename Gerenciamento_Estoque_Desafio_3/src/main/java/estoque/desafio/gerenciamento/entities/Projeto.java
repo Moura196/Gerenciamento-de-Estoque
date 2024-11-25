@@ -8,10 +8,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Projeto")
 public class Projeto {
 	
 	@Id
@@ -20,13 +23,10 @@ public class Projeto {
 	private int idProjeto;
 	private String apelidoProjeto;
 	
-	@OneToOne(mappedBy = "projetoGP")
-	@JsonIgnoreProperties("projetoGP")
-	private Usuario usuarioGP;
-	
-	@OneToOne(mappedBy = "projetoRT")
-	@JsonIgnoreProperties("projetoRT")
-	private Usuario usuarioRT;
+	@ManyToOne
+	@JoinColumn(name = "usuario", nullable = false)
+	@JsonIgnoreProperties("projetos")
+	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "projeto")
 	@JsonIgnoreProperties("projeto")
@@ -56,20 +56,12 @@ public class Projeto {
 		this.apelidoProjeto = apelidoProjeto;
 	}
 
-	public Usuario getUsuarioGP() {
-		return usuarioGP;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsuarioGP(Usuario usuarioGP) {
-		this.usuarioGP = usuarioGP;
-	}
-
-	public Usuario getUsuarioRT() {
-		return usuarioRT;
-	}
-
-	public void setUsuarioRT(Usuario usuarioRT) {
-		this.usuarioRT = usuarioRT;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Set<Compra> getCompras() {
