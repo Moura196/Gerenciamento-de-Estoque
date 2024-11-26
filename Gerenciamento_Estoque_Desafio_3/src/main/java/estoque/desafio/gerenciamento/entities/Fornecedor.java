@@ -1,4 +1,4 @@
-/*package estoque.desafio.gerenciamento.entities;
+package estoque.desafio.gerenciamento.entities;
 
 import java.util.Set;
 
@@ -83,4 +83,3 @@ public class Fornecedor {
 	}
 
 }
-*/

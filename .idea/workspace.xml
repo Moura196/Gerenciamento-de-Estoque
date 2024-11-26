@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="136dc112-a585-490c-a7ca-c5efc920972d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/controllers/ArmazenamentoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/controllers/ArmazenamentoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/repositories/ArmazenamentoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/repositories/ArmazenamentoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/services/ArmazenamentoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/services/ArmazenamentoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/controllers/FornecedorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/controllers/FornecedorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/entities/Fornecedor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gerenciamento_Estoque_Desafio_3/src/main/java/estoque/desafio/gerenciamento/entities/Fornecedor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,11 +17,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ArthurCrra&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Moura196/Gerenciamento-de-Estoque.git&quot;,
+    &quot;accountId&quot;: &quot;155271a2-c49c-4a1e-bc7d-623bab90990e&quot;
+  }
+}</component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="jdkForImporter" value="21" />
-        <option name="workspaceImportForciblyTurnedOn" value="true" />
       </MavenImportingSettings>
     </option>
   </component>
@@ -33,21 +44,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GerenciamentoEstoqueDesafio3Application.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "malfatti",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GerenciamentoEstoqueDesafio3Application.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.GerenciamentoEstoqueDesafio3Application.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ArthurCrra&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/arthu/OneDrive/Desktop/simuladoProva&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -60,6 +84,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GerenciamentoEstoqueDesafio3Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="gerenciamento" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="estoque.desafio.gerenciamento.GerenciamentoEstoqueDesafio3Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.387" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.387" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -70,6 +110,11 @@
       <option name="presentableId" value="Default" />
       <updated>1730999439114</updated>
       <workItem from="1730999453201" duration="3583000" />
+      <workItem from="1732493722306" duration="147000" />
+      <workItem from="1732494650524" duration="1749000" />
+      <workItem from="1732565419696" duration="19000" />
+      <workItem from="1732652859252" duration="19000" />
+      <workItem from="1732653009588" duration="1280000" />
     </task>
     <servers />
   </component>
