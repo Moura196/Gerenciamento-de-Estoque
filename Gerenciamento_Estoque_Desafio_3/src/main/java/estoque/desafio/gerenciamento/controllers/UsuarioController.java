@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
-import estoque.desafio.gerenciamento.entities.dtos.LoginDTO;
 import estoque.desafio.gerenciamento.services.UsuarioService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -68,15 +66,5 @@ public class UsuarioController {
 			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
-	
-//	@PostMapping("/login")
-//	public ResponseEntity<?> realizarLogin(@RequestBody LoginDTO loginDTO) {
-//		try {
-//			boolean autenticado = usuarioService.isAuthenticated(loginDTO);
-//			return ResponseEntity.ok(autenticado);
-//		} catch (Exception e) {
-//			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-//		}
-//	}
 	
 }
