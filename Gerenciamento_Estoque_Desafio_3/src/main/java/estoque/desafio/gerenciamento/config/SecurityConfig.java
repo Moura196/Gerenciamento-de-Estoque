@@ -25,8 +25,8 @@ public class SecurityConfig {
 				.csrf(c -> c.disable())
 				.authorizeHttpRequests(
 		authorizeConfig -> {
-			authorizeConfig.requestMatchers("/usuario/**").hasAnyRole("GP", "RT");
-			authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
+			authorizeConfig.requestMatchers("/usuario/**").hasRole("GP");  //.hasAnyRole("GP", "RT");
+			//authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
 			authorizeConfig.anyRequest().authenticated();
 		}
 						)

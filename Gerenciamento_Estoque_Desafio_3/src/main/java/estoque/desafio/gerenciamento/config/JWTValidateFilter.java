@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTValidateFilter extends BasicAuthenticationFilter {
 
-	public static final String PREFIX = "Bearer";
+	public static final String PREFIX = "Bearer ";
 	
 	public JWTValidateFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);

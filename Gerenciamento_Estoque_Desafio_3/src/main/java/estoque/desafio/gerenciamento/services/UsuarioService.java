@@ -50,12 +50,12 @@ public class UsuarioService {
 		return usuarioRepository.findByMatricula(username);
 	}
 	
-	public boolean isAuthenticated(LoginDTO loginDTO) {
-		Optional<Usuario> usuario = usuarioRepository.findByMatricula(loginDTO.getMatricula());
-		if(Optional.ofNullable(usuario).isPresent() && usuario.get().getSenha().equals(loginDTO.getSenha()))
-			return true;
-		return false;
-	}
+//	public boolean isAuthenticated(LoginDTO loginDTO) {
+//		Optional<Usuario> usuario = usuarioRepository.findByMatricula(loginDTO.getMatricula());
+//		if(Optional.ofNullable(usuario).isPresent() && usuario.get().getSenha().equals(loginDTO.getSenha()))
+//			return true;
+//		return false;
+//	}
 	
 //	public String isAuthenticated(LoginDTO loginDTO) {
 //		Optional<Usuario> usuario = usuarioRepository.findByMatricula(loginDTO.getMatricula());

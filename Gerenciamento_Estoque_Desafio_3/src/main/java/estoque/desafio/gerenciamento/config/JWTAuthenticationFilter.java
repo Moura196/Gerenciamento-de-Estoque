@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthenticationFilter extends  UsernamePasswordAuthenticationFilter {
 	
-	public static final String SECRET_JWT = ""; //<<---- NÃO ESQUECER DE COLOCAR ISSO AQUIIII
+	public static final String SECRET_JWT = "6c3c9f41-9fc3-461c-a60b-a8adfd03f698";//"c5e1fb88-dabb-4e0f-a4ba-12eadb58355c"; //<<---- NÃO ESQUECER DE COLOCAR ISSO AQUIIII
 	private final AuthenticationManager authenticationManager;
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -38,6 +38,7 @@ public class JWTAuthenticationFilter extends  UsernamePasswordAuthenticationFilt
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					usuario.getMatricula(), usuario.getSenha(), new ArrayList()
 					));
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
