@@ -1,12 +1,14 @@
 package estoque.desafio.gerenciamento.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,10 +60,30 @@ public class UsuarioController {
 	}
 	
 	@DeleteMapping("/excluir/{codigo}")
-	public ResponseEntity<?> excluirUsuario(@RequestBody Long codigo) {
+	public ResponseEntity<?> excluirUsuario(@PathVariable Long codigo) {
 		try {
 			usuarioService.excluirUsuario(codigo);
 			return ResponseEntity.ok("Excluido com Sucesso");
+		} catch (Exception e) {
+			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@GetMapping("/buscar/{codigo}")
+	public ResponseEntity<?> buscarUsuarioPorCodigo(@PathVariable Long codigo) {
+		try {
+			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorCodigo(codigo);
+			return ResponseEntity.ok(usuario);
+		} catch (Exception e) {
+			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@GetMapping("/buscar/matricula/{matricula}")
+	public ResponseEntity<?> buscarUsuarioPorMatricula(@PathVariable String matricula) {
+		try {
+			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorMatricula(matricula);
+			return ResponseEntity.ok(usuario);
 		} catch (Exception e) {
 			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}

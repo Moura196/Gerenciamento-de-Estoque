@@ -47,5 +47,13 @@ public class UsuarioService {
 	public Optional<Usuario> getUsuarioAutenticacao(String username) {
 		return usuarioRepository.findByMatricula(username);
 	}
+	
+	public Optional<Usuario> buscarUsuarioPorCodigo(Long codigo) {
+		return usuarioRepository.findById(codigo);
+	}
+	
+	public Optional<Usuario> buscarUsuarioPorMatricula(String matricula) {
+		return usuarioRepository.findByMatricula(matricula);
+	}
 
 }
