@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
 import estoque.desafio.gerenciamento.services.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("/usuario")
+@Tag(name = "usuario")
 public class UsuarioController {
 	
 	private UsuarioService usuarioService;
@@ -29,6 +33,7 @@ public class UsuarioController {
 		this.usuarioService = usuarioService;
 	}
 	
+	@Operation(summary = "Returns all users:")
 	@GetMapping("/buscar")
 	public ResponseEntity<?> listarUsuarios() {
 		try {
@@ -39,6 +44,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Add a new user:")
 	@PostMapping("/adicionar")
 	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
 		try {
@@ -49,6 +55,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Updates the user's password:")
 	@PatchMapping("/alterar/senha")
 	public ResponseEntity<?> atualizarSenha(@RequestBody AtualizarSenhaDTO atualizarSenhaDTO) {
 		try {
@@ -59,6 +66,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Deletes an user:")
 	@DeleteMapping("/excluir/{codigo}")
 	public ResponseEntity<?> excluirUsuario(@PathVariable Long codigo) {
 		try {
