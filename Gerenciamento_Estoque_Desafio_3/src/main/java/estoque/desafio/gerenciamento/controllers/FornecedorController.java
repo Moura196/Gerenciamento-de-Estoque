@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/fornecedores")
 public class FornecedorController {
 
     private FornecedorService fornecedorService;
@@ -24,7 +26,17 @@ public class FornecedorController {
         try {
             List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
             return ResponseEntity.ok(fornecedores);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro de consulta", HttpStatusCode.valueOf(504));
+        }
+    }
+
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable Long id) {
+        try{
+            Optional<Fornecedor> fornecedor = fornecedorService.buscarFornecedorPorId(id);
+            return ResponseEntity.ok(fornecedor);
+        } catch (Exception e) {
             return new ResponseEntity<>("Erro de consulta", HttpStatusCode.valueOf(504));
         }
     }
@@ -53,6 +65,16 @@ public class FornecedorController {
             return ResponseEntity.ok(fornecedorAtualizado);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro ao atualizar fornecedor: " + e.getMessage(), HttpStatusCode.valueOf(500));
+        }
+    }
+
+    @DeleteMapping("/excluir")
+    public ResponseEntity<?> excluirFornecedor(@PathVariable Long id) {
+        try{
+            fornecedorService.excluirFornecedor(id);
+            return ResponseEntity.ok("Fornecedor excluido com sucesso");
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao excluir fornecedor: " + e.getMessage(), HttpStatusCode.valueOf(504));
         }
     }
 }
