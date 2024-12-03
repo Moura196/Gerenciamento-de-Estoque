@@ -1,26 +1,30 @@
 package estoque.desafio.gerenciamento.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
-import estoque.desafio.gerenciamento.entities.dtos.LoginDTO;
 import estoque.desafio.gerenciamento.services.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("/usuario")
+@Tag(name = "usuario")
 public class UsuarioController {
 	
 	private UsuarioService usuarioService;
@@ -29,6 +33,7 @@ public class UsuarioController {
 		this.usuarioService = usuarioService;
 	}
 	
+	@Operation(summary = "Returns all users:")
 	@GetMapping("/buscar")
 	public ResponseEntity<?> listarUsuarios() {
 		try {
@@ -39,6 +44,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Add a new user:")
 	@PostMapping("/adicionar")
 	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
 		try {
@@ -49,6 +55,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Updates the user's password:")
 	@PatchMapping("/alterar/senha")
 	public ResponseEntity<?> atualizarSenha(@RequestBody AtualizarSenhaDTO atualizarSenhaDTO) {
 		try {
@@ -59,8 +66,9 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Deletes an user:")
 	@DeleteMapping("/excluir/{codigo}")
-	public ResponseEntity<?> excluirUsuario(@RequestBody Long codigo) {
+	public ResponseEntity<?> excluirUsuario(@PathVariable Long codigo) {
 		try {
 			usuarioService.excluirUsuario(codigo);
 			return ResponseEntity.ok("Excluido com Sucesso");
@@ -69,14 +77,24 @@ public class UsuarioController {
 		}
 	}
 	
-//	@PostMapping("/login")
-//	public ResponseEntity<?> realizarLogin(@RequestBody LoginDTO loginDTO) {
-//		try {
-//			boolean autenticado = usuarioService.isAuthenticated(loginDTO);
-//			return ResponseEntity.ok(autenticado);
-//		} catch (Exception e) {
-//			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-//		}
-//	}
+	@GetMapping("/buscar/{codigo}")
+	public ResponseEntity<?> buscarUsuarioPorCodigo(@PathVariable Long codigo) {
+		try {
+			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorCodigo(codigo);
+			return ResponseEntity.ok(usuario);
+		} catch (Exception e) {
+			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@GetMapping("/buscar/matricula/{matricula}")
+	public ResponseEntity<?> buscarUsuarioPorMatricula(@PathVariable String matricula) {
+		try {
+			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorMatricula(matricula);
+			return ResponseEntity.ok(usuario);
+		} catch (Exception e) {
+			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
 	
 }

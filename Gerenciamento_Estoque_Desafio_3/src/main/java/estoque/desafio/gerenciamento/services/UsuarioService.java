@@ -2,14 +2,12 @@ package estoque.desafio.gerenciamento.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
-import estoque.desafio.gerenciamento.entities.dtos.LoginDTO;
 import estoque.desafio.gerenciamento.repositories.UsuarioRepository;
 
 @Service
@@ -50,21 +48,12 @@ public class UsuarioService {
 		return usuarioRepository.findByMatricula(username);
 	}
 	
-	public boolean isAuthenticated(LoginDTO loginDTO) {
-		Optional<Usuario> usuario = usuarioRepository.findByMatricula(loginDTO.getMatricula());
-		if(Optional.ofNullable(usuario).isPresent() && usuario.get().getSenha().equals(loginDTO.getSenha()))
-			return true;
-		return false;
+	public Optional<Usuario> buscarUsuarioPorCodigo(Long codigo) {
+		return usuarioRepository.findById(codigo);
 	}
 	
-//	public String isAuthenticated(LoginDTO loginDTO) {
-//		Optional<Usuario> usuario = usuarioRepository.findByMatricula(loginDTO.getMatricula());
-//		if(Optional.ofNullable(usuario).isPresent() && usuario.get().getSenha().equals(loginDTO.getSenha())) {
-//			UUID uuid = UUID.randomUUID();
-//			String myRandom = uuid.toString();
-//			return myRandom;
-//		}
-//		return "";
-//	}
+	public Optional<Usuario> buscarUsuarioPorMatricula(String matricula) {
+		return usuarioRepository.findByMatricula(matricula);
+	}
 
 }
