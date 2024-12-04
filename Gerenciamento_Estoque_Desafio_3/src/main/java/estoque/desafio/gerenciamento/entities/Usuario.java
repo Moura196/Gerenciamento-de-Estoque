@@ -1,9 +1,14 @@
 package estoque.desafio.gerenciamento.entities;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,9 +23,9 @@ public class Usuario {
 	private String senha;
 	private String funcao; // role: GP ou RT
 	
-//	@OneToMany(mappedBy = "usuario")
-//	@JsonIgnoreProperties("usuario")
-//	private Set<Projeto> projetos;
+	@OneToMany(mappedBy = "usuario")
+	@JsonIgnoreProperties("usuario")
+	private Set<Projeto> projetos;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -62,12 +67,12 @@ public class Usuario {
 		this.funcao = funcao;
 	}
 
-//	public Set<Projeto> getProjetos() {
-//		return projetos;
-//	}
+	public Set<Projeto> getProjetos() {
+		return projetos;
+	}
 
-//	public void setProjetos(Set<Projeto> projetos) {
-//		this.projetos = projetos;
-//	}
+	public void setProjetos(Set<Projeto> projetos) {
+		this.projetos = projetos;
+	}
 	
 }

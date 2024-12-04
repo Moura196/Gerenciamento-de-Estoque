@@ -36,7 +36,7 @@ public class JWTValidateFilter extends BasicAuthenticationFilter {
 			throws IOException, ServletException {
 		
 		String path = request.getServletPath();
-		if (path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs")) {
+		if (path.startsWith("/gerenciamento/swagger-ui") || path.startsWith("/v3/api-docs")) {
 			chain.doFilter(request, response);
 			return;
 		}

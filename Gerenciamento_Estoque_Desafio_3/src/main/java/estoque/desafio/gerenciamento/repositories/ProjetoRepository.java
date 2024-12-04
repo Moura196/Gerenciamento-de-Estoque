@@ -1,5 +1,9 @@
 package estoque.desafio.gerenciamento.repositories;
 
-public class ProjetoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import estoque.desafio.gerenciamento.entities.Projeto;
+
+public interface ProjetoRepository extends JpaRepository<Projeto, Long>{
 
 }
