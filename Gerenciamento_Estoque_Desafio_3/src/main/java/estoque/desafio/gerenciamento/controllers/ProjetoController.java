@@ -25,15 +25,15 @@ public class ProjetoController {
 		this.projetoService = projetoService;
 	}
 	
-	@Operation(summary = "Adiciona um novo projeto:")
-	@PostMapping("/adicionar")
-	public ResponseEntity<?> criarProjeto(@RequestBody Projeto projeto) {
-		try {
-			Projeto projetoCriado = projetoService.criarProjeto(projeto.get);
-			return ResponseEntity.ok(projetoCriado);
-		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
+//	@Operation(summary = "Adiciona um novo projeto:")
+//	@PostMapping("/adicionar")
+//	public ResponseEntity<?> criarProjeto(@RequestBody Projeto projeto) {
+//		try {
+//			Projeto projetoCriado = projetoService.criarProjeto(projeto.get);
+//			return ResponseEntity.ok(projetoCriado);
+//		} catch (Exception e) {
+//			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+//		}
+//	}
 
 }
