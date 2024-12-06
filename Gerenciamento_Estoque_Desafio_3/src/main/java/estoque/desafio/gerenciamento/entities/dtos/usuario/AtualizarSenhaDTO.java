@@ -1,4 +1,4 @@
-package estoque.desafio.gerenciamento.entities.dtos;
+package estoque.desafio.gerenciamento.entities.dtos.usuario;
 
 public class AtualizarSenhaDTO {
 	

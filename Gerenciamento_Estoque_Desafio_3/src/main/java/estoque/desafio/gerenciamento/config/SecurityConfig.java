@@ -23,7 +23,7 @@ public class SecurityConfig {
 		authorizeConfig -> {
 			authorizeConfig.requestMatchers("/usuario/**").hasRole("GP");  //.hasAnyRole("GP", "RT");
 			//authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
-			authorizeConfig.requestMatchers("/swagger-ui/**")
+			authorizeConfig.requestMatchers("/gerenciamento/swagger-ui/**")
 				.permitAll()
 				.requestMatchers("/v3/api-docs/**")
 				.permitAll();
@@ -34,14 +34,7 @@ public class SecurityConfig {
 				.addFilter(new JWTValidateFilter(authenticationManager))
 				.build();
 	}
-	
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().requestMatchers(
-				"/swagger-ui/**", "/v3/api-docs/**"
-		);
-	}
-	
+
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

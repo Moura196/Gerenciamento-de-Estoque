@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Usuario;
-import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
+import estoque.desafio.gerenciamento.entities.dtos.usuario.AtualizarSenhaDTO;
 import estoque.desafio.gerenciamento.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +33,7 @@ public class UsuarioController {
 		this.usuarioService = usuarioService;
 	}
 	
-	@Operation(summary = "Returns all users:")
+	@Operation(summary = "Retorna todos os usuários:")
 	@GetMapping("/buscar")
 	public ResponseEntity<?> listarUsuarios() {
 		try {
@@ -44,7 +44,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@Operation(summary = "Add a new user:")
+	@Operation(summary = "Adiciona um novo usuário:")
 	@PostMapping("/adicionar")
 	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
 		try {
@@ -55,7 +55,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@Operation(summary = "Updates the user's password:")
+	@Operation(summary = "Atualiza a senha do usuário:")
 	@PatchMapping("/alterar/senha")
 	public ResponseEntity<?> atualizarSenha(@RequestBody AtualizarSenhaDTO atualizarSenhaDTO) {
 		try {
@@ -66,7 +66,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@Operation(summary = "Deletes an user:")
+	@Operation(summary = "Deleta um usuário por código:")
 	@DeleteMapping("/excluir/{codigo}")
 	public ResponseEntity<?> excluirUsuario(@PathVariable Long codigo) {
 		try {
@@ -77,6 +77,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Busca um usuário por código:")
 	@GetMapping("/buscar/{codigo}")
 	public ResponseEntity<?> buscarUsuarioPorCodigo(@PathVariable Long codigo) {
 		try {
@@ -87,6 +88,7 @@ public class UsuarioController {
 		}
 	}
 	
+	@Operation(summary = "Busca um usuário por matrícula:")
 	@GetMapping("/buscar/matricula/{matricula}")
 	public ResponseEntity<?> buscarUsuarioPorMatricula(@PathVariable String matricula) {
 		try {

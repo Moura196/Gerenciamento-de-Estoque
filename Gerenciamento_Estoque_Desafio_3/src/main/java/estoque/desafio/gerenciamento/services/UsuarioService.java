@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import estoque.desafio.gerenciamento.entities.Usuario;
-import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
+import estoque.desafio.gerenciamento.entities.dtos.usuario.AtualizarSenhaDTO;
 import estoque.desafio.gerenciamento.repositories.UsuarioRepository;
 
 @Service
