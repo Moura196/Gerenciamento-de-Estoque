@@ -14,6 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final OpenApiConfig openApiConfig;
+
+    SecurityConfig(OpenApiConfig openApiConfig) {
+        this.openApiConfig = openApiConfig;
+    }
 	
 	@Bean
 	protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
@@ -33,13 +39,6 @@ public class SecurityConfig {
 				.addFilter(new JWTAuthenticationFilter(authenticationManager))
 				.addFilter(new JWTValidateFilter(authenticationManager))
 				.build();
-	}
-	
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().requestMatchers(
-				"/swagger-ui/**", "/v3/api-docs/**"
-		);
 	}
 	
 	@Bean
