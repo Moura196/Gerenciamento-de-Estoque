@@ -22,6 +22,9 @@ public class Compra {
 	private Long codigo;
 	private LocalDateTime dataCompra;
 	private LocalDateTime dataEnvio; // Data que a mercadoria saiu do fornecedor
+	private LocalDateTime dataEmissaoInvoice;
+	private double valorTotalInvoice;
+	private String observacao;
 	
 	@ManyToOne
 	@JoinColumn(name = "projeto", nullable = false)
@@ -31,14 +34,6 @@ public class Compra {
 	@OneToMany(mappedBy = "compra")
 	@JsonIgnoreProperties("compra")
 	private Set<Item> itens;
-	
-	@OneToOne(mappedBy = "compra")
-	@JsonIgnoreProperties("compra")
-	private Complemento complemento;
-	
-	@OneToOne(mappedBy = "compra")
-	@JsonIgnoreProperties("compra")
-	private Invoice invoice;
 
 	public Long getCodigo() {
 		return codigo;
@@ -80,20 +75,28 @@ public class Compra {
 		this.itens = itens;
 	}
 
-	public Complemento getComplemento() {
-		return complemento;
+	public LocalDateTime getDataEmissaoInvoice() {
+		return dataEmissaoInvoice;
 	}
 
-	public void setComplemento(Complemento complemento) {
-		this.complemento = complemento;
+	public void setDataEmissaoInvoice(LocalDateTime dataEmissaoInvoice) {
+		this.dataEmissaoInvoice = dataEmissaoInvoice;
 	}
 
-	public Invoice getInvoice() {
-		return invoice;
+	public double getValorTotalInvoice() {
+		return valorTotalInvoice;
 	}
 
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
+	public void setValorTotalInvoice(double valorTotalInvoice) {
+		this.valorTotalInvoice = valorTotalInvoice;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
 	}
 
 }
