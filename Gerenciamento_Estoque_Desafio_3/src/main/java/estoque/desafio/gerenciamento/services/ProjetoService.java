@@ -22,7 +22,7 @@ public class ProjetoService {
 	}
 	
 	public Projeto criarProjeto(Projeto projetoRequest) {
-		return usuarioRepository.findById(projetoRequest.getUsuario().getCodigo())
+		return usuarioRepository.findByMatricula(projetoRequest.getUsuario().getMatricula())
 				.map(usuario -> {
 					Projeto projeto = new Projeto();
 					projeto.setIdProjeto(projetoRequest.getIdProjeto());
@@ -30,7 +30,7 @@ public class ProjetoService {
 					projeto.setUsuario(usuario);
 					return projetoRepository.save(projeto);
 				})
-				.orElseThrow(() -> new RuntimeException("Usuário com o código " + projetoRequest.getUsuario().getCodigo() + " não encontrado."));
+				.orElseThrow(() -> new RuntimeException("Usuário com a matrícula " + projetoRequest.getUsuario().getMatricula() + " não encontrado."));
 	}
 	
 	public List<Projeto> listarProjetos() {
@@ -47,7 +47,7 @@ public class ProjetoService {
 		return projetoExistenteOptional.map(projeto -> {
 			if (projetoRequest.getIdProjeto() != 0 && projetoRequest.getIdProjeto() != projeto.getIdProjeto()) {
 				if (projetoRepository.findByIdProjeto(projetoRequest.getIdProjeto()).isPresent()) {
-					throw new RuntimeException("Já existe um projeto com o ID " + projetoRequest.getIdProjeto() + ".");
+					throw new RuntimeException("Já existe um projeto com o idProjeto " + projetoRequest.getIdProjeto() + ".");
 				}
 				projeto.setIdProjeto(projetoRequest.getIdProjeto());
 			}
@@ -56,14 +56,14 @@ public class ProjetoService {
 				projeto.setApelidoProjeto(projetoRequest.getApelidoProjeto());
 			}
 
-			if (projetoRequest.getUsuario() != null && projetoRequest.getUsuario().getCodigo() != null) {
-				Usuario novoUsuario = usuarioRepository.findById(projetoRequest.getUsuario().getCodigo())
-						.orElseThrow(() -> new RuntimeException("Usuário com o código " + projetoRequest.getUsuario().getCodigo() + " não encontrado."));
+			if (projetoRequest.getUsuario() != null && projetoRequest.getUsuario().getMatricula() != null) {
+				Usuario novoUsuario = usuarioRepository.findByMatricula(projetoRequest.getUsuario().getMatricula())
+						.orElseThrow(() -> new RuntimeException("Usuário com a matrícula " + projetoRequest.getUsuario().getMatricula() + " não encontrado."));
 				projeto.setUsuario(novoUsuario);
 			}
 
 			return projetoRepository.save(projeto);
-		}).orElseThrow(() -> new RuntimeException("Projeto com o ID " + idProjeto + " não encontrado."));
+		}).orElseThrow(() -> new RuntimeException("Projeto com o idProjeto " + idProjeto + " não encontrado."));
 	}
 	
 }

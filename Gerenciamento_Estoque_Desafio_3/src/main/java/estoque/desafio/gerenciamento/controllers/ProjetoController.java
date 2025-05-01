@@ -25,13 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "projeto")
 public class ProjetoController {
 
-    private final ProjetoRepository projetoRepository;
-	
 	private ProjetoService projetoService;
 
-	public ProjetoController(ProjetoService projetoService, ProjetoRepository projetoRepository) {
+	public ProjetoController(ProjetoService projetoService) {
 		this.projetoService = projetoService;
-		this.projetoRepository = projetoRepository;
 	}
 	
 	@Operation(summary = "Adiciona um novo projeto:")
