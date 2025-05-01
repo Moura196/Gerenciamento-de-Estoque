@@ -1,5 +1,6 @@
 package estoque.desafio.gerenciamento.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -12,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Compra {
@@ -20,9 +20,9 @@ public class Compra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	private LocalDateTime dataCompra;
-	private LocalDateTime dataEnvio; // Data que a mercadoria saiu do fornecedor
-	private LocalDateTime dataEmissaoInvoice;
+	private LocalDate dataCompra;
+	private LocalDate dataEnvio; // Data que a mercadoria saiu do fornecedor
+	private LocalDate dataEmissaoInvoice;
 	private double valorTotalInvoice;
 	private String observacao;
 	
@@ -43,19 +43,19 @@ public class Compra {
 		this.codigo = codigo;
 	}
 
-	public LocalDateTime getDataCompra() {
+	public LocalDate getDataCompra() {
 		return dataCompra;
 	}
 
-	public void setDataCompra(LocalDateTime dataCompra) {
+	public void setDataCompra(LocalDate dataCompra) {
 		this.dataCompra = dataCompra;
 	}
 
-	public LocalDateTime getDataEnvio() {
+	public LocalDate getDataEnvio() {
 		return dataEnvio;
 	}
 
-	public void setDataEnvio(LocalDateTime dataEnvio) {
+	public void setDataEnvio(LocalDate dataEnvio) {
 		this.dataEnvio = dataEnvio;
 	}
 
@@ -75,11 +75,11 @@ public class Compra {
 		this.itens = itens;
 	}
 
-	public LocalDateTime getDataEmissaoInvoice() {
+	public LocalDate getDataEmissaoInvoice() {
 		return dataEmissaoInvoice;
 	}
 
-	public void setDataEmissaoInvoice(LocalDateTime dataEmissaoInvoice) {
+	public void setDataEmissaoInvoice(LocalDate dataEmissaoInvoice) {
 		this.dataEmissaoInvoice = dataEmissaoInvoice;
 	}
 
