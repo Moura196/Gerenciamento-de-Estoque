@@ -1,8 +1,10 @@
 package estoque.desafio.gerenciamento.controllers;
 
 import estoque.desafio.gerenciamento.entities.Fornecedor;
-import estoque.desafio.gerenciamento.entities.dtos.FornecedorDTO;
 import estoque.desafio.gerenciamento.services.FornecedorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/fornecedores")
+@RequestMapping("/fornecedor")
+@Tag(name = "fornecedor")
 public class FornecedorController {
 
     private FornecedorService fornecedorService;
@@ -21,8 +24,9 @@ public class FornecedorController {
         this.fornecedorService = fornecedorService;
     }
 
+    @Operation(summary = "Retorna todos os fornecedores:")
     @GetMapping("/buscar")
-    public ResponseEntity<?> buscarFornecedores() {
+    public ResponseEntity<?> listarFornecedores() {
         try {
             List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
             return ResponseEntity.ok(fornecedores);
@@ -31,50 +35,47 @@ public class FornecedorController {
         }
     }
 
-    @GetMapping("/buscar/{id}")
-    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable Long id) {
+    @Operation(summary = "Busca um fornecedor por nome:")
+    @GetMapping("/buscar/{nome}")
+    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable String nome) {
         try{
-            Optional<Fornecedor> fornecedor = fornecedorService.buscarFornecedorPorId(id);
+            Optional<Fornecedor> fornecedor = fornecedorService.buscarFornecedorPorNome(nome);
             return ResponseEntity.ok(fornecedor);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro de consulta", HttpStatusCode.valueOf(504));
         }
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> criarFornecedor(@RequestBody FornecedorDTO fornecedor) {
+    @Operation(summary = "Adiciona um novo fornecedor:")
+    @PostMapping("/adicionar")
+    public ResponseEntity<?> criarFornecedor(@RequestBody Fornecedor fornecedor) {
         try {
-            Fornecedor fornecedorCriado = fornecedorService.CriarFornecedor(fornecedor);
+            Fornecedor fornecedorCriado = fornecedorService.criarFornecedor(fornecedor);
             return ResponseEntity.ok(fornecedorCriado);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro ao criar fornecedor", HttpStatusCode.valueOf(504));
         }
     }
 
-    @PutMapping("/alterar")
-    public ResponseEntity<?> atualizarFornecedor(@RequestBody Fornecedor fornecedor) {
+    @Operation(summary = "Edita um fornecedor:")
+    @PatchMapping("/alterar/{nome}")
+    public ResponseEntity<?> editarFornecedor(@PathVariable String nome, @RequestBody Fornecedor fornecedor) {
         try {
-            FornecedorDTO fornecedorDTO = new FornecedorDTO();
-            fornecedorDTO.setNome(fornecedor.getNome());
-            fornecedorDTO.setEmail(fornecedor.getEmail());
-            fornecedorDTO.setTelefone(fornecedor.getTelefone());
-            fornecedorDTO.setCnpj(fornecedor.getCnpj());
-            fornecedorDTO.setEndereco(fornecedor.getEndereco());
-
-            Fornecedor fornecedorAtualizado = fornecedorService.atualizarFornecedor(fornecedor.getCodigo(), fornecedorDTO);
-            return ResponseEntity.ok(fornecedorAtualizado);
+            Fornecedor fornecedorEditado = fornecedorService.editarFornecedor(nome, fornecedor);
+            return ResponseEntity.ok(fornecedorEditado);
         } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao atualizar fornecedor: " + e.getMessage(), HttpStatusCode.valueOf(500));
+            return new ResponseEntity<>("Erro ao atualizar fornecedor: ", HttpStatusCode.valueOf(500));
         }
     }
 
-    @DeleteMapping("/excluir")
-    public ResponseEntity<?> excluirFornecedor(@PathVariable Long id) {
+    @Operation(summary = "Exclui um fornecedor:")
+    @DeleteMapping("/excluir/{codigo}")
+    public ResponseEntity<?> excluirFornecedor(@PathVariable Long codigo) {
         try{
-            fornecedorService.excluirFornecedor(id);
+            fornecedorService.excluirFornecedor(codigo);
             return ResponseEntity.ok("Fornecedor excluido com sucesso");
         } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao excluir fornecedor: " + e.getMessage(), HttpStatusCode.valueOf(504));
+            return new ResponseEntity<>("Erro ao excluir fornecedor: ", HttpStatusCode.valueOf(504));
         }
     }
 }
