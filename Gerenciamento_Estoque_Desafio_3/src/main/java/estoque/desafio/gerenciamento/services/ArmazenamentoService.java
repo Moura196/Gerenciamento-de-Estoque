@@ -2,61 +2,55 @@ package estoque.desafio.gerenciamento.services;
 
 import estoque.desafio.gerenciamento.entities.Armazenamento;
 import estoque.desafio.gerenciamento.repositories.ArmazenamentoRepository;
-import estoque.desafio.gerenciamento.entities.Item;
-import estoque.desafio.gerenciamento.repositories.ItemRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class ArmazenamentoService {
 
-    private ArmazenamentoRepository armazenamentoRepository;
-    private ItemRepository itemRepository;
+	private ArmazenamentoRepository armazenamentoRepository;
 
-    // Inclua o ItemRepository no construtor
-    public ArmazenamentoService(ArmazenamentoRepository armazenamentoRepository, ItemRepository itemRepository) {
-        this.armazenamentoRepository = armazenamentoRepository;
-        this.itemRepository = itemRepository;
-    }
-
-    public List<Armazenamento> listarArmazenamento() {
-        return armazenamentoRepository.findAll();
-    }
-
-    public Optional<Armazenamento> findById(Long id) {
-        return armazenamentoRepository.findById(id);
-    }
-
-    @Transactional
-    public Armazenamento salvar(Armazenamento armazenamento) {
-        return armazenamentoRepository.save(armazenamento);
-    }
-
-    @Transactional
-    public void deleteById(Long id) {
-        armazenamentoRepository.deleteById(id);
-    }
-
-    @Transactional
-    public boolean removeItemDeArmazenamento(Long armazenamentoId, Long itemId) {
-        Optional<Armazenamento> armazenamentoOpt = armazenamentoRepository.findById(armazenamentoId);
-        Optional<Item> itemOpt = itemRepository.findById(itemId);
-
-        if (armazenamentoOpt.isPresent() && itemOpt.isPresent()) {
-            Armazenamento armazenamento = armazenamentoOpt.get();
-            Item item = itemOpt.get();
-
-            if (armazenamento.getItens().contains(item)) {
-                armazenamento.getItens().remove(item);
-                item.setArmazenamento(null);
-                armazenamentoRepository.save(armazenamento);
-                itemRepository.delete(item);
-                return true;
-            }
-        }
-        return false;
-    }
+	public ArmazenamentoService(ArmazenamentoRepository armazenamentoRepository) {
+		this.armazenamentoRepository = armazenamentoRepository;
+	}
+	
+	public Armazenamento criarArmazenamento(Armazenamento armazenamentoRequest) {
+		Armazenamento armazenamento = new Armazenamento();
+		armazenamento.setSala(armazenamentoRequest.getSala());
+		armazenamento.setArmario(armazenamentoRequest.getArmario());
+		
+		armazenamentoRepository.save(armazenamento);
+		return armazenamento;
+	}
+    
+	public List<Armazenamento> listarArmazenamentos() {
+		return armazenamentoRepository.findAll();
+	}
+	
+	public Optional<Armazenamento> buscarArmazenamentoPorSalaAndArmario(String sala, String armario) {
+		return armazenamentoRepository.findBySalaAndArmario(sala, armario);
+	}
+	
+	public void excluirArmazenamento(Long codigo) {
+		armazenamentoRepository.deleteById(codigo);
+	}
+	
+	public Armazenamento editarArmazenamento(Long codigo, Armazenamento armazenamentoRequest) {
+		Optional<Armazenamento> armazenamentoExistenteOptional = armazenamentoRepository.findById(codigo);
+		
+		return armazenamentoExistenteOptional.map(armazenamento -> {
+			if (armazenamentoRequest.getSala() != null) {
+				armazenamento.setSala(armazenamentoRequest.getSala());
+			}
+			
+			if (armazenamentoRequest.getArmario() != null) {
+				armazenamento.setArmario(armazenamentoRequest.getArmario());
+			}
+			
+			return armazenamentoRepository.save(armazenamento);
+		}).orElseThrow(() -> new RuntimeException("Armazenamento com o código " + codigo + " não encontrado."));
+	}
 }
 
