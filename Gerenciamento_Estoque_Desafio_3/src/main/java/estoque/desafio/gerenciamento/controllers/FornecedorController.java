@@ -37,7 +37,7 @@ public class FornecedorController {
 
     @Operation(summary = "Busca um fornecedor por nome:")
     @GetMapping("/buscar/{nome}")
-    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable String nome) {
+    public ResponseEntity<?> buscarFornecedorPorNome(@PathVariable String nome) {
         try{
             Optional<Fornecedor> fornecedor = fornecedorService.buscarFornecedorPorNome(nome);
             return ResponseEntity.ok(fornecedor);
