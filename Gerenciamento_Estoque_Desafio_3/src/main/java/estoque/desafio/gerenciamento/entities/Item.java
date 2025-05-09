@@ -15,10 +15,11 @@ public class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	private String patrimonio;
 	private String descricao;
 	private String tipo;
-	private double valoUnitario;
-	private String quantComprada;
+	private double valorUnitario;
+	private int quantComprada;
 	private double valorTotalItem;
 	
 	@ManyToOne
@@ -44,6 +45,14 @@ public class Item {
 		this.codigo = codigo;
 	}
 
+	public String getPatrimonio() {
+		return patrimonio;
+	}
+
+	public void setPatrimonio(String patrimonio) {
+		this.patrimonio = patrimonio;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -60,24 +69,24 @@ public class Item {
 		this.tipo = tipo;
 	}
 
-	public double getValoUnitario() {
-		return valoUnitario;
+	public double getValorUnitario() {
+		return valorUnitario;
 	}
 
-	public void setValoUnitario(double valoUnitario) {
-		this.valoUnitario = valoUnitario;
+	public void setValorUnitario(double valoUnitario) {
+		this.valorUnitario = valoUnitario;
 	}
 
-	public String getQuantComprada() {
+	public int getQuantComprada() {
 		return quantComprada;
 	}
 
-	public void setQuantComprada(String quantComprada) {
+	public void setQuantComprada(int quantComprada) {
 		this.quantComprada = quantComprada;
 	}
 
 	public double getValorTotalItem() {
-		return valorTotalItem;
+		return this.valorTotalItem;
 	}
 
 	public void setValorTotalItem(double valorTotalItem) {
