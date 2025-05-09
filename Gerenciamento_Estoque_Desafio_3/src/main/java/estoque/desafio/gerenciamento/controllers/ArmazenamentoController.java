@@ -22,6 +22,17 @@ public class ArmazenamentoController {
     public ArmazenamentoController(ArmazenamentoService armazenamentoService) {
         this.armazenamentoService = armazenamentoService;
     }
+    
+    @Operation(summary = "Adiciona um novo armazenamento:")
+    @PostMapping("/adicionar")
+    public ResponseEntity<?> criarArmazenamento(@RequestBody Armazenamento armazenamento) {
+    	try {
+    		Armazenamento armazenamentoCriado = armazenamentoService.criarArmazenamento(armazenamento);
+    		return ResponseEntity.ok(armazenamentoCriado);
+    	} catch (Exception e) {
+    		return new ResponseEntity<>("Erro ao criar armazenamento", HttpStatusCode.valueOf(504));
+    	}
+    }
 
     @Operation(summary = "Retorna todos os armazenamentos:")
     @GetMapping("/buscar")
@@ -42,17 +53,6 @@ public class ArmazenamentoController {
             return ResponseEntity.ok(armazenamento);
         } catch (Exception e) {
         	return new ResponseEntity<>("Erro de consulta", HttpStatusCode.valueOf(504));
-        }
-    }
-    
-    @Operation(summary = "Adiciona um novo armazenamento:")
-    @PostMapping("/adicionar")
-    public ResponseEntity<?> criarArmazenamento(@RequestBody Armazenamento armazenamento) {
-        try {
-            Armazenamento armazenamentoCriado = armazenamentoService.criarArmazenamento(armazenamento);
-            return ResponseEntity.ok(armazenamentoCriado);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao criar armazenamento", HttpStatusCode.valueOf(504));
         }
     }
 

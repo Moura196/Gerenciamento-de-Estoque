@@ -33,10 +33,6 @@ public class ArmazenamentoService {
 		return armazenamentoRepository.findBySalaAndArmario(sala, armario);
 	}
 	
-	public void excluirArmazenamento(Long codigo) {
-		armazenamentoRepository.deleteById(codigo);
-	}
-	
 	public Armazenamento editarArmazenamento(Long codigo, Armazenamento armazenamentoRequest) {
 		Optional<Armazenamento> armazenamentoExistenteOptional = armazenamentoRepository.findById(codigo);
 		
@@ -52,5 +48,10 @@ public class ArmazenamentoService {
 			return armazenamentoRepository.save(armazenamento);
 		}).orElseThrow(() -> new RuntimeException("Armazenamento com o código " + codigo + " não encontrado."));
 	}
+	
+	public void excluirArmazenamento(Long codigo) {
+		armazenamentoRepository.deleteById(codigo);
+	}
+
 }
 

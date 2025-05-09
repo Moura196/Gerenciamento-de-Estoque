@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Projeto;
-import estoque.desafio.gerenciamento.entities.Usuario;
-import estoque.desafio.gerenciamento.repositories.ProjetoRepository;
 import estoque.desafio.gerenciamento.services.ProjetoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +36,7 @@ public class ProjetoController {
 			Projeto projetoCriado = projetoService.criarProjeto(projeto);
 			return ResponseEntity.ok(projetoCriado);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
@@ -49,7 +47,18 @@ public class ProjetoController {
 			List<Projeto> projetos = projetoService.listarProjetos();
 			return ResponseEntity.ok(projetos);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@Operation(summary = "Edita um projeto:")
+	@PatchMapping("/alterar/{idProjeto}")
+	public ResponseEntity<?> editarProjeto(@PathVariable int idProjeto, @RequestBody Projeto projeto) {
+		try {
+			Projeto projetoEditado = projetoService.editarProjeto(idProjeto, projeto);
+			return ResponseEntity.ok(projetoEditado);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
@@ -60,19 +69,8 @@ public class ProjetoController {
 			projetoService.excluirProjeto(codigo);
 			return ResponseEntity.ok("Excluido com Sucesso");
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 
-	@Operation(summary = "Edita um projeto:")
-	@PatchMapping("/alterar/{idProjeto}")
-	public ResponseEntity<?> editarProjeto(@PathVariable int idProjeto, @RequestBody Projeto projeto) {
-		try {
-			Projeto projetoEditado = projetoService.editarProjeto(idProjeto, projeto);
-			return ResponseEntity.ok(projetoEditado);
-		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
-	
 }
