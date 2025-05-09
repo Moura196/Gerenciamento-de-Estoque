@@ -24,6 +24,17 @@ public class FornecedorController {
         this.fornecedorService = fornecedorService;
     }
 
+    @Operation(summary = "Adiciona um novo fornecedor:")
+    @PostMapping("/adicionar")
+    public ResponseEntity<?> criarFornecedor(@RequestBody Fornecedor fornecedor) {
+    	try {
+    		Fornecedor fornecedorCriado = fornecedorService.criarFornecedor(fornecedor);
+    		return ResponseEntity.ok(fornecedorCriado);
+    	} catch (Exception e) {
+    		return new ResponseEntity<>("Erro ao criar fornecedor", HttpStatusCode.valueOf(504));
+    	}
+    }
+    
     @Operation(summary = "Retorna todos os fornecedores:")
     @GetMapping("/buscar")
     public ResponseEntity<?> listarFornecedores() {
@@ -43,17 +54,6 @@ public class FornecedorController {
             return ResponseEntity.ok(fornecedor);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro de consulta", HttpStatusCode.valueOf(504));
-        }
-    }
-
-    @Operation(summary = "Adiciona um novo fornecedor:")
-    @PostMapping("/adicionar")
-    public ResponseEntity<?> criarFornecedor(@RequestBody Fornecedor fornecedor) {
-        try {
-            Fornecedor fornecedorCriado = fornecedorService.criarFornecedor(fornecedor);
-            return ResponseEntity.ok(fornecedorCriado);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao criar fornecedor", HttpStatusCode.valueOf(504));
         }
     }
 

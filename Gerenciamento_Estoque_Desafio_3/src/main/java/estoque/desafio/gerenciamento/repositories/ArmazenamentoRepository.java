@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import estoque.desafio.gerenciamento.entities.Armazenamento;
-import estoque.desafio.gerenciamento.entities.Compra;
 
 public interface ArmazenamentoRepository extends JpaRepository<Armazenamento, Long> {
 

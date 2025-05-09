@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import estoque.desafio.gerenciamento.entities.Compra;
 import estoque.desafio.gerenciamento.entities.Projeto;
-import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.repositories.CompraRepository;
 import estoque.desafio.gerenciamento.repositories.ProjetoRepository;
 
@@ -29,7 +28,6 @@ public class CompraService {
 					compra.setDataCompra(compraRequest.getDataCompra());
 					compra.setDataEnvio(compraRequest.getDataEnvio());
 					compra.setDataEmissaoInvoice(compraRequest.getDataEmissaoInvoice());
-					compra.setValorTotalInvoice(compraRequest.getValorTotalInvoice());
 					compra.setObservacao(compraRequest.getObservacao());
 					compra.setProjeto(projeto);
 					return compraRepository.save(compra);
@@ -39,10 +37,6 @@ public class CompraService {
 	
 	public List<Compra> listarCompras() {
 		return compraRepository.findAll();
-	}
-	
-	public void excluirCompra(Long codigo) {
-		compraRepository.deleteById(codigo);
 	}
 	
 	public Compra editarCompra(Long codigo, Compra compraRequest) {
@@ -80,6 +74,10 @@ public class CompraService {
 			
 			return compraRepository.save(compra);
 		}).orElseThrow(() -> new RuntimeException("Compra com o código " + codigo + " não encontrado."));
+	}
+	
+	public void excluirCompra(Long codigo) {
+		compraRepository.deleteById(codigo);
 	}
 
 }

@@ -22,6 +22,7 @@ public class FornecedorService {
         fornecedor.setEmail(fornecedorRequest.getEmail());
         fornecedor.setTelefone(fornecedorRequest.getTelefone());
         fornecedor.setCnpj(fornecedorRequest.getCnpj());
+        fornecedor.setEndereco(fornecedorRequest.getEndereco());
 
         fornecedorRepository.save(fornecedor);
         return fornecedor;
@@ -35,9 +36,6 @@ public class FornecedorService {
         return fornecedorRepository.findByNome(nome);
     }
 
-    public void excluirFornecedor(Long codigo){
-        fornecedorRepository.deleteById(codigo);
-    }
 
     public Fornecedor editarFornecedor(String nome, Fornecedor fornecedorRequest) {
         Optional<Fornecedor> fornecedorExistenteOptional = fornecedorRepository.findByNome(nome);
@@ -59,7 +57,16 @@ public class FornecedorService {
         		fornecedor.setCnpj(fornecedorRequest.getCnpj());
         	}
         	
+        	if (fornecedorRequest.getEndereco() != null) {
+        		fornecedor.setEndereco(fornecedorRequest.getEndereco());
+        	}
+        	
         	return fornecedorRepository.save(fornecedor);
         }).orElseThrow(() -> new RuntimeException("Fornecedor com o nome " + nome + " não encontrado."));
     }
+
+    public void excluirFornecedor(Long codigo){
+    	fornecedorRepository.deleteById(codigo);
+    }
+
 }

@@ -33,17 +33,6 @@ public class UsuarioController {
 		this.usuarioService = usuarioService;
 	}
 	
-	@Operation(summary = "Retorna todos os usuários:")
-	@GetMapping("/buscar")
-	public ResponseEntity<?> listarUsuarios() {
-		try {
-			List<Usuario> usuarios = usuarioService.listarUsuarios();
-			return ResponseEntity.ok(usuarios);
-		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
-	
 	@Operation(summary = "Adiciona um novo usuário:")
 	@PostMapping("/adicionar")
 	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
@@ -51,29 +40,18 @@ public class UsuarioController {
 			Usuario usuarioCriado = usuarioService.criarUsuario(usuario);
 			return ResponseEntity.ok(usuarioCriado);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
-	@Operation(summary = "Atualiza a senha de um usuário:")
-	@PatchMapping("/alterar/senha")
-	public ResponseEntity<?> atualizarSenha(@RequestBody AtualizarSenhaDTO atualizarSenhaDTO) {
+	@Operation(summary = "Retorna todos os usuários:")
+	@GetMapping("/buscar")
+	public ResponseEntity<?> listarUsuarios() {
 		try {
-			Usuario usuario = usuarioService.atualizarSenha(atualizarSenhaDTO);
-			return ResponseEntity.ok(usuario);
+			List<Usuario> usuarios = usuarioService.listarUsuarios();
+			return ResponseEntity.ok(usuarios);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
-	
-	@Operation(summary = "Deleta um usuário:")
-	@DeleteMapping("/excluir/{codigo}")
-	public ResponseEntity<?> excluirUsuario(@PathVariable Long codigo) {
-		try {
-			usuarioService.excluirUsuario(codigo);
-			return ResponseEntity.ok("Excluido com Sucesso");
-		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
@@ -84,7 +62,7 @@ public class UsuarioController {
 			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorCodigo(codigo);
 			return ResponseEntity.ok(usuario);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
@@ -95,7 +73,29 @@ public class UsuarioController {
 			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorMatricula(matricula);
 			return ResponseEntity.ok(usuario);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@Operation(summary = "Atualiza a senha de um usuário:")
+	@PatchMapping("/alterar/senha")
+	public ResponseEntity<?> atualizarSenha(@RequestBody AtualizarSenhaDTO atualizarSenhaDTO) {
+		try {
+			Usuario usuario = usuarioService.atualizarSenha(atualizarSenhaDTO);
+			return ResponseEntity.ok(usuario);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+	
+	@Operation(summary = "Deleta um usuário:")
+	@DeleteMapping("/excluir/{codigo}")
+	public ResponseEntity<?> excluirUsuario(@PathVariable Long codigo) {
+		try {
+			usuarioService.excluirUsuario(codigo);
+			return ResponseEntity.ok("Excluido com Sucesso");
+		} catch (Exception e) {
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	

@@ -20,6 +20,7 @@ public class Fornecedor {
 	private String email;
 	private String telefone;
 	private String cnpj;
+	private String endereco;
 	
 	@OneToMany(mappedBy = "fornecedor")
 	@JsonIgnoreProperties("fornecedor")
@@ -63,6 +64,14 @@ public class Fornecedor {
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 	public Set<Item> getItens() {

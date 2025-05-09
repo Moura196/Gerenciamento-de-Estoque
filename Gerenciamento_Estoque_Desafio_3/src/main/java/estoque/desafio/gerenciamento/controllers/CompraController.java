@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Compra;
-import estoque.desafio.gerenciamento.entities.Projeto;
 import estoque.desafio.gerenciamento.services.CompraService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +36,7 @@ public class CompraController {
 			Compra compraCriada = compraService.criarCompra(compra);
 			return ResponseEntity.ok(compraCriada);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
@@ -48,10 +47,21 @@ public class CompraController {
 			List<Compra> compras = compraService.listarCompras();
 			return ResponseEntity.ok(compras);
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
+	@Operation(summary = "Edita uma compra:")
+	@PatchMapping("/alterar/{codigo}")
+	public ResponseEntity<?> editarCompra(@PathVariable Long codigo, @RequestBody Compra compra) {
+		try {
+			Compra compraEditada = compraService.editarCompra(codigo, compra);
+			return ResponseEntity.ok(compraEditada);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
+		}
+	}
+
 	@Operation(summary = "Deleta uma compra:")
 	@DeleteMapping("/excluir/{codigo}")
 	public ResponseEntity<?> excluirCompra(@PathVariable Long codigo) {
@@ -59,19 +69,8 @@ public class CompraController {
 			compraService.excluirCompra(codigo);
 			return ResponseEntity.ok("Excluido com Sucesso");
 		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
+			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
 		}
 	}
 	
-	@Operation(summary = "Edita uma  compra:")
-	@PatchMapping("/alterar/{codigo}")
-	public ResponseEntity<?> editarCompra(@PathVariable Long codigo, @RequestBody Compra compra) {
-		try {
-			Compra compraEditada = compraService.editarCompra(codigo, compra);
-			return ResponseEntity.ok(compraEditada);
-		} catch (Exception e) {
-			return new ResponseEntity("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
-
 }

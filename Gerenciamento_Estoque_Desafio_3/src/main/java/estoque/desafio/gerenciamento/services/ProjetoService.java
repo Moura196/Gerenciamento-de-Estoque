@@ -37,10 +37,6 @@ public class ProjetoService {
 		return projetoRepository.findAll();
 	}
 	
-	public void excluirProjeto(Long codigo) {
-		projetoRepository.deleteById(codigo);
-	}
-	
 	public Projeto editarProjeto(int idProjeto, Projeto projetoRequest) {
 		Optional<Projeto> projetoExistenteOptional = projetoRepository.findByIdProjeto(idProjeto);
 
@@ -64,6 +60,10 @@ public class ProjetoService {
 
 			return projetoRepository.save(projeto);
 		}).orElseThrow(() -> new RuntimeException("Projeto com o idProjeto " + idProjeto + " não encontrado."));
+	}
+	
+	public void excluirProjeto(Long codigo) {
+		projetoRepository.deleteById(codigo);
 	}
 	
 }
