@@ -72,7 +72,7 @@ public class JWTValidateFilter extends BasicAuthenticationFilter {
 		permissao = "ROLE_"+permissao;
 		
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permissao);
-		Set<GrantedAuthority> authorities = new HashSet();
+		Set<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(authority);
 		
 		if (Optional.ofNullable(usuario).isPresent())

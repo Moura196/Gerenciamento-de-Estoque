@@ -21,10 +21,14 @@ public class UserDetailsCustom implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(usuario.orElse(new Usuario()).getFuncao());
-		Set<GrantedAuthority> authorities = new HashSet();
-		authorities.add(authority);
-		return authorities;
+
+    	Set<GrantedAuthority> authorities = new HashSet<>();
+    	String funcao = usuario.orElse(new Usuario()).getFuncao();
+    	if (funcao != null && !funcao.isEmpty()) {
+        	String role = funcao.startsWith("ROLE_") ? funcao : "ROLE_" + funcao;
+        	authorities.add(new SimpleGrantedAuthority(role));
+    	}
+    	return authorities;
 	}
 	
 	@Override

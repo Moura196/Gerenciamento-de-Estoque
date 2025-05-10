@@ -1,7 +1,6 @@
 package estoque.desafio.gerenciamento.entities;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

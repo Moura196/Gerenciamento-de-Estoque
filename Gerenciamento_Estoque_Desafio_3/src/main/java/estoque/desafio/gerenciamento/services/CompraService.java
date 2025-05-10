@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import estoque.desafio.gerenciamento.entities.Compra;
 import estoque.desafio.gerenciamento.entities.Projeto;
-import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.repositories.CompraRepository;
 import estoque.desafio.gerenciamento.repositories.ProjetoRepository;
 

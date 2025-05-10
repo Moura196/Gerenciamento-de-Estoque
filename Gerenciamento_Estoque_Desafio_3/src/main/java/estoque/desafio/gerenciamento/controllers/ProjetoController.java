@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoque.desafio.gerenciamento.entities.Projeto;
-import estoque.desafio.gerenciamento.entities.Usuario;
-import estoque.desafio.gerenciamento.repositories.ProjetoRepository;
 import estoque.desafio.gerenciamento.services.ProjetoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

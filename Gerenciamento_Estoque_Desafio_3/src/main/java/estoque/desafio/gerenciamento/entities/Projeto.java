@@ -1,6 +1,5 @@
 package estoque.desafio.gerenciamento.entities;
 
-import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
