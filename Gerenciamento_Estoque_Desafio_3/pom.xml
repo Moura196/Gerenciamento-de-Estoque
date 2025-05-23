@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
-        <relativePath/>
-    </parent>
-    
-    <groupId>estoque.desafio</groupId>
-    <artifactId>gerenciamento</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>gerenciamento</name>
-    <description>Demo project for Spring Boot</description>
-    <packaging>jar</packaging>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.4</version>
+		<relativePath />
+	</parent>
+
+	<groupId>estoque.desafio</groupId>
+	<artifactId>gerenciamento</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>gerenciamento</name>
+	<description>Demo project for Spring Boot</description>
+	<packaging>jar</packaging>
+
+	<properties>
+		<java.version>17</java.version>
+    <springdoc.version>2.5.0</springdoc.version>
+	</properties>
 
     <properties>
         <java.version>17</java.version>
@@ -32,10 +37,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>3.3.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>3.3.4</version>
         </dependency>
 
         <!-- PostgreSQL -->
@@ -43,6 +50,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+            <version>42.7.4</version>
         </dependency>
 
         <!-- SpringDoc OpenAPI -->
@@ -61,6 +69,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -68,6 +77,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>7.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.5.0</version>
+        </dependency>
+        
     </dependencies>
 
     <build>
