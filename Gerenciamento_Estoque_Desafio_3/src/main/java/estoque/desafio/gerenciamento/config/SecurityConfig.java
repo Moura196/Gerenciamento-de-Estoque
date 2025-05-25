@@ -21,25 +21,30 @@ public class SecurityConfig {
     }
 	
 	@Bean
-	protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
-		return httpSecurity
-				.csrf(c -> c.disable())
-				.authorizeHttpRequests(
-		authorizeConfig -> {
-			authorizeConfig.requestMatchers("/usuario/**").hasRole("GP");  //.hasAnyRole("GP", "RT");
-			//authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
-			authorizeConfig.requestMatchers("/swagger-ui/**")
-				.permitAll()
-				.requestMatchers("/v3/api-docs/**")
-				.permitAll();
-			authorizeConfig.anyRequest().authenticated();
-		}
-						)
-				.addFilter(new JWTAuthenticationFilter(authenticationManager))
-				.addFilter(new JWTValidateFilter(authenticationManager))
-				.build();
-	}
-	
+    protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
+        return httpSecurity
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/",
+                    "/static/**",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/index",
+                    "/index.html",
+                    "/login",
+                    "/login.html"
+                ).permitAll()
+                .requestMatchers("/usuario/**").hasRole("GP")
+                .anyRequest().authenticated()
+            )
+            .addFilter(new JWTAuthenticationFilter(authenticationManager))
+            .addFilter(new JWTValidateFilter(authenticationManager))
+            .build();
+    }
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

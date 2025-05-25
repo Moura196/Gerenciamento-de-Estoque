@@ -29,4 +29,5 @@ estoque\desafio\gerenciamento\controllers\ArmazenamentoController.class
 estoque\desafio\gerenciamento\services\FornecedorService.class
 estoque\desafio\gerenciamento\repositories\UsuarioRepository.class
 estoque\desafio\gerenciamento\controllers\CompraController.class
+estoque\desafio\gerenciamento\controllers\DashboardController.class
 estoque\desafio\gerenciamento\controllers\FornecedorController.class

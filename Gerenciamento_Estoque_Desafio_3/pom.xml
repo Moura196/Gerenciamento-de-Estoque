@@ -22,6 +22,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <docker.image.prefix>gerenciamento-estoque</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -92,17 +93,25 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-        </plugins>
-        <plugin>
-            <groupId>com.spotify</groupId>
-            <artifactId>dockerfile-maven-plugin</artifactId>
-            <version>1.4.13</version>
-            <configuration>
-                <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                <buildArgs>
-                    <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                </buildArgs>
-            </configuration>
-        </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.42.1</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>gerenciamento-estoque</name>
+                            <build>
+                                <from>eclipse-temurin:17-jdk-alpine</from>
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <cmd>java -jar /maven/${project.build.finalName}.jar</cmd>
+                            </build>
+                        </image>
+                     </images>
+                </configuration>
+            </plugin>
+        </plugins>   
     </build>
 </project>
