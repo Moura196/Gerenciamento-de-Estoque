@@ -93,5 +93,16 @@
                 </configuration>
             </plugin>
         </plugins>
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>1.4.13</version>
+            <configuration>
+                <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                <buildArgs>
+                    <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                </buildArgs>
+            </configuration>
+        </plugin>
     </build>
 </project>
