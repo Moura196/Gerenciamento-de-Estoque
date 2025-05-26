@@ -1,0 +1,34 @@
+/* styles/rt-overrides.css */
+body.rt {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --accent-color: #1abc9c;
+}
+
+body.rt .sidebar {
+    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+}
+
+body.rt .sidebar-item {
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+body.rt .sidebar-item.active {
+    border-left-color: white;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body.rt .card {
+    border: 1px solid var(--primary-color);
+}
+
+body.rt .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--secondary-color);
+}
+
+body.rt .profile-badge {
+    background-color: var(--secondary-color);
+    color: white;
+}

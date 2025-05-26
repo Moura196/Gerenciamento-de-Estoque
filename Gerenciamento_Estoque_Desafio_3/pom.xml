@@ -93,7 +93,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.42.1</version>
@@ -111,7 +111,7 @@
                         </image>
                      </images>
                 </configuration>
-            </plugin>
+            </plugin> -->
         </plugins>   
     </build>
 </project>

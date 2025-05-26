@@ -1,27 +1,29 @@
-version: '3.8'
-services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gerenciamento_estoque
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=12345678
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_PROFILES_ACTIVE=docker
+# version: '3.8'
+# services:
+#   app:
+#     build: .
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - db
+#     environment:
+#       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gerenciamento_estoque
+#       - SPRING_DATASOURCE_USERNAME=postgres
+#       - SPRING_DATASOURCE_PASSWORD=12345678
+#       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#       - SPRING_PROFILES_ACTIVE=docker
 
-  db:
-    image: postgres:13
-    environment:
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=gerenciamento_estoque
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+#     volumes:
+#       - ./src/main/resources/static:/app/classes/static:ro
+#   db:
+#     image: postgres:13
+#     environment:
+#       - POSTGRES_PASSWORD=12345678
+#       - POSTGRES_DB=gerenciamento_estoque
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
 
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:

@@ -1,0 +1,29 @@
+/* /assets/css/auth.css */
+.login-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.login-card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efeito hover para o botão */
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Ajuste para ícones nos campos */
+.form-floating .bi {
+    transition: all 0.3s ease;
+}
+
+.form-control:focus ~ .bi {
+    color: #0d6efd !important;
+}

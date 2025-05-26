@@ -3,277 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Gerenciamento de Estoque</title>
+    <title>Sistema de Estoque</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+    <style>
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+        .company-logo {
+            height: 30px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">Estoque v1.0</a>
-            <button class="btn btn-light ms-auto" onclick="logout()">Sair</button>
+            <a class="navbar-brand" href="#">
+                <img src="https://via.placeholder.com/30" alt="Logo" class="company-logo">
+                <span>Estoque Fácil</span>
+            </a>
+        
+            <div class="ms-auto">
+                <a href="/login.html" class="btn btn-light">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
+                </a>
+            </div>
         </div>
     </nav>
-    <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Gerenciamento de Usuários</h3>
-        <button class="btn btn-success" onclick="showUserModal()">
-            <i class="bi bi-person-plus"></i> Novo Usuário
-        </button>
+
+    <div class="container mt-5">
+
     </div>
 
-    <div id="userTable" class="mb-5">
-        <!-- Tabela será preenchida via JavaScript -->
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Carregando...</span>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de Usuário -->
-<div class="modal fade" id="userModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Novo Usuário</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="userForm">
-                    <input type="hidden" id="usuarioCodigo">
-                    <div class="mb-3">
-                        <label class="form-label">Matrícula</label>
-                        <input type="text" class="form-control" id="matricula" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nome Completo</label>
-                        <input type="text" class="form-control" id="nome" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Função</label>
-                        <select class="form-select" id="funcao" required>
-                            <option value="GP">Gerente de Projeto</option>
-                            <option value="RT">Responsável Técnico</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 password-field">
-                        <label class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="senha" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="saveUser()">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="passwordModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Alterar Senha</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="passwordForm">
-                    <input type="hidden" id="passwordUsuarioCodigo">
-                    <div class="mb-3">
-                        <label class="form-label">Nova Senha</label>
-                        <input type="password" class="form-control" id="novaSenha" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="updatePassword()">Alterar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="container mt-4">
-        <h3>Bem-vindo ao Sistema de Gerenciamento</h3>
-        <!-- Adicione aqui o conteúdo da dashboard -->
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-    
-        // Verificar autenticação
-        const token = localStorage.getItem('jwt');
-        if (!token) window.location.href = '/login.html';
-
-        // Configurar Axios ou Fetch para incluir o token
-        function authHeader() {
-            return { 'Authorization': `Bearer ${token}` };
-        }
-
-        function logout() {
-            localStorage.removeItem('jwt');
-            window.location.href = '/login.html';
-        }
-        // Carregar usuários ao entrar na dashboard
-document.addEventListener('DOMContentLoaded', () => {
-    loadUsers();
-});
-
-async function loadUsers() {
-    try {
-        const response = await fetch('/usuario/buscar', {
-            headers: authHeader()
-        });
-        
-        if (response.ok) {
-            const usuarios = await response.json();
-            renderUserTable(usuarios);
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function renderUserTable(usuarios) {
-    const tableHtml = `
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Matrícula</th>
-                    <th>Nome</th>
-                    <th>Função</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${usuarios.map(usuario => `
-                    <tr>
-                        <td>${usuario.matricula}</td>
-                        <td>${usuario.nome}</td>
-                        <td>${usuario.funcao === 'GP' ? 'Gerente de Projeto' : 'Responsável Técnico'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" onclick="editUser(${usuario.codigo})">
-                                Editar
-                            </button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${usuario.codigo})">
-                                Excluir
-                            </button>
-                        </td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
-    
-    document.getElementById('userTable').innerHTML = tableHtml;
-}
-
-async function saveUser() {
-    const userData = {
-        matricula: document.getElementById('matricula').value,
-        nome: document.getElementById('nome').value,
-        funcao: document.getElementById('funcao').value,
-        senha: document.getElementById('senha').value
-    };
-
-    try {
-        const response = await fetch('/usuario/adicionar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...authHeader()
-            },
-            body: JSON.stringify(userData)
-        });
-
-        if (response.ok) {
-            $('#userModal').modal('hide');
-            loadUsers();
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-async function deleteUser(codigo) {
-    if (confirm('Tem certeza que deseja excluir este usuário?')) {
-        try {
-            const response = await fetch(`/usuario/excluir/${codigo}`, {
-                method: 'DELETE',
-                headers: authHeader()
-            });
-            
-            if (response.ok) {
-                loadUsers();
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-        }
-    }
-}
-
-async function editUser(codigo) {
-    try {
-        const response = await fetch(`/usuario/buscar/${codigo}`, {
-            headers: authHeader()
-        });
-        
-        if (response.ok) {
-            const usuario = await response.json();
-            showUserModal(usuario);
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function showUserModal(usuario = null) {
-    const modal = $('#userModal');
-    const form = document.getElementById('userForm');
-    
-    form.reset();
-    if (usuario) {
-        document.getElementById('usuarioCodigo').value = usuario.codigo;
-        document.getElementById('matricula').value = usuario.matricula;
-        document.getElementById('nome').value = usuario.nome;
-        document.getElementById('funcao').value = usuario.funcao;
-        modal.find('.modal-title').text('Editar Usuário');
-        modal.find('.password-field').hide();
-    } else {
-        modal.find('.modal-title').text('Novo Usuário');
-        modal.find('.password-field').show();
-    }
-    modal.modal('show');
-}
-async function updatePassword() {
-    const passwordData = {
-        codigo: document.getElementById('passwordUsuarioCodigo').value,
-        senha: document.getElementById('novaSenha').value
-    };
-
-    try {
-        const response = await fetch('/usuario/alterar/senha', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                ...authHeader()
-            },
-            body: JSON.stringify(passwordData)
-        });
-
-        if (response.ok) {
-            $('#passwordModal').modal('hide');
-            alert('Senha atualizada com sucesso!');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function showPasswordModal(codigo) {
-    document.getElementById('passwordUsuarioCodigo').value = codigo;
-    $('#passwordModal').modal('show');
-}
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
