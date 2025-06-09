@@ -201,7 +201,7 @@ FROM item]]></query>
 			<element kind="staticText" uuid="dcd61989-6319-4a81-986c-9473bf7ad8c3" x="0" y="149" width="60" height="28" fontSize="15.0">
 				<text><![CDATA[Código:]]></text>
 			</element>
-			<element kind="component" uuid="4df57c60-a1f0-4a6b-96f0-014034f7b693" x="170" y="30" width="199" height="90">
+			<element kind="component" uuid="4df57c60-a1f0-4a6b-96f0-014034f7b693" x="180" y="250" width="199" height="90">
 				<component kind="table" horizontalPosition="Center">
 					<datasetRun uuid="4e5eef1c-260a-4c1a-9f26-18d465788db5" subDataset="Dataset1">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
@@ -291,7 +291,33 @@ FROM item]]></query>
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				<property name="com.jaspersoft.studio.unit.width" value="px"/>
 			</element>
+			<element kind="component" uuid="ffe07a19-2490-466c-9e62-9d2945440d13" x="130" y="66" width="271" height="30">
+				<component kind="list">
+					<datasetRun uuid="5385b037-60ac-428c-bac9-e3d7d5a2f7e0" subDataset="Dataset1">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<contents height="30" width="271">
+						<element kind="textField" uuid="9dd7b7c6-0bf9-4de3-9aa5-73530802fc0d" x="0" y="0" width="17" height="30">
+							<expression><![CDATA[$F{codigo}]]></expression>
+						</element>
+						<element kind="textField" uuid="0efa1877-5ee0-4887-aa2e-98b00ab86855" x="17" y="0" width="17" height="30">
+							<expression><![CDATA[$F{descricao}]]></expression>
+						</element>
+						<element kind="textField" uuid="9fb7e5ec-8edd-4a14-9fc6-a8034a6c55cd" x="34" y="0" width="17" height="30">
+							<expression><![CDATA[$F{tipo}]]></expression>
+						</element>
+						<element kind="textField" uuid="50454d9f-fd4a-42af-a072-4296c526c318" x="51" y="0" width="17" height="30">
+							<expression><![CDATA[$F{valor_unitario}]]></expression>
+						</element>
+						<element kind="textField" uuid="c9ace287-240c-4fc7-8352-0c00d2bfc7e9" x="68" y="0" width="17" height="30">
+							<expression><![CDATA[$F{quant_comprada}]]></expression>
+						</element>
+						<element kind="textField" uuid="2cbcc8a8-ef22-445f-85a7-92fcf64ab559" x="85" y="0" width="17" height="30">
+							<expression><![CDATA[$F{valor_total_item}]]></expression>
+						</element>
+					</contents>
+				</component>
+			</element>
 		</band>
 	</detail>
-	<pageFooter height="54" splitType="Stretch"/>
 </jasperReport>
