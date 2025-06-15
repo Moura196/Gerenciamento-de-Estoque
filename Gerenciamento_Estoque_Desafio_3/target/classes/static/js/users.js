@@ -65,8 +65,114 @@ async function loadUsers() {
         throw error;
     }
 }
+//Carrega formulário de novo usuário
+async function loadNewUserForm() {
+    try {
+        const contentSection = document.getElementById('contentSection');
+        if (!contentSection) {
+            throw new Error('Elemento contentSection não encontrado');
+        }
 
+        const response = await fetch('/static/sections/novo-usuario.html');
+        if (!response.ok) throw new Error(`Erro HTTP! status: ${response.status}`);
+        
+        contentSection.innerHTML = await response.text();
+        setupNewUserForm();
+    } catch (error) {
+        console.error('Erro ao carregar formulário de novo usuário:', error);
+        showError(`Falha ao carregar formulário: ${error.message}`);
+    }
+}
+//configura os listners do formulário de novo usuário
+function setupNewUserForm() {
+    const btnVoltar = document.getElementById('btnVoltarUsuarios');
+    if (btnVoltar) {
+        btnVoltar.addEventListener('click', () => {
+            window.loadUsersSection();
+        });
+    }
+    const btnCancelar = document.getElementById('btnCancelarNovoUsuario');
+    if (btnCancelar) {
+        btnCancelar.addEventListener('click', () => {
+            window.loadUsersSection();
+        });
+    }
+    const form = document.getElementById('formNovoUsuario');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await createUser();
+        });
+    }
+}
+//Cria novo usuário
+async function createUser() {
+    const nome = document.getElementById('nome').value;
+    const funcao = document.getElementById('funcao').value;
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
 
+    // Validações
+    if (!nome || !funcao || !senha || !confirmarSenha) {
+        showNotification('Por favor, preencha todos os campos.', 'error');
+        return;
+    }
+    
+    if (senha !== confirmarSenha) {
+        showNotification('As senhas não coincidem!', 'error');
+        return;
+    }
+    
+    if (senha.length < 6) {
+        showNotification('A senha deve ter pelo menos 6 caracteres.', 'error');
+        return;
+    }
+
+    // Dados do novo usuário
+    const userData = {
+        nome,
+        funcao,
+        senha
+    };
+
+    try {
+        // Desativar o botão para evitar múltiplos cliques
+        const submitBtn = document.querySelector('#formNovoUsuario button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Salvando...';
+        
+        const response = await window.fetchWithAuth('/usuario/adicionar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || 'Erro ao criar usuário');
+        }
+        
+        const result = await response.json();
+        showNotification('Usuário criado com sucesso!', 'success');
+        
+        // Volta para a lista de usuários após 1 segundo
+        setTimeout(() => {
+            window.loadUsersSection();
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Erro ao criar usuário:', error);
+        showNotification(`Erro ao criar usuário: ${error.message}`, 'error');
+    } finally {
+        const submitBtn = document.querySelector('#formNovoUsuario button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Salvar Usuário';
+        }
+    }
+}
 //cerificação do Modal
 function setupEditListeners() {
     window.openEditModal = (userId) => {
@@ -241,6 +347,12 @@ function initUsers() {
     loadUsers().catch(error => {
         console.error('Erro no initUsers:', error);
     });
+    const btnNovoUsuario = document.getElementById('btnNovoUsuario');
+    if (btnNovoUsuario) {
+        btnNovoUsuario.addEventListener('click', loadNewUserForm);
+    } else {
+        console.error('Botão btnNovoUsuario não encontrado!');
+    }
 }
 
 window.initUsers = initUsers;

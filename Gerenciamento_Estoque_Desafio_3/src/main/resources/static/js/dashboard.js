@@ -140,3 +140,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 window.initDashboard = initDashboard;
+window.loadUsersSection = loadUsersSection;

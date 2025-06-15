@@ -2,6 +2,7 @@ package estoque.desafio.gerenciamento.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,14 @@ public class UsuarioService {
 	}
 
 	public Usuario criarUsuario(Usuario usuario) {
-		String pass = passwordEncoder.encode(usuario.getSenha());
-		usuario.setSenha(pass);
-		usuarioRepository.save(usuario);
-		return usuario;
+   
+    	String matriculaGerada = gerarMatriculaUnica();
+    	usuario.setMatricula(matriculaGerada);
+    
+    	String pass = passwordEncoder.encode(usuario.getSenha());
+    	usuario.setSenha(pass);
+    
+    	return usuarioRepository.save(usuario);
 	}
 
 	public List<Usuario> listarUsuarios() {
@@ -86,5 +91,15 @@ public class UsuarioService {
         	System.err.println(msg);
         	throw new RuntimeException(msg);
     	}
+	}
+	//Gera matricula automaticamente
+	private String gerarMatriculaUnica() {
+    	String matricula;
+    	do {
+        	int numero = ThreadLocalRandom.current().nextInt(100000, 1000000);
+       	 	matricula = String.valueOf(numero);
+    	} while (usuarioRepository.existsByMatricula(matricula)); 
+    
+    	return matricula;
 	}
 }
