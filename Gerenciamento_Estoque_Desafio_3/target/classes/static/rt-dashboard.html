@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-slate-500 text-white w-50 min-h-screen transition-all duration-300 p-5 flex flex-col items-center">
+        <button id="toggleSidebar" class="text-white text-2xl mb-8 focus:outline-none">
+            ☰
+        </button>
+        <nav class="flex flex-col items-center w-full">
+            <ul class="space-y-4">
+            <li>
+                <button class="menu-btn flex items-center space-y-1" data-section="projetos">
+                    <span class="icon">📂</span>
+                    <span class="text">Projetos</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex  items-center space-y-1" data-section="fornecedores">
+                    <span class="icon">🏢</span>
+                    <span class="text">Fornecedores</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex  items-center space-y-1" data-section="itens">
+                    <span class="icon">📦</span>
+                    <span class="text">Itens</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex items-center space-x-2" data-section="relatorios">
+                    <span class="icon">📊</span>
+                    <span class="text">Relatórios</span>
+                </button>
+            </li>
+            <li>
+                <button id="logoutBtn" class="menu-btn flex items-center space-x-2 text-red-500">
+                    <span class="icon">🚪</span>
+                    <span class="text">Logout</span>
+                </button>
+            </li>
+        </ul>
+        </nav>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow p-5">
+        <section id="content">
+            <h1 class="text-2xl font-bold">Bem-vindo ao Dashboard RP</h1>
+        </section>
+    </main>
+
+    <!-- Script para Interatividade -->
+    <script>
+        document.getElementById("toggleSidebar").addEventListener("click", function() {
+            const sidebar = document.getElementById("sidebar");
+            const texts = document.querySelectorAll(".text");
+
+            sidebar.classList.toggle("w-12");
+            sidebar.classList.toggle("items-center");  
+            texts.forEach(text => text.classList.toggle("hidden")); 
+        });
+
+        document.querySelectorAll(".menu-btn").forEach(button => {
+            button.addEventListener("click", function() {
+                document.getElementById("content").innerHTML = `<h2 class='text-xl font-bold'>${this.dataset.section}</h2>`;
+            });
+        });
+        document.getElementById("logoutBtn").addEventListener("click", function() {
+            localStorage.removeItem("token"); // 🔹 Remove o token JWT
+            window.location.href = "/login.html"; // 🔹 Redireciona para login
+        });
+    </script>
+
+</body>
+</html>
