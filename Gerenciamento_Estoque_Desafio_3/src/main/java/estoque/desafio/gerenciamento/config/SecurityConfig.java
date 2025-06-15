@@ -6,48 +6,55 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
 
-    private final OpenApiConfig openApiConfig;
+    private static final boolean DEV_MODE = true;
 
-    SecurityConfig(OpenApiConfig openApiConfig) {
-        this.openApiConfig = openApiConfig;
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+        if (DEV_MODE) {
+            http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/**").permitAll() // Permite tudo sem autenticação
+            )
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        } else {
+            http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/login.html", "/static/**", "/js/**", "/css/**").permitAll()
+                    .anyRequest().authenticated()
+                )
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JWTAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTValidateFilter(authenticationManager), BasicAuthenticationFilter.class);
+        }
+        return http.build();
     }
-	
-	@Bean
-	protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
-		return httpSecurity
-				.csrf(c -> c.disable())
-				.authorizeHttpRequests(
-		authorizeConfig -> {
-			authorizeConfig.requestMatchers("/usuario/**").hasRole("GP");  //.hasAnyRole("GP", "RT");
-			//authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
-			authorizeConfig.requestMatchers("/swagger-ui/**")
-				.permitAll()
-				.requestMatchers("/v3/api-docs/**")
-				.permitAll();
-			authorizeConfig.anyRequest().authenticated();
-		}
-						)
-				.addFilter(new JWTAuthenticationFilter(authenticationManager))
-				.addFilter(new JWTValidateFilter(authenticationManager))
-				.build();
-	}
-	
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+               .addResourceLocations("classpath:/static/", "classpath:/");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 }

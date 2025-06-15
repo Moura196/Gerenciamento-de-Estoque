@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="gp-dashboard-page bg-gray-100 flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-slate-500 text-white w-50 min-h-screen transition-all duration-300 p-5 flex flex-col items-center">
+        <button id="toggleSidebar" class="text-white text-2xl mb-8 focus:outline-none">
+            ☰
+        </button>
+        <nav class="flex flex-col items-center w-full">
+            <ul class="space-y-4">
+            <li>
+                <button id="btnUsers" class="menu-btn flex items-center space-y-1" data-section="usuarios">
+                    <span class="icon">👤</span>
+                    <span class="text">Usuários</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex items-center space-y-1" data-section="projetos">
+                    <span class="icon">📂</span>
+                    <span class="text">Projetos</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex  items-center space-y-1" data-section="fornecedores">
+                    <span class="icon">🏢</span>
+                    <span class="text">Fornecedores</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex  items-center space-y-1" data-section="compras">
+                    <span class="icon">🛒</span>
+                    <span class="text">Compras</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex  items-center space-y-1" data-section="itens">
+                    <span class="icon">📦</span>
+                    <span class="text">Itens</span>
+                </button>
+            </li>
+            <li>
+                <button class="menu-btn flex items-center space-x-2" data-section="relatorios">
+                    <span class="icon">📊</span>
+                    <span class="text">Relatórios</span>
+                </button>
+            </li>
+            <li>
+                <button id="logoutBtn" class="menu-btn flex items-center space-x-2 text-red-500">
+                    <span class="icon">🚪</span>
+                    <span class="text">Logout</span>
+                </button>
+            </li>
+        </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="flex-1 p-6">
+            <div id="contentSection" class="bg-white rounded-lg shadow p-6">
+                
+            </div>
+        </div>
+    </main>
+
+
+<script>
+    window.DEV_MODE = true; // Mude para false em produção
+    window.API_BASE_URL = '/api'; 
+</script>
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>

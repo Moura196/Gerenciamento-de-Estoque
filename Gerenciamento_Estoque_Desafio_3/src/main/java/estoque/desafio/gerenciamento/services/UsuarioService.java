@@ -5,10 +5,11 @@ import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import estoque.desafio.gerenciamento.entities.Usuario;
 import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
 import estoque.desafio.gerenciamento.repositories.UsuarioRepository;
+
 
 @Service
 public class UsuarioService {
@@ -56,4 +57,34 @@ public class UsuarioService {
 		return usuarioRepository.findByMatricula(matricula);
 	}
 
+	@Transactional
+	public Usuario atualizarUsuario(Usuario usuario) {
+    	if (usuario.getCodigo() == null) {
+        	throw new IllegalArgumentException("Código do usuário não pode ser nulo");
+    	}
+    
+    	System.out.println("Buscando usuário com ID: " + usuario.toString());
+    	Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuario.getCodigo());
+    
+    	if (usuarioExistente.isPresent()) {
+        	Usuario usuarioAtual = usuarioExistente.get();
+        	System.out.println("Usuário encontrado: " + usuarioAtual.toString());
+        
+        	
+        	if (usuario.getNome() != null) {
+            	usuarioAtual.setNome(usuario.getNome());
+        	}
+        
+        	if (usuario.getFuncao() != null) {
+            	usuarioAtual.setFuncao(usuario.getFuncao());
+        	}
+			System.out.println("Usuário após atualização: " + usuarioAtual.toString());
+        	return usuarioRepository.save(usuarioAtual);
+			
+    	} else {
+        	String msg = "Usuário não encontrado com o código: " + usuario.getCodigo();
+        	System.err.println(msg);
+        	throw new RuntimeException(msg);
+    	}
+	}
 }
