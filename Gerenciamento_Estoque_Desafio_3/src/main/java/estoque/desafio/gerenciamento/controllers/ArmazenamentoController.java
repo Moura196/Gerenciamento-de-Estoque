@@ -1,4 +1,5 @@
 package estoque.desafio.gerenciamento.controllers;
+
 import estoque.desafio.gerenciamento.entities.Armazenamento;
 import estoque.desafio.gerenciamento.services.ArmazenamentoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-
 
 @RestController
 @RequestMapping("/armazenamento")

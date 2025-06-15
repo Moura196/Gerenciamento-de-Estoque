@@ -22,7 +22,7 @@ public class UserDetailsCustom implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(usuario.orElse(new Usuario()).getFuncao());
-		Set<GrantedAuthority> authorities = new HashSet();
+		Set<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(authority);
 		return authorities;
 	}

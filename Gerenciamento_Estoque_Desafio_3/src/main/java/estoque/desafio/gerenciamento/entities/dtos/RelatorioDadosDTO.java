@@ -1,7 +1,7 @@
 package estoque.desafio.gerenciamento.entities.dtos;
 
-import java.time.LocalDate;
-import java.util.List;
+//import java.time.LocalDate;
+//import java.util.List;
 
 public class RelatorioDadosDTO {
 	

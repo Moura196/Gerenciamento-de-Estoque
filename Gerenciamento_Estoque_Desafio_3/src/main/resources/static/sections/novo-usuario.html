@@ -1,0 +1,44 @@
+<!-- /static/sections/novo-usuario.html -->
+<section class="p-6 bg-white rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Criar Novo Usuário</h2>
+        <button id="btnVoltarUsuarios" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-200 flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Voltar
+        </button>
+    </div>
+
+    <form id="formNovoUsuario" class="space-y-6">
+        <div>
+            <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+            <input type="text" id="nome" name="nome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+
+        <div>
+            <label for="funcao" class="block text-sm font-medium text-gray-700 mb-1">Função</label>
+            <select id="funcao" name="funcao" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <option value="">Selecione uma função</option>
+                <option value="GP">GP (Gerente de Projeto)</option>
+                <option value="RT">RT (Responsável Técnico)</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+            <input type="password" id="senha" name="senha" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="6">
+        </div>
+
+        <div>
+            <label for="confirmarSenha" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Senha</label>
+            <input type="password" id="confirmarSenha" name="confirmarSenha" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="6">
+        </div>
+
+        <div class="flex justify-end space-x-3">
+            <button type="button" id="btnCancelarNovoUsuario" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                Cancelar
+            </button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+                Salvar Usuário
+            </button>
+        </div>
+    </form>
+</section>
