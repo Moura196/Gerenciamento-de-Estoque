@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (funcao === "GP") {
                 window.location.href = "/static/gp-dashboard.html";
-            } else if (funcao === "RP") {
-                window.location.href = "/static/rp-dashboard.html";
+            } else if (funcao === "RT") {
+                window.location.href = "/static/rt-dashboard.html";
             } else {
                 alert("Usuário sem permissão.");
             }
