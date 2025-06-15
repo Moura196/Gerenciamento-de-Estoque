@@ -1,5 +1,4 @@
 package estoque.desafio.gerenciamento.controllers;
-
 import estoque.desafio.gerenciamento.entities.Armazenamento;
 import estoque.desafio.gerenciamento.services.ArmazenamentoService;
 import io.swagger.v3.oas.annotations.Operation;
