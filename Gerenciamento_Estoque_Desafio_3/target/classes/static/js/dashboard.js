@@ -3,12 +3,11 @@ if (!window.fetchWithAuth) {
     window.handleAuthError();
     throw new Error('Dependência auth.js não carregada');
 }
-
 //Carrega página
 function initDashboard() {  
     checkAuth().then(() => {
         setupDashboard();
-        loadUsersSection();
+        loadSection('usuarios');
     }).catch(error => {
         console.error("Authentication check failed:", error);
         window.handleAuthError();
@@ -16,19 +15,7 @@ function initDashboard() {
 }
 //Confere elementos e chama setupEventlistners
 async function setupDashboard() {
-    const btnUsers = document.getElementById('btnUsers');
-    const contentSection = document.getElementById('contentSection');
-    
-    if (!btnUsers || !contentSection) {
-        console.error('Elementos não encontrados!');
-        return;
-    }
-
-    btnUsers.addEventListener('click', async () => {
-        await loadUsersSection();
-    });
-
-    setupEventListeners();
+    setupEventListeners();  
 }
 //confirmação da presença do <scrip></scrip> na página
 function loadScript(src, callback) {
@@ -46,26 +33,66 @@ function loadScript(src, callback) {
         document.head.appendChild(script);
     });
 }
-//Monta a sessão users
-async function loadUsersSection() {
+//Carega as sections conforme o botão
+async function loadSection(sectionName) {
     try {
         const contentSection = document.getElementById('contentSection');
         if (!contentSection) {
             throw new Error('Elemento contentSection não encontrado');
         }
-        const response = await fetch('/static/sections/users.html');
-        if (!response.ok) throw new Error(`Erro HTTP! status: ${response.status}`);
-        
-        contentSection.innerHTML = await response.text();
-        await new Promise(resolve => setTimeout(resolve, 100));
-        await loadScript('/static/js/users.js');
-        if (typeof window.initUsers !== 'function') {
-            throw new Error('Função initUsers não disponível');
+        const sectionMap = {
+            'usuarios': {
+                html: 'users.html',
+                js: 'users.js',
+                initFunction: 'initUsers'
+            },
+            'fornecedores': {
+                html: 'fornecedores.html',
+                js: 'fornecedores.js',
+                initFunction: 'initFornecedores'
+            },
+            'projetos': {
+                html: 'projetos.html',
+                js: 'projetos.js',
+                initFunction: 'initProjetos'
+            },
+            'compras': {
+                html: 'compras.html',
+                js: 'compras.js',
+                initFunction: 'initCompras'
+            },
+            'itens': {
+                html: 'itens.html',
+                js: 'itens.js',
+                initFunction: 'initItens'
+            },
+            'relatorios': {
+                html: 'relatorios.html',
+                js: 'relatorios.js',
+                initFunction: 'initRelatorios'
+            }
+        };
+
+        const section = sectionMap[sectionName];
+        if (!section) {
+            throw new Error(`Seção '${sectionName}' não configurada`);
         }
-           window.initUsers();
-        } catch (error) {
-        console.error('Erro ao carregar seção de usuários:', error);
-        showError(`Falha ao carregar usuários: ${error.message}`);
+        const htmlResponse = await fetch(`/static/sections/${section.html}`);
+        if (!htmlResponse.ok) throw new Error(`Erro HTTP no HTML! status: ${htmlResponse.status}`);
+        contentSection.innerHTML = await htmlResponse.text();
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        await loadScript(`/static/js/${section.js}`);
+
+        const initFunction = window[section.initFunction];
+        if (typeof initFunction !== 'function') {
+            throw new Error(`Função ${section.initFunction} não disponível`);
+        }
+        
+        initFunction();
+    } catch (error) {
+        console.error(`Erro ao carregar seção ${sectionName}:`, error);
+        showError(`Falha ao carregar ${sectionName}: ${error.message}`);
     }
 }
 //Valida autenticação
@@ -115,10 +142,10 @@ function setupEventListeners() {
             texts.forEach(text => text.classList.toggle("hidden")); 
         });
     }
-
     document.querySelectorAll(".menu-btn").forEach(button => {
         button.addEventListener("click", function() {
-            document.getElementById("content").innerHTML = `<h2 class='text-xl font-bold'>${this.dataset.section}</h2>`;
+            const sectionName = this.dataset.section;
+            loadSection(sectionName);
         });
     });
 
@@ -130,6 +157,7 @@ function setupEventListeners() {
         });
     }
 }
+
 //Evento de confirmação initDashbord()
 document.addEventListener('DOMContentLoaded', function() {
     if (window.initDashboard) {
@@ -140,4 +168,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 window.initDashboard = initDashboard;
-window.loadUsersSection = loadUsersSection;
+window.initSection = loadSection;
