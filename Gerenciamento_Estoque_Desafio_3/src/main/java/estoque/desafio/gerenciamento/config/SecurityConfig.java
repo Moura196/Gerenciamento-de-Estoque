@@ -14,40 +14,39 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final OpenApiConfig openApiConfig;
+	private final OpenApiConfig openApiConfig;
+	private static final boolean DEV_MODE = true;
 
-    SecurityConfig(OpenApiConfig openApiConfig) {
-        this.openApiConfig = openApiConfig;
-    }
-	
+	SecurityConfig(OpenApiConfig openApiConfig) {
+		this.openApiConfig = openApiConfig;
+	}
+
 	@Bean
-	protected SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
+			AuthenticationManager authenticationManager) throws Exception {
 		return httpSecurity
 				.csrf(c -> c.disable())
-				.authorizeHttpRequests(
-		authorizeConfig -> {
-			authorizeConfig.requestMatchers("/usuario/**").hasRole("GP");  //.hasAnyRole("GP", "RT");
-			//authorizeConfig.requestMatchers("/projeto/add").hasAnyRole("GP", "RT"); // role vai ser ou GP(Gerente de Projeto) e RT(Responsável Técnico)
-			authorizeConfig.requestMatchers("/swagger-ui/**")
-				.permitAll()
-				.requestMatchers("/v3/api-docs/**")
-				.permitAll();
-			authorizeConfig.anyRequest().authenticated();
-		}
-						)
+				.authorizeHttpRequests(authorizeConfig -> {
+					authorizeConfig
+							.requestMatchers("/usuario/**").hasRole("GP")
+							.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+							.requestMatchers("/login.html", "/static/**", "/css/**", "/js/**", "/sections/**")
+							.permitAll()
+							.anyRequest().authenticated();
+				})
 				.addFilter(new JWTAuthenticationFilter(authenticationManager))
 				.addFilter(new JWTValidateFilter(authenticationManager))
 				.build();
 	}
-	
+
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
-
 }

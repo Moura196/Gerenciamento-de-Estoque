@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class JasperReportService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JasperReportService.class);
-	private static final String REPORT_PATH = "jasper/relatorios/Gerenciamento_Estoque.jasper";
+	// private static final String REPORT_PATH = "jasper/relatorios/Gerenciamento_Estoque.jasper";
 	private static final String DESTINOPDF = "C:\\jasper-report\\";
 
 	private final CompraRepository compraRepository;

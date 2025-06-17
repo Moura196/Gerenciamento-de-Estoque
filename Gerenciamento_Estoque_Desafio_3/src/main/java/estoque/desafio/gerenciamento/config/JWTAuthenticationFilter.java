@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.auth0.jwt.JWT;
@@ -36,7 +37,7 @@ public class JWTAuthenticationFilter extends  UsernamePasswordAuthenticationFilt
 		try {
 			Usuario usuario = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					usuario.getMatricula(), usuario.getSenha(), new ArrayList<>()
+					usuario.getMatricula(), usuario.getSenha(), new ArrayList<GrantedAuthority>()
 					));
 			
 		} catch (Exception e) {

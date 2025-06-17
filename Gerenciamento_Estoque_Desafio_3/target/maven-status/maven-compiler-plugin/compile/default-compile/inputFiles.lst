@@ -5,11 +5,14 @@ C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desaf
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\UserDetailsCustom.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\UserDetailsServiceCustom.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ArmazenamentoController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\AuthController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\CompraController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\FornecedorController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\GpController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ItemController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\JasperReportController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ProjetoController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\RpController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\UsuarioController.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Armazenamento.java
 C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Compra.java
