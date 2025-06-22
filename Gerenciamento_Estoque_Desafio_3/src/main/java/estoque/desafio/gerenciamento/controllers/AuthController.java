@@ -22,22 +22,22 @@ public class AuthController {
     public ResponseEntity<?> validateToken(HttpServletRequest request) {
         try {
             String atributo = request.getHeader("Authorization");
-
+            
             // Verificação inicial do token
             if(atributo == null || !atributo.startsWith(PREFIX)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-
+            
             String token = atributo.replace(PREFIX, "");
-
+            
             // Validação do token (reutilizando a lógica do JWTValidateFilter)
             JWT.require(Algorithm.HMAC256(SECRET_JWT))
                .build()
                .verify(token);
-
+            
             // Se chegou aqui, o token é válido
             return ResponseEntity.ok().build();
-
+            
         } catch (JWTVerificationException e) {
             // Token inválido ou expirado
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
