@@ -37,7 +37,7 @@ public class ProjetoService {
 		return projetoRepository.findAll();
 	}
 	
-	public Projeto editarProjeto(int idProjeto, Projeto projetoRequest) {
+	public Projeto editarProjeto(Long idProjeto, Projeto projetoRequest) {
 		Optional<Projeto> projetoExistenteOptional = projetoRepository.findByIdProjeto(idProjeto);
 
 		return projetoExistenteOptional.map(projeto -> {

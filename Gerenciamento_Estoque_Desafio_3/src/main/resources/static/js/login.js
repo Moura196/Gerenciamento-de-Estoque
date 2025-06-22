@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const matricula = document.getElementById("matricula").value;
         const senha = document.getElementById("senha").value;
 
-        const response = await fetch("/login", {
+        const response = await fetch("/usuario/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ matricula, senha })

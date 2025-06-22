@@ -2,6 +2,7 @@ package estoque.desafio.gerenciamento.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,15 +53,15 @@ public class ProjetoController {
 	}
 	
 	@Operation(summary = "Edita um projeto:")
-	@PatchMapping("/alterar/{idProjeto}")
-	public ResponseEntity<?> editarProjeto(@PathVariable int idProjeto, @RequestBody Projeto projeto) {
-		try {
-			Projeto projetoEditado = projetoService.editarProjeto(idProjeto, projeto);
-			return ResponseEntity.ok(projetoEditado);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
-	}
+	@PatchMapping("/alterar/{codigo}")
+	public ResponseEntity<?> editarProjeto(@PathVariable Long idProjeto, @RequestBody Projeto projeto) {
+        try {
+            Projeto projetoEditado = projetoService.editarProjeto(idProjeto, projeto);
+            return ResponseEntity.ok(projetoEditado);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao editar projeto: " + e.getMessage(), HttpStatus.GATEWAY_TIMEOUT);
+        }
+    }
 	
 	@Operation(summary = "Deleta um projeto:")
 	@DeleteMapping("/excluir/{codigo}")

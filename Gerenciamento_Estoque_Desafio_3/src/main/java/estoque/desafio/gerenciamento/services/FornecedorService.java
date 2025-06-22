@@ -36,6 +36,9 @@ public class FornecedorService {
         return fornecedorRepository.findByNome(nome);
     }
 
+    public Optional<Fornecedor> buscarFornecedorPorId(Long id) {
+        return fornecedorRepository.findById(id);
+    }
 
     public Fornecedor editarFornecedor(String nome, Fornecedor fornecedorRequest) {
         Optional<Fornecedor> fornecedorExistenteOptional = fornecedorRepository.findByNome(nome);

@@ -5,6 +5,7 @@ import estoque.desafio.gerenciamento.services.FornecedorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,5 +78,13 @@ public class FornecedorController {
         } catch (Exception e) {
             return new ResponseEntity<>("Erro ao excluir fornecedor: ", HttpStatusCode.valueOf(504));
         }
+    }
+    
+    @Operation(summary = "Busca por código:")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable Long id) {
+        return fornecedorService.buscarFornecedorPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

@@ -8,6 +8,6 @@ import estoque.desafio.gerenciamento.entities.Projeto;
 
 public interface ProjetoRepository extends JpaRepository<Projeto, Long> {
 
-	Optional<Projeto> findByIdProjeto(int idProjeto);
+	Optional<Projeto> findByIdProjeto(Long idProjeto);
 
 }

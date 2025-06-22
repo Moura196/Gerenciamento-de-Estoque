@@ -86,18 +86,20 @@ async function loadNewUserForm() {
 //configura os listners do formulário de novo usuário
 function setupNewUserForm() {
     const btnVoltar = document.getElementById('btnVoltarUsuarios');
+    const btnCancelar = document.getElementById('btnCancelarNovoUsuario');
+    const form = document.getElementById('formNovoUsuario');
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
-            window.loadUsersSection();
+            window.loadSection('usuarios');
         });
     }
-    const btnCancelar = document.getElementById('btnCancelarNovoUsuario');
+    
     if (btnCancelar) {
         btnCancelar.addEventListener('click', () => {
-            window.loadUsersSection();
+            window.loadSection('usuarios');
         });
     }
-    const form = document.getElementById('formNovoUsuario');
+    
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -159,7 +161,7 @@ async function createUser() {
         
         // Volta para a lista de usuários após 1 segundo
         setTimeout(() => {
-            window.loadUsersSection();
+            window.loadSection('usuarios');
         }, 1000);
         
     } catch (error) {
@@ -354,9 +356,17 @@ function initUsers() {
         console.error('Botão btnNovoUsuario não encontrado!');
     }
 }
+//REmove listenrs
+function cleanupUsers() {
+    
+    const btn = document.getElementById('btnNovoUsuario');
+    if (btn) btn.replaceWith(btn.cloneNode(true));
+    
+}
 
 window.initUsers = initUsers;
 window.loadUsers = loadUsers; 
+window.cleanupUsers = cleanupUsers;
 // Teste de funcionamento do botão Cancelar
 console.log('Botão Cancelar:', document.getElementById('cancelEditBtn') ? 'Encontrado' : 'Não encontrado');
 

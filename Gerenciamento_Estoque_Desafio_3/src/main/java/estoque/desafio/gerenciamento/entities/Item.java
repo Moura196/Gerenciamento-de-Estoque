@@ -1,8 +1,11 @@
 package estoque.desafio.gerenciamento.entities;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,9 +21,9 @@ public class Item {
 	private String patrimonio;
 	private String descricao;
 	private String tipo;
-	private double valorUnitario;
+	private BigDecimal valorUnitario;
 	private int quantComprada;
-	private double valorTotalItem;
+	private BigDecimal valorTotalItem;
 	
 	@ManyToOne
 	@JoinColumn(name = "fornecedor", nullable = false)
@@ -32,10 +35,10 @@ public class Item {
 	@JsonIgnoreProperties("itens")
 	private Armazenamento armazenamento;
 	
-	@ManyToOne
-	@JoinColumn(name = "compra", nullable = false)
-	@JsonIgnoreProperties("itens")
-	private Compra compra;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "compra_id")
+    @JsonIgnoreProperties("itens")
+    private Compra compra;
 
 	public Long getCodigo() {
 		return codigo;
@@ -69,11 +72,11 @@ public class Item {
 		this.tipo = tipo;
 	}
 
-	public double getValorUnitario() {
+	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
 
-	public void setValorUnitario(double valoUnitario) {
+	public void setValorUnitario(BigDecimal valoUnitario) {
 		this.valorUnitario = valoUnitario;
 	}
 
@@ -85,11 +88,11 @@ public class Item {
 		this.quantComprada = quantComprada;
 	}
 
-	public double getValorTotalItem() {
+	public BigDecimal getValorTotalItem() {
 		return this.valorTotalItem;
 	}
 
-	public void setValorTotalItem(double valorTotalItem) {
+	public void setValorTotalItem(BigDecimal valorTotalItem) {
 		this.valorTotalItem = valorTotalItem;
 	}
 
