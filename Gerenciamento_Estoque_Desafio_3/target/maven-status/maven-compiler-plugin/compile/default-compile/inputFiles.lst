@@ -1,42 +1,42 @@
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\JacksonConfig.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\JWTAuthenticationFilter.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\JWTValidateFilter.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\OpenApiConfig.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\SecurityConfig.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\UserDetailsCustom.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\UserDetailsServiceCustom.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ArmazenamentoController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\AuthController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\CompraController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\FornecedorController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\GpController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ItemController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\JasperReportController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ProjetoController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\RpController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\UsuarioController.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Armazenamento.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Compra.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\AtualizarSenhaDTO.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\CompraInputDTO.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\ItemDTO.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\ItemRelatorioDTO.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\RelatorioDadosDTO.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Fornecedor.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Item.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Projeto.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Usuario.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\GerenciamentoEstoqueDesafio3Application.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\ArmazenamentoRepository.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\CompraRepository.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\FornecedorRepository.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\ItemRepository.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\ProjetoRepository.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\UsuarioRepository.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\ArmazenamentoService.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\CompraService.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\FornecedorService.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\ItemService.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\JasperReportService.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\ProjetoService.java
-C:\Users\Denis\OneDrive\Área de Trabalho\Unisenai-ADS\Projeto aplicado 4\estoque\denis_develop\gerenciamentodeestoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\UsuarioService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\JacksonConfig.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\JWTAuthenticationFilter.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\JWTValidateFilter.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\OpenApiConfig.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\SecurityConfig.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\UserDetailsCustom.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\config\UserDetailsServiceCustom.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ArmazenamentoController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\AuthController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\CompraController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\FornecedorController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\GpController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ItemController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\JasperReportController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\ProjetoController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\RpController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\controllers\UsuarioController.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Armazenamento.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Compra.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\AtualizarSenhaDTO.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\CompraInputDTO.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\ItemDTO.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\ItemRelatorioDTO.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\dtos\RelatorioDadosDTO.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Fornecedor.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Item.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Projeto.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\entities\Usuario.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\GerenciamentoEstoqueDesafio3Application.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\ArmazenamentoRepository.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\CompraRepository.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\FornecedorRepository.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\ItemRepository.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\ProjetoRepository.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\repositories\UsuarioRepository.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\ArmazenamentoService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\CompraService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\FornecedorService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\ItemService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\JasperReportService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\ProjetoService.java
+C:\Gerenciamento-de-Estoque\Gerenciamento-de-Estoque\Gerenciamento_Estoque_Desafio_3\src\main\java\estoque\desafio\gerenciamento\services\UsuarioService.java
