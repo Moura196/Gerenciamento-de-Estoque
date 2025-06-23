@@ -23,6 +23,7 @@ import estoque.desafio.gerenciamento.entities.Item;
 import estoque.desafio.gerenciamento.services.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/item")
@@ -66,7 +67,7 @@ public class ItemController {
         return itemService.buscarPorId(id)
                 .map(item -> {
                     ItemDTO dto = new ItemDTO();
-                    dto.setId(item.getCodigo());
+                    dto.setCodigo(item.getCodigo());
                     dto.setDescricao(item.getDescricao());
                     dto.setValorUnitario(item.getValorUnitario());
                     dto.setPatrimonio(item.getPatrimonio());
@@ -103,14 +104,14 @@ public class ItemController {
         }
     }
 
-    @Operation(summary = "Edita um item genérico:")
     @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarItem(@RequestBody Item itemAtualizado) {
+    public ResponseEntity<?> atualizarItem(@RequestBody @Valid ItemDTO itemDTO) {
         try {
-            Item itemSalvo = itemService.atualizarItem(itemAtualizado);
-            return ResponseEntity.ok(itemSalvo);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Item itemAtualizado = itemService.atualizarItem(itemDTO);
+            return ResponseEntity.ok(itemAtualizado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Erro ao atualizar item: " + e.getMessage());
         }
     }
 
@@ -125,23 +126,23 @@ public class ItemController {
         }
     }
 
-    @Operation(summary = "Edita um item:")
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<?> atualizarItem(
-            @PathVariable Long id,
-            @RequestBody Item itemAtualizado) {
+    // @Operation(summary = "Edita um item:")
+    // @PutMapping("/atualizar/{id}")
+    // public ResponseEntity<?> atualizarItem(
+    //         @PathVariable Long id,
+    //         @RequestBody Item itemAtualizado) {
 
-        try {
-            if (!id.equals(itemAtualizado.getCodigo())) {
-                return ResponseEntity.badRequest().body("ID do item não corresponde");
-            }
+    //     try {
+    //         if (!id.equals(itemAtualizado.getCodigo())) {
+    //             return ResponseEntity.badRequest().body("ID do item não corresponde");
+    //         }
 
-            Item itemSalvo = itemService.atualizarItem(itemAtualizado);
-            return ResponseEntity.ok(itemSalvo);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao atualizar item");
-        }
-    }
+    //         Item itemSalvo = itemService.atualizarItem(itemAtualizado);
+    //         return ResponseEntity.ok(itemSalvo);
+    //     } catch (RuntimeException e) {
+    //         return ResponseEntity.badRequest().body(e.getMessage());
+    //     } catch (Exception e) {
+    //         return ResponseEntity.internalServerError().body("Erro ao atualizar item");
+    //     }
+    // }
 }

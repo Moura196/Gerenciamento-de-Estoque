@@ -72,11 +72,11 @@ const sectionMap = {
         dependencies: ['fetchWithAuth'],
         css: null
     },
-    'relatorios': {
-        name: 'relatorios',
-        html: 'relatorios.html',
-        js: 'relatorios.js',
-        initFunction: 'initRelatorios'
+    'armazenamentos': {
+        name: 'armazenamentos',
+        html: 'armazenamentos.html',
+        js: 'armazenamentos.js',
+        initFunction: 'initArmazenamentos'
     }
 };
 

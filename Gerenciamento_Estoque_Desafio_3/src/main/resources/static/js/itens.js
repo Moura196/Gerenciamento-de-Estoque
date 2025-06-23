@@ -8,11 +8,11 @@ function renderItens(itens) {
     try {
         const tableBody = document.getElementById('itens-table-tbody');
         if (!tableBody) throw new Error('Tabela de itens não encontrada');
-        
+        console.log('Dados recebidos:', itens);
         tableBody.innerHTML = itens.map(item => `
             <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 whitespace-nowrap">${item.codigo}</td>
-                <td class="px-6 py-4 whitespace-nowrap">${item.patrimonio}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${item.armazenamento?.codigo || 'N/A'}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${item.descricao}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${item.tipo}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${formatCurrency(item.valorUnitario)}</td>
@@ -190,10 +190,17 @@ async function createItem() {
             valorUnitario: parseFloat(formData.get('valorUnitario')),
             quantComprada: parseInt(formData.get('quantComprada')),
             valorTotalItem: parseFloat(document.getElementById('novoValorTotalItem').value),
-            fornecedor: { codigo: fornecedor.codigo },
-            armazenamento: { codigo: armazenamento.codigo },
-            compra: { codigo: compra.codigo }
+            fornecedor: { 
+                codigo: parseInt(fornecedorSelect.value),
+            },
+            armazenamento: {
+                codigo: parseInt(armazenamentoSelect.value),
+            },
+            compra: {
+                codigo: parseInt(compraSelect.value)
+            }
         };
+        console.log("Dados sendo enviados:", JSON.stringify(itemData, null, 2));
 
         const response = await window.fetchWithAuth('/item/adicionar', {
             method: 'POST',
@@ -246,8 +253,8 @@ async function openEditModal(itemId) {
         
         document.getElementById('displayItemId').textContent = item.codigo;
         document.getElementById('editItemId').value = item.codigo;
-
-        document.getElementById('editPatrimonio').value = item.patrimonio || '';
+        
+        document.getElementById('editArmazenamento').value = item.armazenamento?.codigo || '';
         document.getElementById('editDescricao').value = item.descricao || '';
         document.getElementById('editTipo').value = item.tipo || '';
         document.getElementById('editValorUnitario').value = item.valorUnitario || '';
@@ -365,15 +372,9 @@ async function updateItem() {
             tipo: document.getElementById('editTipo').value,
             valorUnitario: parseFloat(document.getElementById('editValorUnitario').value),
             quantComprada: parseInt(document.getElementById('editQuantComprada').value),
-            fornecedor: { 
-                codigo: parseInt(document.getElementById('editFornecedor').value) 
-            },
-            armazenamento: {
-                codigo: parseInt(document.getElementById('editArmazenamento').value)
-            },
-            compra: {
-                codigo: parseInt(document.getElementById('editCompra').value)
-            }
+            fornecedorCodigo: parseInt(document.getElementById('editFornecedor').value) || null,
+            armazenamentoCodigo: parseInt(document.getElementById('editArmazenamento').value) || null,
+            compraCodigo: parseInt(document.getElementById('editCompra').value) || null
         };
 
         const response = await window.fetchWithAuth('/item/atualizar', {

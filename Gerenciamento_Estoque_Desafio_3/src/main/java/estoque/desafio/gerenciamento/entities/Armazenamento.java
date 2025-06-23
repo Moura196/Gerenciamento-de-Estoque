@@ -11,15 +11,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Armazenamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codigo;
-	private String sala;
-	private String armario;
+    private Long codigo;
+    
+    @NotBlank(message = "Sala é obrigatória")
+    private String sala;
+    
+    @NotBlank(message = "Armário é obrigatório")
+    private String armario;
 	
 	@OneToMany(mappedBy = "armazenamento")
 	@JsonIgnoreProperties("armazenamento")

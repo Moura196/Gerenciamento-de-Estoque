@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import estoque.desafio.gerenciamento.entities.dtos.ItemDTO;
 import estoque.desafio.gerenciamento.entities.Armazenamento;
 import estoque.desafio.gerenciamento.entities.Compra;
 import estoque.desafio.gerenciamento.entities.Fornecedor;
@@ -33,38 +34,27 @@ public class ItemService {
 		this.compraRepository = compraRepository;
 	}
 
-	public Item criarItem(Item itemRequest) {
-		return compraRepository.findById(itemRequest.getCompra().getCodigo())
-				.map(compra -> {
-					return fornecedorRepository.findById(itemRequest.getFornecedor().getCodigo())
-							.map(fornecedor -> {
-								return armazenamentoRepository.findById(itemRequest.getArmazenamento().getCodigo())
-										.map(armazenamento -> {
-											Item item = new Item();
-											item.setPatrimonio(itemRequest.getPatrimonio());
-											item.setDescricao(itemRequest.getDescricao());
-											item.setTipo(itemRequest.getTipo());
-											item.setValorUnitario(itemRequest.getValorUnitario());
-											item.setQuantComprada(itemRequest.getQuantComprada());
-											BigDecimal valorTotal = itemRequest.getValorUnitario()
-                                                .multiply(new BigDecimal(itemRequest.getQuantComprada()));
-                                        	item.setValorTotalItem(valorTotal);
-											item.setCompra(compra);
-											item.setFornecedor(fornecedor);
-											item.setArmazenamento(armazenamento);
-											Item itemSalvo = itemRepository.save(item);
-											atualizarValorTotalInvoice(compra.getCodigo());
-											return itemSalvo;
-										})
-										.orElseThrow(() -> new RuntimeException("Armazenamento com a sala "
-												+ itemRequest.getArmazenamento().getSala() + " e "
-												+ itemRequest.getArmazenamento().getArmario() + " não encontrado."));
-							})
-							.orElseThrow(() -> new RuntimeException("Fornecedor com o nome "
-									+ itemRequest.getFornecedor().getNome() + " não encontrado."));
-				})
-				.orElseThrow(() -> new RuntimeException(
-						"Compra com o código " + itemRequest.getCompra().getCodigo() + " não encontrada."));
+	public Item criarItem(Item item) {
+		Compra compra = compraRepository.findById(item.getCompra().getCodigo())
+            .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+
+		Fornecedor fornecedor = fornecedorRepository.findById(item.getFornecedor().getCodigo())
+				.orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+
+		Armazenamento armazenamento = armazenamentoRepository.findById(item.getArmazenamento().getCodigo())
+				.orElseThrow(() -> new RuntimeException("Armazenamento não encontrado"));
+
+		item.setPatrimonio(item.getPatrimonio());
+		item.setDescricao(item.getDescricao());
+		item.setTipo(item.getTipo());
+		item.setValorUnitario(item.getValorUnitario());
+		item.setQuantComprada(item.getQuantComprada());
+		item.setValorTotalItem(item.getValorTotalItem());
+		item.setFornecedor(fornecedor);
+		item.setArmazenamento(armazenamento);
+		item.setCompra(compra);
+
+		return itemRepository.save(item);
 	}
 
 	public List<Item> listarItens() {
@@ -154,53 +144,52 @@ public class ItemService {
 
 	private void atualizarValorTotalInvoice(Long codigo) {
 		compraRepository.findById(codigo).ifPresent(compra -> {
-        	Set<Item> itensDaCompra = compra.getItens();
-        	BigDecimal valorTotal = BigDecimal.ZERO;
-        
-        if (itensDaCompra != null && !itensDaCompra.isEmpty()) {
-            valorTotal = itensDaCompra.stream()
-                .map(item -> item.getValorTotalItem()) 
-                .filter(Objects::nonNull) 
-                .reduce(BigDecimal.ZERO, BigDecimal::add); 
-        }
-        
-        compra.setValorTotalInvoice(valorTotal);
-        compraRepository.save(compra);
-    });
+			Set<Item> itensDaCompra = compra.getItens();
+			BigDecimal valorTotal = BigDecimal.ZERO;
+
+			if (itensDaCompra != null && !itensDaCompra.isEmpty()) {
+				valorTotal = itensDaCompra.stream()
+						.map(item -> item.getValorTotalItem())
+						.filter(Objects::nonNull)
+						.reduce(BigDecimal.ZERO, BigDecimal::add);
+			}
+
+			compra.setValorTotalInvoice(valorTotal);
+			compraRepository.save(compra);
+		});
 	}
 
 	public void excluirItem(Long codigo) {
 		itemRepository.deleteById(codigo);
 	}
 
-	public Item atualizarItem(Item itemAtualizado) {
-		Item item = itemRepository.findById(itemAtualizado.getCodigo())
+	public Item atualizarItem(ItemDTO itemDTO) {
+		Item item = itemRepository.findById(itemDTO.getCodigo())
 				.orElseThrow(() -> new RuntimeException("Item não encontrado"));
 
-		item.setPatrimonio(itemAtualizado.getPatrimonio());
-		item.setDescricao(itemAtualizado.getDescricao());
-		item.setTipo(itemAtualizado.getTipo());
-		item.setValorUnitario(itemAtualizado.getValorUnitario());
-		item.setQuantComprada(itemAtualizado.getQuantComprada());
+		item.setPatrimonio(itemDTO.getPatrimonio());
+		item.setDescricao(itemDTO.getDescricao());
+		item.setTipo(itemDTO.getTipo());
+		item.setValorUnitario(itemDTO.getValorUnitario());
+		item.setQuantComprada(itemDTO.getQuantComprada());
 
-		if (itemAtualizado.getFornecedor() != null) {
-			Fornecedor fornecedor = fornecedorRepository.findById(itemAtualizado.getFornecedor().getCodigo())
+		// Atualize as relações conforme necessário
+		if (itemDTO.getFornecedorCodigo() != null) {
+			Fornecedor fornecedor = fornecedorRepository.findById(itemDTO.getFornecedorCodigo())
 					.orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
 			item.setFornecedor(fornecedor);
 		}
-
-		if (itemAtualizado.getArmazenamento() != null) {
-			Armazenamento armazenamento = armazenamentoRepository
-					.findById(itemAtualizado.getArmazenamento().getCodigo())
-					.orElseThrow(() -> new RuntimeException("Armazenamento não encontrado"));
+		if (itemDTO.getArmazenamentoCodigo() != null) {
+			Armazenamento armazenamento = armazenamentoRepository.findById(itemDTO.getArmazenamentoCodigo())
+					.orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
 			item.setArmazenamento(armazenamento);
 		}
-
-		if (itemAtualizado.getCompra() != null) {
-			Compra compra = compraRepository.findById(itemAtualizado.getCompra().getCodigo())
-					.orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+		if (itemDTO.getCompraCodigo() != null) {
+			Compra compra = compraRepository.findById(itemDTO.getCompraCodigo())
+					.orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
 			item.setCompra(compra);
 		}
+		// Repita para armazenamento e compra
 
 		return itemRepository.save(item);
 	}
