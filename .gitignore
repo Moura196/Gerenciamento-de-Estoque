@@ -49,3 +49,4 @@ Gerenciamento_Estoque_Desafio_3/.env.local
 # Se houver .vscode/ ou .idea/ na pasta pai ou dentro do projeto aninhado
 .vscode/
 .idea/
+/Gerenciamento_Estoque_Desafio_3/target
