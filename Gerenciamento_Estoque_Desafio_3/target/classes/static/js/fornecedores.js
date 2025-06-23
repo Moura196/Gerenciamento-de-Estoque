@@ -21,7 +21,7 @@ function renderFornecedores(fornecedores) {
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex space-x-2">
                     <!-- Botão Editar -->
-                        <button data-fornecedor-id="${fornecedor.codigo}" 
+                        <button data-fornecedor-nome="${fornecedor.nome}" 
                             class="edit-btn p-2 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors"
                             title="Editar fornecedor">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,15 +35,8 @@ function renderFornecedores(fornecedores) {
         
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', () => {
-                const fornecedorId = button.dataset.fornecedorId;
-                openEditModal(fornecedorId);
-            });
-        });
-        
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const fornecedorId = button.dataset.fornecedorId;
-                deleteFornecedor(fornecedorId);
+                const fornecedorNome = button.dataset.fornecedorNome;
+                openEditModal(fornecedorNome);
             });
         });
         
@@ -73,8 +66,8 @@ async function loadFornecedores() {
     }
 }
 //Abre modal de edição
-function openEditModal(fornecedorId) {
-    fetchFornecedorData(fornecedorId)
+function openEditModal(fornecedorNome) {
+    fetchFornecedorData(fornecedorNome)
         .then(fornecedor => {
             document.getElementById('editFornecedorId').value = fornecedor.codigo;
             document.getElementById('editFornecedorNomeOriginal').value = fornecedor.nome;
@@ -94,22 +87,15 @@ function openEditModal(fornecedorId) {
 //Busca fornecedor pelo id
 async function fetchFornecedorData(fornecedorId) {
     try {
-        // Primeiro buscamos o fornecedor pelo ID para obter o nome
-        const responseById = await window.fetchWithAuth(`/fornecedor/buscar/${fornecedorId}`);
-        
-        if (!responseById.ok) {
-            throw new Error(`Erro na requisição: ${responseById.status}`);
-        }
-        
-        const fornecedorById = await responseById.json();
-        const response = await window.fetchWithAuth(`/fornecedor/buscar?nome=${encodeURIComponent(fornecedorById.nome)}`);
+        // Busca direta pelo nome usando o ID armazenado na tabela
+        const response = await window.fetchWithAuth(`/fornecedor/buscar?nome=${encodeURIComponent(fornecedorId)}`);
         
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
         
         const fornecedores = await response.json();
-        return fornecedores[0];
+        return fornecedores[0]; // Retorna o primeiro resultado
         
     } catch (error) {
         console.error('Erro ao buscar dados do fornecedor:', error);
@@ -146,14 +132,14 @@ function hideEditModal() {
     }, 300);
 }
 //Atualiza fornecedor
-async function updateFornecedor(fornecedorId, fornecedorData) {
+async function updateFornecedor(nomeOriginal, fornecedorData) {
     try {
-        const fornecedorAtual = await fetchFornecedorData(fornecedorId);
-        const response = await window.fetchWithAuth(`/fornecedor/editar/${encodeURIComponent(fornecedorAtual.nome)}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+        const url = `/fornecedor/alterar/${encodeURIComponent(nomeOriginal)}`;
+        console.log("Enviando PATCH para:", url, "com dados:", fornecedorData);
+        
+        const response = await window.fetchWithAuth(url, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(fornecedorData)
         });
         
@@ -182,7 +168,7 @@ async function deleteFornecedor(fornecedorId) {
         }
         
         showNotification('Fornecedor excluído com sucesso!', 'success');
-        loadFornecedores();
+        window.loadSection('fornecedores');
     } catch (error) {
         console.error('Erro ao excluir fornecedor:', error);
         showNotification(`Erro ao excluir fornecedor: ${error.message}`, 'error');
@@ -191,7 +177,7 @@ async function deleteFornecedor(fornecedorId) {
 //Eventos do modal
 function setupEditModalListeners() {
     document.getElementById('updateFornecedorBtn').addEventListener('click', async () => {
-        const fornecedorId = document.getElementById('editFornecedorNomeOriginal').value;
+         const nomeOriginal = document.getElementById('editFornecedorNomeOriginal').value;
         
         const fornecedorData = {
             nome: document.getElementById('editNome').value,
@@ -205,10 +191,10 @@ function setupEditModalListeners() {
             await updateFornecedor(nomeOriginal, fornecedorData);
             hideEditModal();
             showNotification('Fornecedor atualizado com sucesso!', 'success');
-            loadFornecedores();
+            window.loadSection('fornecedores');
         } catch (error) {
             console.error('Erro ao atualizar fornecedor:', error);
-            showNotification('Erro ao atualizar fornecedor', 'error');
+            showNotification('Erro ao atualizar fornecedor: ${error.message}', 'error');
         }
     });
     
@@ -255,7 +241,7 @@ function setupNewFornecedorForm() {
     const btnCancelar = document.getElementById('btnCancelarNovoFornecedor');
     if (btnCancelar) {
         btnCancelar.addEventListener('click', () => {
-            loadSection();
+            window.loadSection('fornecedores')
         });
     }
      const btnVoltar = document.getElementById('btnVoltarFornecedores');
@@ -313,4 +299,12 @@ function initFornecedores() {
     loadFornecedores();
 }
 
+function cleanupFornecedores() {
+
+    const btn = document.getElementById('btnNovoFornecedor');
+    if (btn) btn.replaceWith(btn.cloneNode(true));
+    
+}
+
 window.initFornecedores = initFornecedores;
+window.cleanupFornecedores = cleanupFornecedores;

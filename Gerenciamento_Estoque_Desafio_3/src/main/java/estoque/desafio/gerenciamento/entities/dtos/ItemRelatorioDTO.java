@@ -1,13 +1,15 @@
 package estoque.desafio.gerenciamento.entities.dtos;
 
+import java.math.BigDecimal;
+
 public class ItemRelatorioDTO {
 	
 	private Long codigo;
 	private String descricao;
 	private String tipo;
-	private double valorUnitario;
+	private BigDecimal valorUnitario;
 	private int quantComprada;
-	private double valorTotalItem;
+	private BigDecimal valorTotalItem;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -33,11 +35,11 @@ public class ItemRelatorioDTO {
 		this.tipo = tipo;
 	}
 	
-	public double getValorUnitario() {
+	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
 	
-	public void setValorUnitario(double valorUnitario) {
+	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
 	
@@ -49,11 +51,11 @@ public class ItemRelatorioDTO {
 		this.quantComprada = quantComprada;
 	}
 	
-	public double getValorTotalItem() {
+	public BigDecimal getValorTotalItem() {
 		return valorTotalItem;
 	}
 	
-	public void setValorTotalItem(double valorTotalItem) {
+	public void setValorTotalItem(BigDecimal valorTotalItem) {
 		this.valorTotalItem = valorTotalItem;
 	}
 	
