@@ -46,6 +46,7 @@ public class Compra {
 	
 	@OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Item> itens = new HashSet<>();
+	
 	public Long getCodigo() {
 		return codigo;
 	}

@@ -584,7 +584,6 @@ function setupEditModalListeners() {
 //Função de inicialização
 function initCompras() {
     console.log('Inicializando módulo de compras...');
-
     setupEditModalListeners();
     loadCompras().catch(error => {
         console.error('Erro no initCompras:', error);
