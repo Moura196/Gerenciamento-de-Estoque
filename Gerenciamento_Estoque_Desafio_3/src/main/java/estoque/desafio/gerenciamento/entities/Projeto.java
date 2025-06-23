@@ -14,14 +14,17 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Projeto")
 public class Projeto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	private int idProjeto;
-	private String apelidoProjeto;
+    private Long idProjeto;
+    private String apelidoProjeto;
+    private String nome;
+    
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario", nullable = false)
@@ -32,44 +35,47 @@ public class Projeto {
 	@JsonIgnoreProperties("projeto")
 	private Set<Compra> compras;
 
-	public Long getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
-
-	public int getIdProjeto() {
-		return idProjeto;
-	}
-
-	public void setIdProjeto(int idProjeto) {
-		this.idProjeto = idProjeto;
-	}
-
-	public String getApelidoProjeto() {
-		return apelidoProjeto;
-	}
-
-	public void setApelidoProjeto(String apelidoProjeto) {
-		this.apelidoProjeto = apelidoProjeto;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Set<Compra> getCompras() {
-		return compras;
-	}
-
-	public void setCompras(Set<Compra> compras) {
-		this.compras = compras;
-	}
+	public Projeto() {}
+    
+    // Getters e Setters
+    public Long getCodigo() {
+        return codigo;
+    }
+    
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+    
+    public Long getIdProjeto() {
+        return idProjeto;
+    }
+    
+    public void setIdProjeto(Long idProjeto) {
+        this.idProjeto = idProjeto;
+    }
+    
+    public String getApelidoProjeto() {
+        return apelidoProjeto;
+    }
+    
+    public void setApelidoProjeto(String apelidoProjeto) {
+        this.apelidoProjeto = apelidoProjeto;
+    }
+    
+    public String getNome() {
+        return nome;
+    }
+    
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
 }

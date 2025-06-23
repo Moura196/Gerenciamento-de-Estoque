@@ -1,23 +1,15 @@
 package estoque.desafio.gerenciamento.controllers;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Collections;
+import java.util.Date;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +23,17 @@ import estoque.desafio.gerenciamento.entities.dtos.AtualizarSenhaDTO;
 import estoque.desafio.gerenciamento.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
+import java.util.Collections;
+
 
 @RestController
 @RequestMapping("/usuario")
@@ -59,27 +62,38 @@ public class UsuarioController {
 	@Operation(summary = "Retorna todos os usuários:")
 	@GetMapping("/buscar")
 	public ResponseEntity<?> listarUsuarios() {
-		try {
-			List<Usuario> usuarios = usuarioService.listarUsuarios();
-			return ResponseEntity.ok(usuarios);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
+    	System.out.println("Chamando listarUsuarios");
+    	try {
+        	List<Usuario> usuarios = usuarioService.listarUsuarios();
+        	System.out.println("Usuários encontrados: " + usuarios.size());
+        	return ResponseEntity.ok(usuarios);
+    	} catch (Exception e) {
+        	e.printStackTrace();
+        	return new ResponseEntity<>("Erro de Consulta", HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
 	}
 
 	@Operation(summary = "Busca um usuário pelo código:")
 	@GetMapping("/buscar/{codigo}")
 	public ResponseEntity<?> buscarUsuarioPorCodigo(@PathVariable Long codigo) {
-		try {
-			Optional<Usuario> usuario = usuarioService.buscarUsuarioPorCodigo(codigo);
-			if (usuario.isPresent()) {
-				return ResponseEntity.ok(usuario.get());
-			} else {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-			}
-		} catch (Exception e) {
-			return new ResponseEntity<>("Erro de Consulta", HttpStatusCode.valueOf(504));
-		}
+    	try {
+        	System.out.println("Buscando usuário com código: " + codigo);
+        	Optional<Usuario> usuario = usuarioService.buscarUsuarioPorCodigo(codigo);
+        
+        	if (usuario.isPresent()) {
+            	System.out.println("Usuário encontrado: " + usuario.get());
+            	return ResponseEntity.ok(usuario.get());
+        	} else {
+            	System.out.println("Usuário não encontrado para código: " + codigo);
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Usuário não encontrado");
+        	}
+    	} catch (Exception e) {
+        	System.err.println("Erro ao buscar usuário:");
+        	e.printStackTrace();
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erro ao buscar usuário: " + e.getMessage());
+    	}
 	}
 
 	@Operation(summary = "Busca um usuário pela matrícula:")
@@ -119,41 +133,41 @@ public class UsuarioController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Usuario usuario) {
 		System.out.println("Tentativa de login -> Matrícula: " + usuario.getMatricula() + ", Senha: " + usuario.getSenha());
-		try {
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(usuario.getMatricula(), usuario.getSenha())
-			);
+    try {
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(usuario.getMatricula(), usuario.getSenha())
+        );
 
-			UserDetailsCustom userDetails = (UserDetailsCustom) authentication.getPrincipal();
-			String role = userDetails.getAuthorities().stream().findFirst().get().toString();
+        UserDetailsCustom userDetails = (UserDetailsCustom) authentication.getPrincipal();
+        String role = userDetails.getAuthorities().stream().findFirst().get().toString();
 
-			String token = JWT.create()
-					.withSubject(userDetails.getUsername())
-					.withExpiresAt(new Date(System.currentTimeMillis() + 600000))
-					.withClaim("funcao", role)
-					.sign(Algorithm.HMAC256(JWTAuthenticationFilter.SECRET_JWT));
+        String token = JWT.create()
+                .withSubject(userDetails.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 600000))
+                .withClaim("funcao", role)
+                .sign(Algorithm.HMAC256(JWTAuthenticationFilter.SECRET_JWT));
 
-			return ResponseEntity.ok(Collections.singletonMap("token", token));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas!");
-		}
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas!");
+    }
 	}
 
 	@Operation(summary = "Atualiza um usuário:")
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarUsuario(@RequestBody Usuario usuario) {
-		try {
+    	try {
 			System.out.println("Recebendo solicitação para atualizar usuário: " + usuario.getCodigo());
-			System.out.println("Dados recebidos: " + usuario.toString());
+        	System.out.println("Dados recebidos: " + usuario.toString());
 			System.out.println("Tipo do código: " + usuario.getCodigo().getClass().getName());
-
-			Usuario usuarioAtualizado = usuarioService.atualizarUsuario(usuario);
-			System.out.println("Usuário atualizado com sucesso: " + usuarioAtualizado.toString());
-			return ResponseEntity.ok(usuarioAtualizado);
-		} catch (Exception e) {
+        
+        	Usuario usuarioAtualizado = usuarioService.atualizarUsuario(usuario);
+        	System.out.println("Usuário atualizado com sucesso: " + usuarioAtualizado.toString());
+        	return ResponseEntity.ok(usuarioAtualizado);
+    	} catch (Exception e) {
 			System.err.println("Erro ao atualizar usuário:");
-			e.printStackTrace();
-			return new ResponseEntity<>("Erro ao atualizar usuário: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        	e.printStackTrace();
+        	return new ResponseEntity<>("Erro ao atualizar usuário: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
 	}
 }

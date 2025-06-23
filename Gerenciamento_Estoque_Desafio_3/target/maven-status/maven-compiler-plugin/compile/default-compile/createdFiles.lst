@@ -9,12 +9,14 @@ estoque\desafio\gerenciamento\repositories\CompraRepository.class
 estoque\desafio\gerenciamento\entities\Projeto.class
 estoque\desafio\gerenciamento\entities\Fornecedor.class
 estoque\desafio\gerenciamento\controllers\GpController.class
+estoque\desafio\gerenciamento\config\JacksonConfig.class
 estoque\desafio\gerenciamento\controllers\UsuarioController.class
 estoque\desafio\gerenciamento\entities\Item.class
 estoque\desafio\gerenciamento\repositories\ItemRepository.class
 estoque\desafio\gerenciamento\config\UserDetailsCustom.class
 estoque\desafio\gerenciamento\entities\Compra.class
 estoque\desafio\gerenciamento\controllers\ProjetoController.class
+estoque\desafio\gerenciamento\entities\dtos\CompraInputDTO.class
 estoque\desafio\gerenciamento\config\UserDetailsServiceCustom.class
 estoque\desafio\gerenciamento\GerenciamentoEstoqueDesafio3Application.class
 estoque\desafio\gerenciamento\repositories\ArmazenamentoRepository.class
@@ -35,5 +37,6 @@ estoque\desafio\gerenciamento\services\CompraService.class
 estoque\desafio\gerenciamento\config\JWTValidateFilter.class
 estoque\desafio\gerenciamento\config\JWTAuthenticationFilter.class
 estoque\desafio\gerenciamento\controllers\JasperReportController.class
+estoque\desafio\gerenciamento\entities\dtos\ItemDTO.class
 estoque\desafio\gerenciamento\repositories\ProjetoRepository.class
 estoque\desafio\gerenciamento\entities\dtos\RelatorioDadosDTO.class
