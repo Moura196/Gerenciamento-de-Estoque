@@ -595,6 +595,13 @@ function initCompras() {
     } else {
         console.error('Botão btnNovaCompra não encontrado!');
     }
+    return function() {
+        console.log('Executando cleanup de compras...');
+        if (btnNovaCompra) {
+            btnNovaCompra.removeEventListener('click', loadNewCompraForm);
+        }
+        cleanupCompras();
+    }
 }
 //Função de limpeza
 function cleanupCompras() {

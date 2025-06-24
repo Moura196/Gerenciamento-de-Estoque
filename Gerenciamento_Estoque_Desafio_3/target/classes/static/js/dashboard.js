@@ -35,9 +35,6 @@ function loadScript(src, callback) {
         document.head.appendChild(script);
     });
 }
-//Variável global para controle da seção atual
-let currentSection = null;
-
 //Objeto de mapeamento de seções 
 const sectionMap = {
     'usuarios': {
@@ -79,67 +76,47 @@ const sectionMap = {
         initFunction: 'initArmazenamentos'
     }
 };
+let currentSection = null;
+let currentCleanup = null;
 
 async function loadSection(sectionKey) {
     try {
-        if (!sectionMap.hasOwnProperty(sectionKey)) {
-            throw new Error(`Seção '${sectionKey}' não encontrada no mapeamento`);
+        if (currentCleanup) {
+            currentCleanup();
+            currentCleanup = null;
         }
-
+        if (!sectionMap[sectionKey]) {
+            throw new Error(`Seção '${sectionKey}' não encontrada`);
+        }
         const sectionConfig = sectionMap[sectionKey];
-        
-        if (currentSection && window[`cleanup${currentSection}`]) {
-            window[`cleanup${currentSection}`]();
-        }
-
         const contentSection = document.getElementById('contentSection');
         if (!contentSection) throw new Error('Elemento contentSection não encontrado');
 
-        console.log(`Carregando HTML: ${sectionConfig.html}`);
         const htmlResponse = await fetch(`/static/sections/${sectionConfig.html}`);
-        if (!htmlResponse.ok) throw new Error(`HTTP error! status: ${htmlResponse.status}`);
-
+        if (!htmlResponse.ok) throw new Error(`Erro ao carregar HTML: ${htmlResponse.status}`);
+        
         contentSection.innerHTML = await htmlResponse.text();
+        document.querySelectorAll(`script[src*="${sectionConfig.js}"]`).forEach(script => script.remove());
 
-        const oldScript = document.querySelector(`script[src*="${sectionConfig.js}"]`);
-        if (oldScript) oldScript.remove();
-
-        if (!window[sectionConfig.initFunction]) {
-            console.log(`Carregando JS: ${sectionConfig.js}`);
-            
+        await new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = `/static/js/${sectionConfig.js}`;
-            script.async = true;
-            
-            script.onerror = () => {
-                throw new Error(`Falha ao carregar o script: ${sectionConfig.js}`);
-            };
-            
+            script.onload = resolve;
+            script.onerror = () => reject(new Error(`Falha ao carregar script: ${sectionConfig.js}`));
             document.body.appendChild(script);
-
-            await new Promise((resolve, reject) => {
-                const timeout = setTimeout(() => {
-                    reject(new Error(`Timeout ao carregar ${sectionConfig.initFunction}`));
-                }, 5000);
-
-                const checkFunction = setInterval(() => {
-                    if (window[sectionConfig.initFunction]) {
-                        clearTimeout(timeout);
-                        clearInterval(checkFunction);
-                        resolve();
-                    }
-                }, 100);
-            });
-        }
-
-        console.log(`Inicializando: ${sectionConfig.initFunction}`);
-        if (typeof window[sectionConfig.initFunction] === 'function') {
-            window[sectionConfig.initFunction]();
-        } else {
+        });
+    
+        if (typeof window[sectionConfig.initFunction] !== 'function') {
             throw new Error(`Função de inicialização não encontrada: ${sectionConfig.initFunction}`);
         }
 
-        currentSection = sectionConfig.name;
+        const cleanup = window[sectionConfig.initFunction]();
+        if (typeof cleanup === 'function') {
+            currentCleanup = cleanup;
+        } else {
+            console.warn(`A função ${sectionConfig.initFunction} não retornou uma função de cleanup`);
+        }
+        currentSection = sectionKey;
 
     } catch (error) {
         console.error(`Erro ao carregar seção ${sectionKey}:`, error);
@@ -150,6 +127,76 @@ async function loadSection(sectionKey) {
         }
     }
 }
+// async function loadSection(sectionKey) {
+//     try {
+//         if (!sectionMap.hasOwnProperty(sectionKey)) {
+//             throw new Error(`Seção '${sectionKey}' não encontrada no mapeamento`);
+//         }
+
+//         const sectionConfig = sectionMap[sectionKey];
+        
+//         if (currentSection && window[`cleanup${currentSection}`]) {
+//             window[`cleanup${currentSection}`]();
+//         }
+
+//         const contentSection = document.getElementById('contentSection');
+//         if (!contentSection) throw new Error('Elemento contentSection não encontrado');
+
+//         console.log(`Carregando HTML: ${sectionConfig.html}`);
+//         const htmlResponse = await fetch(`/static/sections/${sectionConfig.html}`);
+//         if (!htmlResponse.ok) throw new Error(`HTTP error! status: ${htmlResponse.status}`);
+
+//         contentSection.innerHTML = await htmlResponse.text();
+
+//         const oldScript = document.querySelector(`script[src*="${sectionConfig.js}"]`);
+//         if (oldScript) oldScript.remove();
+
+//         if (!window[sectionConfig.initFunction]) {
+//             console.log(`Carregando JS: ${sectionConfig.js}`);
+            
+//             const script = document.createElement('script');
+//             script.src = `/static/js/${sectionConfig.js}`;
+//             script.async = true;
+            
+//             script.onerror = () => {
+//                 throw new Error(`Falha ao carregar o script: ${sectionConfig.js}`);
+//             };
+            
+//             document.body.appendChild(script);
+
+//             await new Promise((resolve, reject) => {
+//                 const timeout = setTimeout(() => {
+//                     reject(new Error(`Timeout ao carregar ${sectionConfig.initFunction}`));
+//                 }, 5000);
+
+//                 const checkFunction = setInterval(() => {
+//                     if (window[sectionConfig.initFunction]) {
+//                         clearTimeout(timeout);
+//                         clearInterval(checkFunction);
+//                         resolve();
+//                     }
+//                 }, 100);
+//             });
+//         }
+
+//         console.log(`Inicializando: ${sectionConfig.initFunction}`);
+//         if (typeof window[sectionConfig.initFunction] === 'function') {
+//             window[sectionConfig.initFunction]();
+//         } else {
+//             throw new Error(`Função de inicialização não encontrada: ${sectionConfig.initFunction}`);
+//         }
+
+//         currentSection = sectionConfig.name;
+
+//     } catch (error) {
+//         console.error(`Erro ao carregar seção ${sectionKey}:`, error);
+//         showError(`Falha ao carregar ${sectionKey}: ${error.message}`);
+        
+//         if (error.message.includes('401') || error.message.includes('token')) {
+//             window.handleAuthError();
+//         }
+//     }
+// }
 //Helper para esperar por uma condição
 function waitFor(condition, timeout = 3000) {
     return new Promise((resolve, reject) => {

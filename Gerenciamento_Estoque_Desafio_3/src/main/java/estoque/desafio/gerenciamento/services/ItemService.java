@@ -17,6 +17,7 @@ import estoque.desafio.gerenciamento.repositories.ArmazenamentoRepository;
 import estoque.desafio.gerenciamento.repositories.CompraRepository;
 import estoque.desafio.gerenciamento.repositories.FornecedorRepository;
 import estoque.desafio.gerenciamento.repositories.ItemRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ItemService {
@@ -34,27 +35,46 @@ public class ItemService {
 		this.compraRepository = compraRepository;
 	}
 
-	public Item criarItem(Item item) {
-		Compra compra = compraRepository.findById(item.getCompra().getCodigo())
-            .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+	@Transactional
+	public Item criarItem(ItemDTO itemDTO) {
+		// Busca as entidades relacionadas
+		Fornecedor fornecedor = fornecedorRepository.findById(itemDTO.getFornecedorCodigo())
+				.orElseThrow(() -> new RuntimeException(
+						"Fornecedor não encontrado com ID: " + itemDTO.getFornecedorCodigo()));
 
-		Fornecedor fornecedor = fornecedorRepository.findById(item.getFornecedor().getCodigo())
-				.orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+		Armazenamento armazenamento = armazenamentoRepository.findById(itemDTO.getArmazenamentoCodigo())
+				.orElseThrow(() -> new RuntimeException(
+						"Armazenamento não encontrado com ID: " + itemDTO.getArmazenamentoCodigo()));
 
-		Armazenamento armazenamento = armazenamentoRepository.findById(item.getArmazenamento().getCodigo())
-				.orElseThrow(() -> new RuntimeException("Armazenamento não encontrado"));
+		Compra compra = compraRepository.findById(itemDTO.getCompraCodigo())
+				.orElseThrow(() -> new RuntimeException("Compra não encontrada com ID: " + itemDTO.getCompraCodigo()));
 
-		item.setPatrimonio(item.getPatrimonio());
-		item.setDescricao(item.getDescricao());
-		item.setTipo(item.getTipo());
-		item.setValorUnitario(item.getValorUnitario());
-		item.setQuantComprada(item.getQuantComprada());
-		item.setValorTotalItem(item.getValorTotalItem());
+		// Cria novo item
+		Item item = new Item();
+		item.setPatrimonio(itemDTO.getPatrimonio());
+		item.setDescricao(itemDTO.getDescricao());
+		item.setTipo(itemDTO.getTipo());
+		item.setValorUnitario(itemDTO.getValorUnitario());
+		item.setQuantComprada(itemDTO.getQuantComprada());
+
+		// Calcula valor total se necessário
+		if (itemDTO.getValorUnitario() != null && itemDTO.getQuantComprada() != null) {
+			item.setValorTotalItem(itemDTO.getValorUnitario()
+					.multiply(BigDecimal.valueOf(itemDTO.getQuantComprada())));
+		}
+
+		// Associa as entidades
 		item.setFornecedor(fornecedor);
 		item.setArmazenamento(armazenamento);
 		item.setCompra(compra);
 
-		return itemRepository.save(item);
+		// Log para debug
+		System.out.println("Antes de salvar - Armazenamento ID: " + item.getArmazenamento().getCodigo());
+
+		Item itemSalvo = itemRepository.save(item);
+
+		System.out.println("Após salvar - Armazenamento ID: " + itemSalvo.getArmazenamento().getCodigo());
+		return itemSalvo;
 	}
 
 	public List<Item> listarItens() {

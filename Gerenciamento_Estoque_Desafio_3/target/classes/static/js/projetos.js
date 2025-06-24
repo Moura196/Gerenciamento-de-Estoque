@@ -36,14 +36,6 @@ function renderProjetos(projetos) {
                 openEditModal(projetoId);
             });
         });
-        //Adiciona listeners para os botões de exclusão
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const projetoId = button.dataset.projetoId;
-                console.log('Excluindo projeto:', projetoId);
-                deleteProjeto(projetoId);
-            });
-        });
     } catch (error) {
         console.error('Erro ao renderizar projetos:', error);
         throw error;
@@ -490,16 +482,22 @@ function showNotification(message, type = 'success') {
 function initProjetos() {
     console.log('Inicializando módulo de projetos...');
     setupEditModalListeners();
-    loadProjetos().catch(error => {
-        console.error('Erro no initProjetos:', error);
-    });
-
     const btnNovoProjeto = document.getElementById('btnNovoProjeto');
     if (btnNovoProjeto) {
         btnNovoProjeto.addEventListener('click', loadNewProjetoForm);
     } else {
         console.error('Botão btnNovoProjeto não encontrado!');
     }
+    loadProjetos().catch(error => {
+        console.error('Erro no initProjetos:', error);
+    });
+    return function () {
+        console.log('Executando cleanup de Projetos...');
+        if (btnNovoProjeto) {
+            btnNovoProjeto.removeEventListener('click', loadNewProjetoForm);
+        }
+        cleanupProjetos();
+    };
 }
 //Limpa listeners
 function cleanupProjetos() {

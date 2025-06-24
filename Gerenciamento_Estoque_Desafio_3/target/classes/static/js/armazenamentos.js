@@ -31,10 +31,6 @@ function renderArmazenamentos(armazenamentos) {
             btn.addEventListener('click', () => openEditModal(btn.dataset.armazenamentoId));
         });
 
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', () => deleteArmazenamento(btn.dataset.armazenamentoId));
-        });
-
     } catch (error) {
         console.error('Erro ao renderizar armazenamentos:', error);
         throw error;
@@ -224,15 +220,22 @@ function showNotification(message, type = 'success') {
 function initArmazenamentos() {
     console.log('Inicializando módulo de armazenamentos...');
     setupEditModalListeners();
-    loadArmazenamentos().catch(error => {
-        console.log('Erro no initArmazenamentos')
-    })
     const btnNovoArmazenamento = document.getElementById('btnNovoArmazenamento');
     if (btnNovoArmazenamento) {
         btnNovoArmazenamento.addEventListener('click', loadNewArmazenamentoForm);
     } else {
         console.error('Botão btnNovoArmazenamento não encontrado!');
     }
+    loadArmazenamentos().catch(error => {
+        console.log('Erro no initArmazenamentos')
+    })
+    return function() {
+        console.log('Executando cleanup de armazenamentos...');
+        if (btnNovoArmazenamento) {
+            btnNovoArmazenamento.removeEventListener('click', loadNewArmazenamentoForm);
+        }  
+        cleanupArmazenamentos();
+    };
 }
 
 function cleanupArmazenamentos() {

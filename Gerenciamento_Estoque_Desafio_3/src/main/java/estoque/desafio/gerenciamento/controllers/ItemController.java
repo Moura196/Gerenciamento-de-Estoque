@@ -38,23 +38,23 @@ public class ItemController {
 
     @Operation(summary = "Adiciona um novo item:")
     @PostMapping("/adicionar")
-    public ResponseEntity<?> criarItem(@RequestBody Item item) {
+    public ResponseEntity<?> criarItem(@Valid @RequestBody ItemDTO itemDTO) {
+        System.out.println("Dados recebidos: " + itemDTO.toString());
         try {
-            System.out.println("Dados recebidos:");
-            System.out.println("Descrição recebida: " + item.getDescricao());
-            System.out.println("Patrimônio: " + item.getPatrimonio());
-            System.out.println("Fornecedor ID: " + item.getFornecedor().getCodigo());
-            System.out.println("Armazenamento ID: " + item.getArmazenamento().getCodigo());
-            System.out.println("Compra ID: " + item.getCompra().getCodigo());
-            Item itemCriado = itemService.criarItem(item);
-            return ResponseEntity.ok(itemCriado);
-        } catch (Exception e) {
-            System.err.println("Erro ao criar item:");
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT)
-                    .body("Erro ao criar item: " + e.getMessage());
-        }
+        System.out.println("Dados recebidos no DTO:");
+        System.out.println("Armazenamento ID: " + itemDTO.getArmazenamentoCodigo());
+        
+        Item item = itemService.criarItem(itemDTO);
+        
+        System.out.println("Item criado com armazenamento ID: " + item.getArmazenamento().getCodigo());
+        return ResponseEntity.ok(item);
+    } catch (Exception e) {
+        System.err.println("Erro ao criar item:");
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Erro ao criar item: " + e.getMessage());
     }
+}
 
     @Operation(summary = "Busca todos")
     @GetMapping("/buscar")
