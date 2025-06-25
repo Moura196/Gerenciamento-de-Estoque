@@ -1,35 +1,22 @@
 package estoque.desafio.gerenciamento.entities.dtos;
-
 import java.math.BigDecimal;
 
+import jakarta.validation.constraints.NotNull;
+
 public class ItemDTO {
-    private Long id;
-    private String descricao;
-    private BigDecimal valorUnitario;
+    @NotNull
+    private Long codigo;
     private String patrimonio;
-    private Integer quantidadeComprada;
-    private String armazenamento;
-    private String fornecedor;
+    private String descricao;
+    private String tipo;
+    private BigDecimal valorUnitario;
+    private Integer quantComprada;
+    private Long fornecedorCodigo;
+    private Long armazenamentoCodigo;
+    private Long compraCodigo;
 
-    // Construtor vazio
+  
     public ItemDTO() {
-    }
-
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public BigDecimal getValorUnitario() {
@@ -40,6 +27,31 @@ public class ItemDTO {
         this.valorUnitario = valorUnitario;
     }
 
+     
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public String getPatrimonio() {
         return patrimonio;
     }
@@ -48,41 +60,49 @@ public class ItemDTO {
         this.patrimonio = patrimonio;
     }
 
-    public Integer getQuantidadeComprada() {
-        return quantidadeComprada;
+    public Integer getQuantComprada() {
+        return quantComprada;
     }
 
-    public void setQuantidadeComprada(Integer quantidadeComprada) {
-        this.quantidadeComprada = quantidadeComprada;
+    public void setQuantComprada(Integer quantComprada) {
+        this.quantComprada = quantComprada;
     }
 
-    public String getArmazenamento() {
-        return armazenamento;
+    public Long getArmazenamentoCodigo() {
+        return armazenamentoCodigo;
     }
 
-    public void setArmazenamento(String armazenamento) {
-        this.armazenamento = armazenamento;
+    public void setArmazenamentoCodigo(Long armazenamentoCodigo) {
+        this.armazenamentoCodigo = armazenamentoCodigo;
     }
 
-    public String getFornecedor() {
-        return fornecedor;
+    public Long getCompraCodigo() {
+        return compraCodigo;
     }
 
-    public void setFornecedor(String fornecedor) {
-        this.fornecedor = fornecedor;
+    public void setCompraCodigo(Long compraCodigo) {
+        this.compraCodigo = compraCodigo;
     }
 
+    public Long getFornecedorCodigo() {
+        return fornecedorCodigo;
+    }
+
+    public void setFornecedorCodigo(Long fornecedorCodigo) {
+        this.fornecedorCodigo = fornecedorCodigo;
+    }
     // Método toString para facilitar a visualização
     @Override
     public String toString() {
         return "ItemDTO{" +
-                "id=" + id +
+                "id=" + codigo +
                 ", descricao='" + descricao + '\'' +
                 ", valorUnitario=" + valorUnitario +
                 ", patrimonio='" + patrimonio + '\'' +
-                ", quantidadeComprada=" + quantidadeComprada +
-                ", armazenamento='" + armazenamento + '\'' +
-                ", fornecedor='" + fornecedor + '\'' +
+                ", quantidadeComprada=" + quantComprada +
+                ", armazenamento='" + armazenamentoCodigo + '\'' +
+                ", fornecedor='" + fornecedorCodigo + '\'' +
+                ", compra='" + compraCodigo + '\'' +
                 '}';
     }
 }

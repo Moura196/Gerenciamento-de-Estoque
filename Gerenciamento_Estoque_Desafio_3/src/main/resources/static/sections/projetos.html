@@ -1,0 +1,98 @@
+<section class="p-6 bg-white rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Gerenciamento de Projetos</h2>
+        <button id="btnNovoProjeto"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-200 flex items-center">
+            <i class="fas fa-plus mr-2"></i> Novo Projeto
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table id="projetos-table" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apelido
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Responsável</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="projetos-table-tbody" class="bg-white divide-y divide-gray-200">
+                <!-- Dados serão preenchidos pelo JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editProjetoModal"
+        class="fixed z-50 inset-0 overflow-y-auto opacity-0 invisible transition-all duration-300 ease-in-out">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Fundo escuro -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <!-- Conteúdo do modal -->
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                aria-labelledby="modal-title" aria-modal="true" role="dialog">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Editar Projeto
+                    </h3>
+                    <div class="mt-4">
+                        <form id="editProjetoForm">
+                            <input type="hidden" id="editProjetoId">
+                            <div class="mb-4">
+                                <label for="editIdProjeto" class="block text-sm font-medium text-gray-700">ID
+                                    Projeto</label>
+                                <input type="number" id="editIdProjeto"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+                            <div class="mb-4">
+                                <label for="editNome" class="block text-sm font-medium text-gray-700">Nome</label>
+                                <input type="text" id="editNome"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+                            <div class="mb-4">
+                                <label for="editApelidoProjeto"
+                                    class="block text-sm font-medium text-gray-700">Apelido</label>
+                                <input type="text" id="editApelidoProjeto"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+                            <div class="mb-4">
+                                <label for="editUsuario"
+                                    class="block text-sm font-medium text-gray-700">Responsável</label>
+                                <select id="editUsuario"
+                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    <!-- Opções serão preenchidas pelo JavaScript -->
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="updateProjetoBtn"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Atualizar
+                    </button>
+                    <button type="button" id="cancelEditBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
+                   transition-colors duration-200 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
+                        aria-label="Cancelar edição">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Seção para o formulário de novo projeto (será carregada dinamicamente) -->
+    <div id="contentSection">
+
+    </div>
+</section>

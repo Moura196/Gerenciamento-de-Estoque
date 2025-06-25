@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GP Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/rt.js"></script>
 </head>
 <body class="bg-gray-100 flex">
 
@@ -22,6 +23,12 @@
                 </button>
             </li>
             <li>
+                <button class="menu-btn flex  items-center space-y-1" data-section="compras">
+                    <span class="icon">🏢</span>
+                    <span class="text">Compras</span>
+                </button>
+            </li>
+            <li>
                 <button class="menu-btn flex  items-center space-y-1" data-section="fornecedores">
                     <span class="icon">🏢</span>
                     <span class="text">Fornecedores</span>
@@ -34,9 +41,9 @@
                 </button>
             </li>
             <li>
-                <button class="menu-btn flex items-center space-x-2" data-section="relatorios">
+                <button class="menu-btn flex items-center space-x-2" data-section="armazenamento">
                     <span class="icon">📊</span>
-                    <span class="text">Relatórios</span>
+                    <span class="text">Armazenamento</span>
                 </button>
             </li>
             <li>
@@ -48,35 +55,16 @@
         </ul>
         </nav>
     </aside>
-
-    <!-- Conteúdo Principal -->
-    <main class="flex-grow p-5">
-        <section id="content">
-            <h1 class="text-2xl font-bold">Bem-vindo ao Dashboard RP</h1>
-        </section>
+    <main>
+        <div class="flex-1 p-6">
+            <div id="contentSection" class="bg-white rounded-lg shadow p-6">
+                
+            </div>
+        </div>
     </main>
-
-    <!-- Script para Interatividade -->
-    <script>
-        document.getElementById("toggleSidebar").addEventListener("click", function() {
-            const sidebar = document.getElementById("sidebar");
-            const texts = document.querySelectorAll(".text");
-
-            sidebar.classList.toggle("w-12");
-            sidebar.classList.toggle("items-center");  
-            texts.forEach(text => text.classList.toggle("hidden")); 
-        });
-
-        document.querySelectorAll(".menu-btn").forEach(button => {
-            button.addEventListener("click", function() {
-                document.getElementById("content").innerHTML = `<h2 class='text-xl font-bold'>${this.dataset.section}</h2>`;
-            });
-        });
-        document.getElementById("logoutBtn").addEventListener("click", function() {
-            localStorage.removeItem("token"); // 🔹 Remove o token JWT
-            window.location.href = "/login.html"; // 🔹 Redireciona para login
-        });
-    </script>
-
+<script>
+    window.DEV_MODE = true; // Mudar para false em produção
+    window.API_BASE_URL = '/api'; 
+</script>
 </body>
 </html>

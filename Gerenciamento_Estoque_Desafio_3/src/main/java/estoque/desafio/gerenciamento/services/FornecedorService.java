@@ -36,12 +36,12 @@ public class FornecedorService {
         return fornecedorRepository.findByNome(nome);
     }
 
-    public Optional<Fornecedor> buscarFornecedorPorId(Long id) {
-        return fornecedorRepository.findById(id);
+    public Optional<Fornecedor> buscarFornecedorPorCodigo(Long codigo) {
+        return fornecedorRepository.findByCodigo(codigo);
     }
 
-    public Fornecedor editarFornecedor(String nome, Fornecedor fornecedorRequest) {
-        Optional<Fornecedor> fornecedorExistenteOptional = fornecedorRepository.findByNome(nome);
+    public Fornecedor editarFornecedor(Long codigo, Fornecedor fornecedorRequest) {
+        Optional<Fornecedor> fornecedorExistenteOptional = fornecedorRepository.findByCodigo(codigo);
         
         return fornecedorExistenteOptional.map(fornecedor -> {
         	if (fornecedorRequest.getNome() != null) {
@@ -65,7 +65,7 @@ public class FornecedorService {
         	}
         	
         	return fornecedorRepository.save(fornecedor);
-        }).orElseThrow(() -> new RuntimeException("Fornecedor com o nome " + nome + " não encontrado."));
+        }).orElseThrow(() -> new RuntimeException("Fornecedor com o nome " + codigo + " não encontrado."));
     }
 
     public void excluirFornecedor(Long codigo){

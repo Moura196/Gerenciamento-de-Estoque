@@ -36,7 +36,7 @@ public class Item {
 	private Armazenamento armazenamento;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "compra_id")
+    @JoinColumn(name = "compra", nullable = false)
     @JsonIgnoreProperties("itens")
     private Compra compra;
 
