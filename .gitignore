@@ -1,0 +1,52 @@
+# Diretórios de build do Maven/Gradle
+target/
+build/
+.m2/repository/
+
+# Arquivos de IDE (Eclipse, IntelliJ, VS Code, etc.)
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# Logs
+*.log
+logs/
+
+# Arquivos de compilação Java
+*.class
+
+# Pacotes NPM (se seu frontend usa)
+node_modules/
+
+# Variáveis de ambiente (se usar .env)
+.env
+.env.local
+
+# Ignorar diretórios de build dentro de Gerenciamento_Estoque_Desafio_3
+Gerenciamento_Estoque_Desafio_3/target/
+Gerenciamento_Estoque_Desafio_3/build/
+
+# Ignorar arquivos de IDE dentro de Gerenciamento_Estoque_Desafio_3
+Gerenciamento_Estoque_Desafio_3/.project
+Gerenciamento_Estoque_Desafio_3/.classpath
+Gerenciamento_Estoque_Desafio_3/.settings/
+Gerenciamento_Estoque_Desafio_3/*.iml # Para IntelliJ
+
+# Ignorar outros arquivos temporários/logs
+Gerenciamento_Estoque_Desafio_3/*.log
+Gerenciamento_Estoque_Desafio_3/logs/
+
+# Pacotes NPM (se o frontend estiver dentro dessa estrutura e gerar node_modules lá)
+Gerenciamento_Estoque_Desafio_3/node_modules/
+
+# Variáveis de ambiente (se usar .env)
+Gerenciamento_Estoque_Desafio_3/.env
+Gerenciamento_Estoque_Desafio_3/.env.local
+
+# Se houver .vscode/ ou .idea/ na pasta pai ou dentro do projeto aninhado
+.vscode/
+.idea/
+/Gerenciamento_Estoque_Desafio_3/target
