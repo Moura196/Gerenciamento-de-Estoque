@@ -9,5 +9,6 @@ import estoque.desafio.gerenciamento.entities.Fornecedor;
 public interface FornecedorRepository extends JpaRepository<Fornecedor, Long> {
 
 	Optional<Fornecedor> findByNome(String nome);
+	Optional<Fornecedor> findByCodigo(Long codigo);
 
 }

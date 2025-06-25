@@ -48,7 +48,7 @@ public class FornecedorController {
     }
 
     @Operation(summary = "Busca um fornecedor por nome:")
-    @GetMapping("/buscar/{nome}")
+    @GetMapping("/buscar/nome/{nome}")
     public ResponseEntity<?> buscarFornecedorPorNome(@PathVariable String nome) {
         try{
             Optional<Fornecedor> fornecedor = fornecedorService.buscarFornecedorPorNome(nome);
@@ -59,10 +59,10 @@ public class FornecedorController {
     }
 
     @Operation(summary = "Edita um fornecedor:")
-    @PatchMapping("/alterar/{nome}")
-    public ResponseEntity<?> editarFornecedor(@PathVariable String nome, @RequestBody Fornecedor fornecedor) {
+    @PatchMapping("/alterar/{codigo}")
+    public ResponseEntity<?> editarFornecedor(@PathVariable Long codigo, @RequestBody Fornecedor fornecedor) {
         try {
-            Fornecedor fornecedorEditado = fornecedorService.editarFornecedor(nome, fornecedor);
+            Fornecedor fornecedorEditado = fornecedorService.editarFornecedor(codigo, fornecedor);
             return ResponseEntity.ok(fornecedorEditado);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro ao atualizar fornecedor: ", HttpStatusCode.valueOf(500));
@@ -81,9 +81,9 @@ public class FornecedorController {
     }
     
     @Operation(summary = "Busca por código:")
-    @GetMapping("/buscar/{id}")
-    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable Long id) {
-        return fornecedorService.buscarFornecedorPorId(id)
+    @GetMapping("/buscar/codigo/{codigo}")
+    public ResponseEntity<?> buscarFornecedorPorId(@PathVariable Long codigo) {
+        return fornecedorService.buscarFornecedorPorCodigo(codigo)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

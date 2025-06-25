@@ -37,7 +37,7 @@ public class CompraService {
 		this.itemRepository = itemRepository;
 	}
 
-	@Transactional
+	@Transactional 
 	public Compra criarCompra(CompraInputDTO compraDTO) {
 		// Buscar o projeto pelo ID
 		Projeto projeto = projetoRepository.findById(compraDTO.getProjeto())
@@ -65,8 +65,6 @@ public class CompraService {
 		compra.setItens(itens);
 		return compraRepository.save(compra);
 	}
-
-
 
 	public List<Compra> listarCompras() {
 		return compraRepository.findAll();

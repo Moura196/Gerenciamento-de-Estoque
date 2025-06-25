@@ -10,9 +10,9 @@ function renderUsers(users) {
         if (!tableBody) {
             throw new Error('Tabela de usuários não encontrada');
         }
-        
-        console.log('Dados recebidos:', users); 
-        
+
+        console.log('Dados recebidos:', users);
+
         tableBody.innerHTML = users.map(user => `
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">${user.codigo}</td>
@@ -52,13 +52,13 @@ async function loadUsers() {
     try {
         console.log('Iniciando carga de usuários...');
         const response = await window.fetchWithAuth('/usuario/buscar');
-        
+
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
-        
+
         const users = await response.json();
-        console.log('Usuários carregados:', users); 
+        console.log('Usuários carregados:', users);
         renderUsers(users);
     } catch (error) {
         console.error('Falha ao carregar usuários:', error);
@@ -75,7 +75,7 @@ async function loadNewUserForm() {
 
         const response = await fetch('/static/sections/novo-usuario.html');
         if (!response.ok) throw new Error(`Erro HTTP! status: ${response.status}`);
-        
+
         contentSection.innerHTML = await response.text();
         setupNewUserForm();
     } catch (error) {
@@ -93,13 +93,13 @@ function setupNewUserForm() {
             window.loadSection('usuarios');
         });
     }
-    
+
     if (btnCancelar) {
         btnCancelar.addEventListener('click', () => {
             window.loadSection('usuarios');
         });
     }
-    
+
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -119,12 +119,12 @@ async function createUser() {
         showNotification('Por favor, preencha todos os campos.', 'error');
         return;
     }
-    
+
     if (senha !== confirmarSenha) {
         showNotification('As senhas não coincidem!', 'error');
         return;
     }
-    
+
     if (senha.length < 6) {
         showNotification('A senha deve ter pelo menos 6 caracteres.', 'error');
         return;
@@ -142,7 +142,7 @@ async function createUser() {
         const submitBtn = document.querySelector('#formNovoUsuario button[type="submit"]');
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Salvando...';
-        
+
         const response = await window.fetchWithAuth('/usuario/adicionar', {
             method: 'POST',
             headers: {
@@ -150,20 +150,20 @@ async function createUser() {
             },
             body: JSON.stringify(userData)
         });
-        
+
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(errorText || 'Erro ao criar usuário');
         }
-        
+
         const result = await response.json();
         showNotification('Usuário criado com sucesso!', 'success');
-        
+
         // Volta para a lista de usuários após 1 segundo
         setTimeout(() => {
             window.loadSection('usuarios');
         }, 1000);
-        
+
     } catch (error) {
         console.error('Erro ao criar usuário:', error);
         showNotification(`Erro ao criar usuário: ${error.message}`, 'error');
@@ -193,7 +193,7 @@ function showEditModal() {
 
     modal.classList.remove('invisible', 'opacity-0');
     content.classList.remove('opacity-0', 'translate-y-4', 'sm:scale-95');
-    
+
     setTimeout(() => {
         modal.classList.add('opacity-100', 'visible');
         content.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
@@ -204,13 +204,13 @@ function showEditModal() {
 function hideEditModal() {
     const modal = document.getElementById('editUserModal');
     const content = modal.querySelector('.transform');
-    
+
     modal.classList.remove('opacity-100', 'visible');
     content.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
-    
+
     modal.classList.add('opacity-0');
     content.classList.add('opacity-0', 'translate-y-4', 'sm:scale-95');
-    
+
     setTimeout(() => {
         modal.classList.add('invisible');
         document.getElementById('editUserForm').reset();
@@ -229,10 +229,10 @@ function openEditModal(userId) {
             document.getElementById('displayUserId').textContent = user.codigo;
             document.getElementById('displayUserMatricula').textContent = user.matricula;
 
-            document.getElementById('editUserId').value = user.codigo;    
+            document.getElementById('editUserId').value = user.codigo;
             document.getElementById('editNome').value = user.nome;
             document.getElementById('editFuncao').value = user.funcao;
-            
+
             showEditModal();
         })
         .catch(error => {
@@ -253,7 +253,7 @@ async function fetchUserData(userId) {
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
-        
+
         const userData = await response.json();
         console.log('Dados do usuário carregados:', userData);
         return userData;
@@ -282,12 +282,12 @@ async function updateUser(userId, userData) {
             },
             body: JSON.stringify(payload)
         });
-        
+
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Erro na atualização: ${response.status} - ${errorText}`);
         }
-        
+
         return response.json();
     } catch (error) {
         console.error('Erro na requisição de atualização:', error);
@@ -299,7 +299,7 @@ async function updateUser(userId, userData) {
 function setupEditModalListeners() {
     document.getElementById('updateUserBtn').addEventListener('click', async () => {
         const userId = document.getElementById('editUserId').value;
-        
+
         const userData = {
             codigo: parseInt(userId),
             nome: document.getElementById('editNome').value,
@@ -309,7 +309,7 @@ function setupEditModalListeners() {
         try {
             const updatedUser = await updateUser(userId, userData);
             console.log('Usuário atualizado:', updatedUser);
-            
+
             hideEditModal();
             showNotification('Usuário atualizado com sucesso!', 'success');
             loadUsers();
@@ -320,52 +320,60 @@ function setupEditModalListeners() {
     });
     //Fecha modal
     const cancelButton = document.getElementById('cancelEditBtn');
-        if (cancelButton) {
-            cancelButton.addEventListener('click', () => {
-                console.log('Cancelar edição clicado');
-                hideEditModal();
-            });
-        } else {
-            console.error('Botão cancelEditBtn não encontrado!');
-        }
-        //Fecha modal ao clicar fora do conteúdo
-        document.getElementById('editUserModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('editUserModal')) {
-                hideEditModal();
-            }
+    if (cancelButton) {
+        cancelButton.addEventListener('click', () => {
+            console.log('Cancelar edição clicado');
+            hideEditModal();
         });
-        //Fecha modal com a tecla ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && 
-                !document.getElementById('editUserModal').classList.contains('hidden')) {
-                hideEditModal();
-            }
+    } else {
+        console.error('Botão cancelEditBtn não encontrado!');
+    }
+    //Fecha modal ao clicar fora do conteúdo
+    document.getElementById('editUserModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('editUserModal')) {
+            hideEditModal();
+        }
+    });
+    //Fecha modal com a tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' &&
+            !document.getElementById('editUserModal').classList.contains('hidden')) {
+            hideEditModal();
+        }
     });
 }
 //Confirma a inicialização
 function initUsers() {
     console.log('Inicializando módulo de usuários...');
-    setupEditModalListeners(); 
-    loadUsers().catch(error => {
-        console.error('Erro no initUsers:', error);
-    });
+    setupEditModalListeners();
+
     const btnNovoUsuario = document.getElementById('btnNovoUsuario');
     if (btnNovoUsuario) {
         btnNovoUsuario.addEventListener('click', loadNewUserForm);
     } else {
         console.error('Botão btnNovoUsuario não encontrado!');
     }
+    loadUsers().catch(error => {
+        console.error('Erro no initUsers:', error);
+    });
+    return function() {
+        console.log('Executando cleanup de Users...');
+        if (btnNovoUsuario) {
+            btnNovoUsuario.removeEventListener('click', loadNewUserForm);
+        }
+        cleanupUsers();
+    };
 }
 //REmove listenrs
 function cleanupUsers() {
-    
+
     const btn = document.getElementById('btnNovoUsuario');
     if (btn) btn.replaceWith(btn.cloneNode(true));
-    
+
 }
 
 window.initUsers = initUsers;
-window.loadUsers = loadUsers; 
+window.loadUsers = loadUsers;
 window.cleanupUsers = cleanupUsers;
 // Teste de funcionamento do botão Cancelar
 console.log('Botão Cancelar:', document.getElementById('cancelEditBtn') ? 'Encontrado' : 'Não encontrado');

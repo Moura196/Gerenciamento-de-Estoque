@@ -1,0 +1,64 @@
+<!-- static/sections/armazenamentos.html -->
+<section class="p-6 bg-white rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Gerenciamento de Armazenamentos</h2>
+        <button id="btnNovoArmazenamento" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-200 flex items-center">
+            <i class="fas fa-plus mr-2"></i> Novo Armazenamento
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table id="armazenamentos-table" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sala</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Armário</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Itens</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="armazenamentos-table-tbody" class="bg-white divide-y divide-gray-200">
+                <!-- Dados serão carregados via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Edição de Armazenamento -->
+    <div id="editArmazenamentoModal" class="fixed inset-0 z-50 flex items-center justify-center invisible opacity-0 transition-all duration-300 ease-in-out">
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="transform transition-all duration-300 ease-in-out opacity-0 translate-y-4 sm:scale-95 relative bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+            <h2 class="text-xl font-bold mb-4">Editar Armazenamento</h2>
+            
+            <div class="mb-4">
+                <span class="font-semibold">Código:</span>
+                <span id="displayArmazenamentoId" class="ml-2"></span>
+            </div>
+            
+            <form id="editArmazenamentoForm" class="space-y-4">
+                <input type="hidden" id="editArmazenamentoId">
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <label for="editSala" class="block text-sm font-medium text-gray-700">Sala</label>
+                        <input type="text" id="editSala" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="editArmario" class="block text-sm font-medium text-gray-700">Armário</label>
+                        <input type="text" id="editArmario" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelEditArmazenamentoBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancelar
+                    </button>
+                    <button type="button" id="updateArmazenamentoBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

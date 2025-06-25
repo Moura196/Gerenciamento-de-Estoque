@@ -8,11 +8,11 @@ function renderItens(itens) {
     try {
         const tableBody = document.getElementById('itens-table-tbody');
         if (!tableBody) throw new Error('Tabela de itens não encontrada');
-        
+        console.log('Dados recebidos:', itens);
         tableBody.innerHTML = itens.map(item => `
             <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 whitespace-nowrap">${item.codigo}</td>
-                <td class="px-6 py-4 whitespace-nowrap">${item.patrimonio}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${item.armazenamento?.codigo || 'N/A'}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${item.descricao}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${item.tipo}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${formatCurrency(item.valorUnitario)}</td>
@@ -30,15 +30,11 @@ function renderItens(itens) {
                 </td>
             </tr>
         `).join('');
-        
+
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', () => openEditModal(btn.dataset.itemId));
         });
-        
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', () => deleteItem(btn.dataset.itemId));
-        });
-        
+
     } catch (error) {
         console.error('Erro ao renderizar itens:', error);
         throw error;
@@ -50,12 +46,12 @@ async function loadItens() {
     try {
         const response = await window.fetchWithAuth('/item/buscar');
         if (!response.ok) throw new Error(`Erro: ${response.status}`);
-        
+
         const itens = await response.json();
         if (!Array.isArray(itens)) {
             throw new Error('Resposta inválida do servidor');
         }
-        
+
         renderItens(itens);
     } catch (error) {
         console.error('Falha ao carregar itens:', error);
@@ -71,7 +67,7 @@ async function loadNewItemForm() {
 
         const response = await fetch('/static/sections/novo-item.html');
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-        
+
         contentSection.innerHTML = await response.text();
         setupNewItemForm();
     } catch (error) {
@@ -85,18 +81,18 @@ function setupNewItemForm() {
     const btnVoltar = document.getElementById('btnVoltarItens');
     const btnCancelar = document.getElementById('btnCancelarNovoItem');
     const form = document.getElementById('formNovoItem');
-    
+
     if (btnVoltar) btnVoltar.addEventListener('click', () => window.loadSection('itens'));
     if (btnCancelar) btnCancelar.addEventListener('click', () => window.loadSection('itens'));
-    
+
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             await createItem();
         });
-        
+
         loadFormOptions();
-        
+
         setupCalculoValorTotal();
     }
 }
@@ -105,14 +101,14 @@ function setupCalculoValorTotal() {
     const valorUnitario = document.getElementById('novoValorUnitario');
     const quantComprada = document.getElementById('novoQuantComprada');
     const valorTotal = document.getElementById('novoValorTotalItem');
-    
+
     if (valorUnitario && quantComprada && valorTotal) {
         const calcular = () => {
             const valor = parseFloat(valorUnitario.value) || 0;
             const quant = parseInt(quantComprada.value) || 0;
             valorTotal.value = (valor * quant).toFixed(2);
         };
-        
+
         valorUnitario.addEventListener('input', calcular);
         quantComprada.addEventListener('input', calcular);
     }
@@ -139,6 +135,9 @@ async function loadFormOptions() {
         const fornecedores = fornecedoresRes.ok ? await fornecedoresRes.json() : [];
         const armazenamentos = armazenamentosRes.ok ? await armazenamentosRes.json() : [];
         const compras = comprasRes.ok ? await comprasRes.json() : [];
+        const armazenamentoSelect = document.getElementById('novoArmazenamento');
+        console.log("Valor selecionado no armazenamento:", armazenamentoSelect.value);
+        console.log("Opção selecionada:", armazenamentoSelect.selectedOptions[0]);
 
         fillSelect('novoFornecedor', fornecedores, f => `
             <option value="${f.codigo}" data-entity='${JSON.stringify(f)}'>
@@ -170,41 +169,41 @@ async function createItem() {
 
     try {
         const formData = new FormData(form);
-        
+
         const fornecedorSelect = document.getElementById('novoFornecedor');
         const armazenamentoSelect = document.getElementById('novoArmazenamento');
         const compraSelect = document.getElementById('novoCompra');
-        
+
         if (!fornecedorSelect.value || !armazenamentoSelect.value || !compraSelect.value) {
             throw new Error('Selecione todas as opções obrigatórias');
         }
 
-        const fornecedor = JSON.parse(fornecedorSelect.selectedOptions[0].dataset.entity);
-        const armazenamento = JSON.parse(armazenamentoSelect.selectedOptions[0].dataset.entity);
-        const compra = JSON.parse(compraSelect.selectedOptions[0].dataset.entity);
-
-        const itemData = {
+        const itemDTO = {
             patrimonio: formData.get('patrimonio'),
             descricao: formData.get('descricao'),
             tipo: formData.get('tipo'),
             valorUnitario: parseFloat(formData.get('valorUnitario')),
             quantComprada: parseInt(formData.get('quantComprada')),
-            valorTotalItem: parseFloat(document.getElementById('novoValorTotalItem').value),
-            fornecedor: { codigo: fornecedor.codigo },
-            armazenamento: { codigo: armazenamento.codigo },
-            compra: { codigo: compra.codigo }
+            fornecedorCodigo: parseInt(fornecedorSelect.value),
+            armazenamentoCodigo: parseInt(armazenamentoSelect.value),
+            compraCodigo: parseInt(compraSelect.value)
         };
+        console.log("Dados sendo enviados:", JSON.stringify(itemDTO, null, 2));
 
         const response = await window.fetchWithAuth('/item/adicionar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(itemData)
+            body: JSON.stringify(itemDTO)
         });
 
         if (!response.ok) throw new Error(await response.text());
+
+        const responseData = await response.json();
+        console.log('Item criado:', responseData);
         
         showNotification('Item criado com sucesso!', 'success');
-        window.loadSection('itens');
+
+        setTimeout(() => window.loadSection('itens'), 500);
     } catch (error) {
         console.error('Erro ao criar item:', error);
         showNotification(`Erro: ${error.message}`, 'error');
@@ -217,7 +216,7 @@ function showEditItemModal() {
 
     modal.classList.remove('invisible', 'opacity-0');
     content.classList.remove('opacity-0', 'translate-y-4', 'sm:scale-95');
-    
+
     setTimeout(() => {
         modal.classList.add('opacity-100', 'visible');
         content.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
@@ -227,13 +226,13 @@ function showEditItemModal() {
 function hideEditItemModal() {
     const modal = document.getElementById('editItemModal');
     const content = modal.querySelector('.transform');
-    
+
     modal.classList.remove('opacity-100', 'visible');
     content.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
-    
+
     modal.classList.add('opacity-0');
     content.classList.add('opacity-0', 'translate-y-4', 'sm:scale-95');
-    
+
     setTimeout(() => {
         modal.classList.add('invisible');
         document.getElementById('editItemForm').reset();
@@ -243,20 +242,20 @@ function hideEditItemModal() {
 async function openEditModal(itemId) {
     try {
         const item = await fetchItemData(itemId);
-        
+
         document.getElementById('displayItemId').textContent = item.codigo;
         document.getElementById('editItemId').value = item.codigo;
 
-        document.getElementById('editPatrimonio').value = item.patrimonio || '';
+        document.getElementById('editArmazenamento').value = item.armazenamento?.codigo || '';
         document.getElementById('editDescricao').value = item.descricao || '';
         document.getElementById('editTipo').value = item.tipo || '';
         document.getElementById('editValorUnitario').value = item.valorUnitario || '';
         document.getElementById('editQuantComprada').value = item.quantComprada || '';
-        
+
         await loadEditFormOptions(item);
-        
+
         setupEditCalculoValorTotal();
-        
+
         showEditItemModal();
     } catch (error) {
         console.error('Erro ao abrir modal de edição:', error);
@@ -275,31 +274,31 @@ async function loadEditFormOptions(item) {
         const fornecedores = fornecedoresRes.ok ? await fornecedoresRes.json() : [];
         const armazenamentos = armazenamentosRes.ok ? await armazenamentosRes.json() : [];
         const compras = comprasRes.ok ? await comprasRes.json() : [];
-        
+
         const fornecedorSelect = document.getElementById('editFornecedor');
-        fornecedorSelect.innerHTML = '<option value="">Selecione um fornecedor</option>' + 
+        fornecedorSelect.innerHTML = '<option value="">Selecione um fornecedor</option>' +
             fornecedores.map(f => `
                 <option value="${f.codigo}" ${item.fornecedor?.codigo === f.codigo ? 'selected' : ''}>
                     ${f.nome}
                 </option>
             `).join('');
-            
+
         const armazenamentoSelect = document.getElementById('editArmazenamento');
-        armazenamentoSelect.innerHTML = '<option value="">Selecione um armazenamento</option>' + 
+        armazenamentoSelect.innerHTML = '<option value="">Selecione um armazenamento</option>' +
             armazenamentos.map(a => `
                 <option value="${a.codigo}" ${item.armazenamento?.codigo === a.codigo ? 'selected' : ''}>
                     Sala ${a.sala} - Armário ${a.armario}
                 </option>
             `).join('');
-            
+
         const compraSelect = document.getElementById('editCompra');
-        compraSelect.innerHTML = '<option value="">Selecione uma compra</option>' + 
+        compraSelect.innerHTML = '<option value="">Selecione uma compra</option>' +
             compras.map(c => `
                 <option value="${c.codigo}" ${item.compra?.codigo === c.codigo ? 'selected' : ''}>
                     Compra #${c.codigo} (${new Date(c.dataCompra).toLocaleDateString()})
                 </option>
             `).join('');
-            
+
     } catch (error) {
         console.error('Erro ao carregar opções:', error);
         throw error;
@@ -320,7 +319,7 @@ async function fetchItemData(itemId) {
 function setupEditCalculoValorTotal() {
     const valorUnitario = document.getElementById('editValorUnitario');
     const quantComprada = document.getElementById('editQuantComprada');
-    
+
     if (valorUnitario && quantComprada) {
         const calcular = () => {
             const valor = parseFloat(valorUnitario.value) || 0;
@@ -328,7 +327,7 @@ function setupEditCalculoValorTotal() {
             // Você pode exibir em algum lugar se quiser
             console.log('Valor total calculado:', (valor * quant).toFixed(2));
         };
-        
+
         valorUnitario.addEventListener('input', calcular);
         quantComprada.addEventListener('input', calcular);
     }
@@ -337,9 +336,9 @@ function setupEditCalculoValorTotal() {
 function setupEditModalListeners() {
 
     document.getElementById('updateItemBtn').addEventListener('click', updateItem);
-    
+
     document.getElementById('cancelEditItemBtn').addEventListener('click', hideEditItemModal);
-    
+
     document.getElementById('editItemModal').addEventListener('click', (e) => {
         if (e.target === document.getElementById('editItemModal')) {
             hideEditItemModal();
@@ -365,15 +364,9 @@ async function updateItem() {
             tipo: document.getElementById('editTipo').value,
             valorUnitario: parseFloat(document.getElementById('editValorUnitario').value),
             quantComprada: parseInt(document.getElementById('editQuantComprada').value),
-            fornecedor: { 
-                codigo: parseInt(document.getElementById('editFornecedor').value) 
-            },
-            armazenamento: {
-                codigo: parseInt(document.getElementById('editArmazenamento').value)
-            },
-            compra: {
-                codigo: parseInt(document.getElementById('editCompra').value)
-            }
+            fornecedorCodigo: parseInt(document.getElementById('editFornecedor').value) || null,
+            armazenamentoCodigo: parseInt(document.getElementById('editArmazenamento').value) || null,
+            compraCodigo: parseInt(document.getElementById('editCompra').value) || null
         };
 
         const response = await window.fetchWithAuth('/item/atualizar', {
@@ -383,7 +376,7 @@ async function updateItem() {
         });
 
         if (!response.ok) throw new Error(await response.text());
-        
+
         showNotification('Item atualizado com sucesso!', 'success');
         hideEditItemModal();
         loadItens();
@@ -405,27 +398,36 @@ function showNotification(message, type = 'success') {
 //Inicialização do módulo
 function initItens() {
     console.log('Inicializando módulo de itens...');
-    
+    setupEditModalListeners();
     if (document.getElementById('itens-table-tbody')) {
-        loadItens();
-        
+        loadItens().catch(error => {
+            console.log('Erro no initItens', error);
+        });
         const btnNovoItem = document.getElementById('btnNovoItem');
         if (btnNovoItem) {
             btnNovoItem.addEventListener('click', loadNewItemForm);
+        } else {
+            console.warn('Botão btnNovoItem não encontrado na inicialização');
         }
     }
-    
     if (document.getElementById('formNovoItem')) {
         setupNewItemForm();
     }
-    setupEditModalListeners();
+    return function () {
+        console.log('Executando cleanup de Itens...');
+        if (btnNovoItem) {
+            btnNovoItem.removeEventListener('click', loadNewItemForm);
+        }
+        cleanupItens();
+    };
+
 }
 
 function cleanupItens() {
-   
+
     const btn = document.getElementById('btnNovoItem');
     if (btn) btn.replaceWith(btn.cloneNode(true));
-    
+
 }
 
 //Exporta funções para o escopo global

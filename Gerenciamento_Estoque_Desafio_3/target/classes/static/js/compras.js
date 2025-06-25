@@ -584,7 +584,6 @@ function setupEditModalListeners() {
 //Função de inicialização
 function initCompras() {
     console.log('Inicializando módulo de compras...');
-
     setupEditModalListeners();
     loadCompras().catch(error => {
         console.error('Erro no initCompras:', error);
@@ -595,6 +594,13 @@ function initCompras() {
         btnNovaCompra.addEventListener('click', loadNewCompraForm);
     } else {
         console.error('Botão btnNovaCompra não encontrado!');
+    }
+    return function() {
+        console.log('Executando cleanup de compras...');
+        if (btnNovaCompra) {
+            btnNovaCompra.removeEventListener('click', loadNewCompraForm);
+        }
+        cleanupCompras();
     }
 }
 //Função de limpeza

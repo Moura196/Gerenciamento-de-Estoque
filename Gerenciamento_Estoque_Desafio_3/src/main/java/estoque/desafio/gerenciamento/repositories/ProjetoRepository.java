@@ -9,5 +9,6 @@ import estoque.desafio.gerenciamento.entities.Projeto;
 public interface ProjetoRepository extends JpaRepository<Projeto, Long> {
 
 	Optional<Projeto> findByIdProjeto(Long idProjeto);
+	boolean existsByIdProjeto(Long idProjeto);
 
 }

@@ -9,6 +9,7 @@ import estoque.desafio.gerenciamento.entities.Armazenamento;
 public interface ArmazenamentoRepository extends JpaRepository<Armazenamento, Long> {
 
 	Optional<Armazenamento> findBySalaAndArmario(String sala, String armario);
-
+	boolean existsBySalaAndArmario(String sala, String armario);
+	Optional<Armazenamento> findById(Long codigo);
 
 }
