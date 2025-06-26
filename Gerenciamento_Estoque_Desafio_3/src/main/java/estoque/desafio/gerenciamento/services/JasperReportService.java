@@ -65,6 +65,16 @@ public class JasperReportService {
 			itemDTO.setValorUnitario(item.getValorUnitario());
 			itemDTO.setQuantComprada(item.getQuantComprada());
 			itemDTO.setValorTotalItem(item.getValorTotalItem());
+			itemDTO.setCompra(item.getCompra().getCodigo());
+			itemDTO.setId_armazenamento(item.getArmazenamento().getCodigo());
+			itemDTO.setArmario(item.getArmazenamento().getArmario());
+			itemDTO.setSala(item.getArmazenamento().getSala());
+			itemDTO.setId_fornecedor(item.getFornecedor().getCodigo());
+			itemDTO.setCnpj(item.getFornecedor().getCnpj());
+			itemDTO.setEmail(item.getFornecedor().getEmail());
+			itemDTO.setEndereco(item.getFornecedor().getEndereco());
+			itemDTO.setNome(item.getFornecedor().getNome());
+			itemDTO.setTelefone(item.getFornecedor().getTelefone());
 			return itemDTO;
 		}).collect(Collectors.toList());
 
