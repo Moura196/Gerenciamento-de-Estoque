@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Collections;
 
 import org.springframework.stereotype.Service;
 
@@ -46,9 +47,11 @@ public class ItemService {
 				.orElseThrow(() -> new RuntimeException(
 						"Armazenamento não encontrado com ID: " + itemDTO.getArmazenamentoCodigo()));
 
-		Compra compra = compraRepository.findById(itemDTO.getCompraCodigo())
-				.orElseThrow(() -> new RuntimeException("Compra não encontrada com ID: " + itemDTO.getCompraCodigo()));
-
+		Compra compra = null;
+    		if (itemDTO.getCompraCodigo() != null) {
+        		compra = compraRepository.findById(itemDTO.getCompraCodigo())
+                	.orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+    		}
 		// Cria novo item
 		Item item = new Item();
 		item.setPatrimonio(itemDTO.getPatrimonio());
@@ -68,12 +71,7 @@ public class ItemService {
 		item.setArmazenamento(armazenamento);
 		item.setCompra(compra);
 
-		// Log para debug
-		System.out.println("Antes de salvar - Armazenamento ID: " + item.getArmazenamento().getCodigo());
-
 		Item itemSalvo = itemRepository.save(item);
-
-		System.out.println("Após salvar - Armazenamento ID: " + itemSalvo.getArmazenamento().getCodigo());
 		return itemSalvo;
 	}
 
@@ -82,11 +80,25 @@ public class ItemService {
 	}
 
 	public Optional<Item> buscarPorId(Long id) {
-		System.out.println("Buscando item por ID: " + id);
 		Optional<Item> item = itemRepository.findById(id);
-		System.out.println("Item encontrado: " + item.isPresent());
 		return item;
 	}
+
+	public List<Item> buscarItensSemCompra(String termo) {
+    	if (termo == null || termo.isEmpty()) {
+        	return itemRepository.findByCompraIsNull();
+    	} 
+        try {
+            Long codigo= Long.parseLong(termo); 
+            return itemRepository.findByCodigoAndCompraIsNull(codigo)
+                    .map(List::of)
+                    .orElse(Collections.emptyList());
+        } catch (NumberFormatException e) {
+            // Se não for ID, busca por nome ou patrimônio
+            return itemRepository.findByDescricaoContainingIgnoreCaseAndCompraIsNull(termo);
+        }
+    }
+	
 
 	public List<Item> buscarPorNomeContendo(String nome) {
 		return itemRepository.findByDescricaoContainingIgnoreCase(nome);

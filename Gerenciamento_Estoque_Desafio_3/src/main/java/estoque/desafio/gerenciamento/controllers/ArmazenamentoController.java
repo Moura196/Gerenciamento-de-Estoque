@@ -34,7 +34,6 @@ public class ArmazenamentoController {
             Armazenamento armazenamentoCriado = armazenamentoService.criarArmazenamento(armazenamento);
             return ResponseEntity.ok(armazenamentoCriado);
         } catch (Exception e) {
-            log.error("Erro ao criar armazenamento", e);
             return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT)
                     .body("Erro ao criar armazenamento: " + e.getMessage());
         }

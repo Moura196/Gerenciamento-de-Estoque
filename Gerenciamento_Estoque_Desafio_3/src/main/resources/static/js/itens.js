@@ -8,7 +8,6 @@ function renderItens(itens) {
     try {
         const tableBody = document.getElementById('itens-table-tbody');
         if (!tableBody) throw new Error('Tabela de itens não encontrada');
-        console.log('Dados recebidos:', itens);
         tableBody.innerHTML = itens.map(item => `
             <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 whitespace-nowrap">${item.codigo}</td>
@@ -136,8 +135,6 @@ async function loadFormOptions() {
         const armazenamentos = armazenamentosRes.ok ? await armazenamentosRes.json() : [];
         const compras = comprasRes.ok ? await comprasRes.json() : [];
         const armazenamentoSelect = document.getElementById('novoArmazenamento');
-        console.log("Valor selecionado no armazenamento:", armazenamentoSelect.value);
-        console.log("Opção selecionada:", armazenamentoSelect.selectedOptions[0]);
 
         fillSelect('novoFornecedor', fornecedores, f => `
             <option value="${f.codigo}" data-entity='${JSON.stringify(f)}'>
@@ -174,7 +171,7 @@ async function createItem() {
         const armazenamentoSelect = document.getElementById('novoArmazenamento');
         const compraSelect = document.getElementById('novoCompra');
 
-        if (!fornecedorSelect.value || !armazenamentoSelect.value || !compraSelect.value) {
+        if (!fornecedorSelect.value || !armazenamentoSelect.value) {
             throw new Error('Selecione todas as opções obrigatórias');
         }
 
@@ -188,7 +185,6 @@ async function createItem() {
             armazenamentoCodigo: parseInt(armazenamentoSelect.value),
             compraCodigo: parseInt(compraSelect.value)
         };
-        console.log("Dados sendo enviados:", JSON.stringify(itemDTO, null, 2));
 
         const response = await window.fetchWithAuth('/item/adicionar', {
             method: 'POST',
@@ -199,7 +195,6 @@ async function createItem() {
         if (!response.ok) throw new Error(await response.text());
 
         const responseData = await response.json();
-        console.log('Item criado:', responseData);
         
         showNotification('Item criado com sucesso!', 'success');
 
@@ -366,7 +361,9 @@ async function updateItem() {
             quantComprada: parseInt(document.getElementById('editQuantComprada').value),
             fornecedorCodigo: parseInt(document.getElementById('editFornecedor').value) || null,
             armazenamentoCodigo: parseInt(document.getElementById('editArmazenamento').value) || null,
-            compraCodigo: parseInt(document.getElementById('editCompra').value) || null
+            compraCodigo: document.getElementById('novoCompra').value 
+            ? parseInt(document.getElementById('novoCompra').value) 
+            : null
         };
 
         const response = await window.fetchWithAuth('/item/atualizar', {
@@ -397,7 +394,6 @@ function showNotification(message, type = 'success') {
 
 //Inicialização do módulo
 function initItens() {
-    console.log('Inicializando módulo de itens...');
     setupEditModalListeners();
     if (document.getElementById('itens-table-tbody')) {
         loadItens().catch(error => {
@@ -414,7 +410,6 @@ function initItens() {
         setupNewItemForm();
     }
     return function () {
-        console.log('Executando cleanup de Itens...');
         if (btnNovoItem) {
             btnNovoItem.removeEventListener('click', loadNewItemForm);
         }

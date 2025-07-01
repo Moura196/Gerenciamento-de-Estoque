@@ -9,9 +9,6 @@ function renderProjetos(projetos) {
         if (!tableBody) {
             throw new Error('Tabela de projetos não encontrada');
         }
-
-        console.log('Dados recebidos:', projetos);
-
         tableBody.innerHTML = projetos.map(projeto => `
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">${projeto.codigo}</td>
@@ -32,7 +29,6 @@ function renderProjetos(projetos) {
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const projetoId = button.dataset.projetoId;
-                console.log('Editando projeto:', projetoId);
                 openEditModal(projetoId);
             });
         });
@@ -44,7 +40,6 @@ function renderProjetos(projetos) {
 //Carrega projetos do servidor
 async function loadProjetos() {
     try {
-        console.log('Iniciando carga de projetos...');
         const response = await window.fetchWithAuth('/projeto/buscar', {
         });
 
@@ -53,7 +48,6 @@ async function loadProjetos() {
         }
 
         const projetos = await response.json();
-        console.log('Projetos carregados:', projetos);
         renderProjetos(projetos);
     } catch (error) {
         console.error('Falha ao carregar projetos:', error);
@@ -322,8 +316,6 @@ function hideEditModal() {
 }
 //Abre modal de edição com dados do projeto
 async function openEditModal(projetoId) {
-    console.log('Abrindo modal para editar projeto ID:', projetoId);
-
     try {
         const projeto = await fetchProjetoData(projetoId);
         const users = await fetchUsers();
@@ -348,7 +340,6 @@ async function openEditModal(projetoId) {
 }
 //Busca dados de um projeto específico
 async function fetchProjetoData(projetoId) {
-    console.log(`Buscando projeto com ID: ${projetoId}`);
     try {
         const response = await window.fetchWithAuth(`/projeto/buscar`);
 
@@ -363,7 +354,6 @@ async function fetchProjetoData(projetoId) {
             throw new Error(`Projeto com ID ${projetoId} não encontrado`);
         }
 
-        console.log('Dados do projeto carregados:', projeto);
         return projeto;
     } catch (error) {
         console.error('Erro ao buscar dados do projeto:', error);
@@ -443,7 +433,6 @@ function setupEditModalListeners() {
             apelidoProjeto: document.getElementById('editApelidoProjeto').value,
             usuario: { codigo: parseInt(document.getElementById('editUsuario').value) }
         };
-        console.log("Enviando:", { projetoId, projetoData });
         try {
             await updateProjeto(projetoId, projetoData);
             hideEditModal();
@@ -480,7 +469,7 @@ function showNotification(message, type = 'success') {
 }
 //Inicializa o módulo de projetos
 function initProjetos() {
-    console.log('Inicializando módulo de projetos...');
+    
     setupEditModalListeners();
     const btnNovoProjeto = document.getElementById('btnNovoProjeto');
     if (btnNovoProjeto) {
@@ -492,7 +481,6 @@ function initProjetos() {
         console.error('Erro no initProjetos:', error);
     });
     return function () {
-        console.log('Executando cleanup de Projetos...');
         if (btnNovoProjeto) {
             btnNovoProjeto.removeEventListener('click', loadNewProjetoForm);
         }

@@ -137,7 +137,6 @@ function hideEditModal() {
 async function updateFornecedor(codigo, fornecedorData) {
     try {
         const url = `/fornecedor/alterar/${codigo}`;
-        console.log("Enviando PATCH para:", url, "com dados:", fornecedorData);
         
         const response = await window.fetchWithAuth(url, {
             method: 'PATCH',
@@ -278,7 +277,6 @@ function showNotification(message, type = 'success') {
 }
 
 function initFornecedores() {
-    console.log('Inicializando módulo de fornecedores...');
     setupEditModalListeners();
     const btnNovoFornecedor = document.getElementById('btnNovoFornecedor');
     if (btnNovoFornecedor) {
@@ -290,7 +288,6 @@ function initFornecedores() {
         console.log('Erro no initArmazenamentos', error);
     });
     return function() {
-        console.log('Executando cleanup de fornecedores...');
         if (btnNovoFornecedor) {
             btnNovoFornecedor.removeEventListener('click', loadNewFornecedorForm);
         }

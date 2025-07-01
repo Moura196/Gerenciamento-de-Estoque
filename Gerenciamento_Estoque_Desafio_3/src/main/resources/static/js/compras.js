@@ -20,7 +20,6 @@ function renderCompras(compras) {
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     ${compra.valorTotalInvoice ? 'R$ ' + compra.valorTotalInvoice.toFixed(2).replace('.', ',') : '-'}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${compra.projeto || '-'}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button data-compra-id="${compra.codigo}" class="edit-btn text-indigo-600 hover:text-indigo-900 mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -197,7 +196,7 @@ async function buscarItens(termoBusca) {
     try {
         btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Buscando...';
         btn.disabled = true;
-        const response = await window.fetchWithAuth(`/item/buscar?termo=${encodeURIComponent(termoBusca)}`);
+        const response = await window.fetchWithAuth(`/item/disponiveis?termo=${encodeURIComponent(termoBusca)}`);
 
         if (!response.ok) {
             throw new Error(`Erro ${response.status}: ${await response.text()}`);
@@ -583,7 +582,6 @@ function setupEditModalListeners() {
 }
 //Função de inicialização
 function initCompras() {
-    console.log('Inicializando módulo de compras...');
     setupEditModalListeners();
     loadCompras().catch(error => {
         console.error('Erro no initCompras:', error);
@@ -596,7 +594,6 @@ function initCompras() {
         console.error('Botão btnNovaCompra não encontrado!');
     }
     return function() {
-        console.log('Executando cleanup de compras...');
         if (btnNovaCompra) {
             btnNovaCompra.removeEventListener('click', loadNewCompraForm);
         }
