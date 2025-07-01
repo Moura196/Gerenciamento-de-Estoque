@@ -49,7 +49,6 @@ public class ProjetoController {
 	@Operation(summary = "Adiciona um novo projeto:")
 	@PostMapping("/adicionar")
 	public ResponseEntity<?> criarProjeto(@RequestBody @Valid ProjetoRequest request) {
-		log.info("Iniciando criação de projeto. Request: {}", request); // Log inicial
 
 		try {
 			if (projetoRepository.existsByIdProjeto(request.getIdProjeto())) {
@@ -57,34 +56,28 @@ public class ProjetoController {
                    .body("Já existe um projeto com este ID");
         	}
 
-			log.debug("Buscando usuário com ID: {}", request.getUsuarioId());
 			Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
 					.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-			log.debug("Criando novo projeto...");
 			Projeto projeto = new Projeto();
 			projeto.setIdProjeto(request.getIdProjeto());
 			projeto.setNome(request.getNome());
 			projeto.setApelidoProjeto(request.getApelidoProjeto());
 			projeto.setUsuario(usuario);
 
-			log.debug("Salvando projeto...");
 			Projeto projetoSalvo = projetoRepository.save(projeto);
 
 			if (request.getComprasIds() != null && !request.getComprasIds().isEmpty()) {
-				log.debug("Atualizando {} compras para o projeto...", request.getComprasIds().size());
 				compraRepository.findAllById(request.getComprasIds()).forEach(compra -> {
-					log.trace("Atualizando compra ID: {}", compra.getCodigo());
+
 					compra.setProjeto(projetoSalvo);
 					compraRepository.save(compra);
 				});
 			}
 
-			log.info("Projeto criado com sucesso. ID: {}", projetoSalvo.getCodigo());
 			return ResponseEntity.ok(projetoSalvo);
 
 		} catch (Exception e) {
-			log.error("ERRO ao criar projeto: ", e); // Log completo do erro
 			return ResponseEntity.internalServerError()
 					.body("Erro ao criar projeto: " + e.getMessage());
 		}
@@ -94,13 +87,10 @@ public class ProjetoController {
 	@GetMapping("/buscar")
 
 	public ResponseEntity<List<Projeto>> listarProjetos() {
-		System.out.println("Recebida requisição GET /projeto/buscar");
 		try {
 			List<Projeto> projetos = projetoService.listarProjetos();
-			System.out.println("Saiu para o service!");
 			return ResponseEntity.ok().body(projetos);
 		} catch (Exception e) {
-			System.err.println("Erro em /projeto/buscar: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).build();
 		}
 	}

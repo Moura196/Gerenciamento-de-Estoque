@@ -12,5 +12,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findByPatrimonio(String patrimonio);
     //Busca por descrição
     List<Item> findByDescricaoContainingIgnoreCase(String descricao);
-    
+    //Busca itens não relacionados a uma compra
+    List<Item> findByCompraIsNull();
+
+    Optional<Item> findByCodigoAndCompraIsNull(Long codigo);
+
+    List<Item> findByDescricaoContainingIgnoreCaseAndCompraIsNull(String descricao);
 }   

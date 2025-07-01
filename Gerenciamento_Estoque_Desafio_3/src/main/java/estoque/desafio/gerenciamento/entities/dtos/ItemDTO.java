@@ -1,10 +1,8 @@
 package estoque.desafio.gerenciamento.entities.dtos;
 import java.math.BigDecimal;
 
-import jakarta.validation.constraints.NotNull;
-
 public class ItemDTO {
-    @NotNull
+    
     private Long codigo;
     private String patrimonio;
     private String descricao;

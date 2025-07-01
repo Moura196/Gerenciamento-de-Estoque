@@ -39,22 +39,15 @@ public class ItemController {
     @Operation(summary = "Adiciona um novo item:")
     @PostMapping("/adicionar")
     public ResponseEntity<?> criarItem(@Valid @RequestBody ItemDTO itemDTO) {
-        System.out.println("Dados recebidos: " + itemDTO.toString());
         try {
-        System.out.println("Dados recebidos no DTO:");
-        System.out.println("Armazenamento ID: " + itemDTO.getArmazenamentoCodigo());
-        
-        Item item = itemService.criarItem(itemDTO);
-        
-        System.out.println("Item criado com armazenamento ID: " + item.getArmazenamento().getCodigo());
-        return ResponseEntity.ok(item);
-    } catch (Exception e) {
-        System.err.println("Erro ao criar item:");
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            Item item = itemService.criarItem(itemDTO);
+            return ResponseEntity.ok(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Erro ao criar item: " + e.getMessage());
+        }
     }
-}
 
     @Operation(summary = "Busca todos")
     @GetMapping("/buscar")
@@ -62,9 +55,15 @@ public class ItemController {
         return ResponseEntity.ok(itemService.listarTodos());
     }
 
-    @GetMapping("/buscar/id/{id}")
-    public ResponseEntity<ItemDTO> buscarItemPorId(@PathVariable Long id) {
-        return itemService.buscarPorId(id)
+    @Operation(summary = "Busca itens sem compra vinculada")
+    @GetMapping("/disponiveis")
+    public ResponseEntity<List<Item>> buscarItensSemCompra(@RequestParam String termo) {
+        return ResponseEntity.ok(itemService.buscarItensSemCompra(termo));
+    }
+
+    @GetMapping("/buscar/id/{codigo}")
+    public ResponseEntity<ItemDTO> buscarItemPorId(@PathVariable Long codigo) {
+        return itemService.buscarPorId(codigo)
                 .map(item -> {
                     ItemDTO dto = new ItemDTO();
                     dto.setCodigo(item.getCodigo());
@@ -79,9 +78,7 @@ public class ItemController {
     @Operation(summary = "Busca itens por nome (contendo)")
     @GetMapping("/buscar/nome")
     public ResponseEntity<List<Item>> buscarItensPorNome(@RequestParam String nome) {
-        System.out.println("Buscando itens por nome: " + nome);
         List<Item> itens = itemService.buscarPorNomeContendo(nome);
-        System.out.println("Itens encontrados: " + itens.size());
         return ResponseEntity.ok(itens);
     }
 
@@ -125,24 +122,4 @@ public class ItemController {
             return new ResponseEntity<>("Erro ao excluir armazenamento: ", HttpStatusCode.valueOf(504));
         }
     }
-
-    // @Operation(summary = "Edita um item:")
-    // @PutMapping("/atualizar/{id}")
-    // public ResponseEntity<?> atualizarItem(
-    //         @PathVariable Long id,
-    //         @RequestBody Item itemAtualizado) {
-
-    //     try {
-    //         if (!id.equals(itemAtualizado.getCodigo())) {
-    //             return ResponseEntity.badRequest().body("ID do item não corresponde");
-    //         }
-
-    //         Item itemSalvo = itemService.atualizarItem(itemAtualizado);
-    //         return ResponseEntity.ok(itemSalvo);
-    //     } catch (RuntimeException e) {
-    //         return ResponseEntity.badRequest().body(e.getMessage());
-    //     } catch (Exception e) {
-    //         return ResponseEntity.internalServerError().body("Erro ao atualizar item");
-    //     }
-    // }
 }

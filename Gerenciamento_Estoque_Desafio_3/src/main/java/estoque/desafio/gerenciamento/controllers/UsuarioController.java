@@ -62,10 +62,8 @@ public class UsuarioController {
 	@Operation(summary = "Retorna todos os usuários:")
 	@GetMapping("/buscar")
 	public ResponseEntity<?> listarUsuarios() {
-    	System.out.println("Chamando listarUsuarios");
     	try {
         	List<Usuario> usuarios = usuarioService.listarUsuarios();
-        	System.out.println("Usuários encontrados: " + usuarios.size());
         	return ResponseEntity.ok(usuarios);
     	} catch (Exception e) {
         	e.printStackTrace();
@@ -77,14 +75,11 @@ public class UsuarioController {
 	@GetMapping("/buscar/{codigo}")
 	public ResponseEntity<?> buscarUsuarioPorCodigo(@PathVariable Long codigo) {
     	try {
-        	System.out.println("Buscando usuário com código: " + codigo);
         	Optional<Usuario> usuario = usuarioService.buscarUsuarioPorCodigo(codigo);
         
         	if (usuario.isPresent()) {
-            	System.out.println("Usuário encontrado: " + usuario.get());
             	return ResponseEntity.ok(usuario.get());
         	} else {
-            	System.out.println("Usuário não encontrado para código: " + codigo);
             	return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Usuário não encontrado");
         	}
@@ -132,7 +127,6 @@ public class UsuarioController {
 	@Operation(summary = "Autenticação de usuário:")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-		System.out.println("Tentativa de login -> Matrícula: " + usuario.getMatricula() + ", Senha: " + usuario.getSenha());
     try {
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(usuario.getMatricula(), usuario.getSenha())
@@ -162,7 +156,6 @@ public class UsuarioController {
 			System.out.println("Tipo do código: " + usuario.getCodigo().getClass().getName());
         
         	Usuario usuarioAtualizado = usuarioService.atualizarUsuario(usuario);
-        	System.out.println("Usuário atualizado com sucesso: " + usuarioAtualizado.toString());
         	return ResponseEntity.ok(usuarioAtualizado);
     	} catch (Exception e) {
 			System.err.println("Erro ao atualizar usuário:");

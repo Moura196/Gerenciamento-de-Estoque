@@ -12,7 +12,6 @@ function renderArmazenamentos(armazenamentos) {
                 <td class="px-6 py-4 whitespace-nowrap">${armazenamento.codigo}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${armazenamento.sala}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${armazenamento.armario}</td>
-                <td class="px-6 py-4 whitespace-nowrap">${armazenamento.itens?.length || 0} itens</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex space-x-2">
                         <button data-armazenamento-id="${armazenamento.codigo}" 
@@ -218,7 +217,6 @@ function showNotification(message, type = 'success') {
 }
 //Inicialização do módulo
 function initArmazenamentos() {
-    console.log('Inicializando módulo de armazenamentos...');
     setupEditModalListeners();
     const btnNovoArmazenamento = document.getElementById('btnNovoArmazenamento');
     if (btnNovoArmazenamento) {

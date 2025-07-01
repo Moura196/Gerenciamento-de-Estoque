@@ -28,7 +28,6 @@ public class ArmazenamentoService {
         
         return armazenamentoRepository.save(armazenamento);
     } catch (Exception e) {
-        log.error("Erro no service ao criar armazenamento", e);
         throw e;
     }
 	}

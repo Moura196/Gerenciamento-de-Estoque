@@ -37,7 +37,6 @@ function renderUsers(users) {
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const userId = button.dataset.userId;
-                console.log('Editando usuário:', userId);
                 openEditModal(userId);
             });
         });
@@ -50,7 +49,6 @@ function renderUsers(users) {
 //Busca usuários
 async function loadUsers() {
     try {
-        console.log('Iniciando carga de usuários...');
         const response = await window.fetchWithAuth('/usuario/buscar');
 
         if (!response.ok) {
@@ -58,7 +56,6 @@ async function loadUsers() {
         }
 
         const users = await response.json();
-        console.log('Usuários carregados:', users);
         renderUsers(users);
     } catch (error) {
         console.error('Falha ao carregar usuários:', error);
@@ -221,7 +218,6 @@ function hideEditModal() {
 
 //Abre modal
 function openEditModal(userId) {
-    console.log('Abrindo modal para editar usuário ID:', userId);
     document.getElementById('editUserModal').classList.remove('invisible');
 
     fetchUserData(userId)
@@ -243,19 +239,15 @@ function openEditModal(userId) {
 }
 //Busca usuário pelo id
 async function fetchUserData(userId) {
-    console.log(`Buscando usuário com ID: ${userId}`);
     try {
         const url = `/usuario/buscar/${userId}`;
-        console.log(`URL da requisição: ${url}`);
         const response = await window.fetchWithAuth(url);
-        console.log(`Resposta recebida. Status: ${response.status}`);
 
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
 
         const userData = await response.json();
-        console.log('Dados do usuário carregados:', userData);
         return userData;
     } catch (error) {
         console.error('Erro ao buscar dados do usuário:', error);
@@ -273,7 +265,6 @@ async function updateUser(userId, userData) {
         nome: userData.nome || null,
         funcao: userData.funcao || null
     };
-    console.log("Enviando dados para atualização:", payload);
     try {
         const response = await window.fetchWithAuth('/usuario/atualizar', {
             method: 'PUT',
@@ -305,11 +296,9 @@ function setupEditModalListeners() {
             nome: document.getElementById('editNome').value,
             funcao: document.getElementById('editFuncao').value
         };
-        console.log('Dados indo para upDateUser:', userData);
+    
         try {
             const updatedUser = await updateUser(userId, userData);
-            console.log('Usuário atualizado:', updatedUser);
-
             hideEditModal();
             showNotification('Usuário atualizado com sucesso!', 'success');
             loadUsers();
@@ -375,8 +364,3 @@ function cleanupUsers() {
 window.initUsers = initUsers;
 window.loadUsers = loadUsers;
 window.cleanupUsers = cleanupUsers;
-// Teste de funcionamento do botão Cancelar
-console.log('Botão Cancelar:', document.getElementById('cancelEditBtn') ? 'Encontrado' : 'Não encontrado');
-
-// Teste da função hideEditModal
-console.log('Função hideEditModal:', typeof hideEditModal === 'function' ? 'Definida' : 'Indefinida');
